@@ -1,6 +1,7 @@
 import React from "react";
 import { useStaticQuery } from "gatsby";
 import { createGlobalStyle } from "styled-components";
+import oc from "open-color";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -9,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: ${oc.gray[9]};
   }
 `;
 
