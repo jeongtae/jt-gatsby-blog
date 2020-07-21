@@ -1,5 +1,16 @@
 import React from "react";
 import { useStaticQuery } from "gatsby";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+`;
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -12,7 +23,8 @@ const Layout = ({ children }) => {
     }
   `);
   return (
-    <div>
+    <>
+      <GlobalStyle />
       <header>{data.site.siteMetadata.title}</header>
       <main>{children}</main>
       <footer>
@@ -24,7 +36,7 @@ const Layout = ({ children }) => {
           <li>Open Source Software Notice</li>
         </ul>
       </footer>
-    </div>
+    </>
   );
 };
 
