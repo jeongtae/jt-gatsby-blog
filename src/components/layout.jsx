@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
           <li>
             &copy; {new Date().getFullYear()} Jeongtae Kim, All Rights Reserved
           </li>
-          <li>Powered by Gatsby</li>
+          <li>Built with Gatsby</li>
           <li>Open Source Software Notice</li>
         </ul>
       </footer>
