@@ -1,8 +1,23 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { PageProps, graphql } from "gatsby";
+import { MarkdownRemarkFrontmatter } from "../generated/graphql-types";
 import Layout from "../components/layout";
 
-const PostTemplate = React.memo(props => {
+type DataProps = {
+  site: {
+    siteMetadata: {
+      title: string;
+    }
+  };
+  markdownRemark: {
+    id: string;
+    excerpt: string;
+    html: string;
+    frontmatter: MarkdownRemarkFrontmatter;
+  };
+};
+
+const PostTemplate: React.FC<PageProps<DataProps>> = React.memo(props => {
   const {
     data: { site, markdownRemark: post },
   } = props;
