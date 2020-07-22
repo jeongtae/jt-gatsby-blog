@@ -14,5 +14,12 @@ module.exports = {
       },
     },
     `gatsby-transformer-remark`,
+    {
+      // automatically generate typings from graphql schema
+      resolve: 'gatsby-plugin-generate-typings',
+      options: {
+        dest: './src/generated/graphql-types.d.ts',
+      },
+    },
   ],
 };
