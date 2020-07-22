@@ -2,8 +2,12 @@ import { resolve } from "path";
 import { CreatePagesArgs, CreateNodeArgs } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
 
+/* Make inversed the commented states of 2 lines below if you have a generated *.d.ts file */
+// import { Query } from "./src/generated/graphql-types";
+type Query = any;
+
 export async function createPages({ actions: { createPage }, graphql }: CreatePagesArgs) {
-  const { data, errors } = await graphql(`
+  const { data, errors } = await graphql<Query>(`
     query {
       allMarkdownRemark {
         edges {
@@ -20,7 +24,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     throw errors;
   }
 
-  const posts = (data as any).allMarkdownRemark.edges;
+  const posts = data.allMarkdownRemark.edges;
   const postTemplate = resolve("./src/templates/post.jsx");
   for (const { node } of posts) {
     createPage({
