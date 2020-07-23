@@ -1,12 +1,6 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
-import { createGlobalStyle } from "styled-components";
-
-const GlobalStyle = createGlobalStyle`
-  * {
-    box-sizing: border-box;
-  }
-`;
+import { GlobalStyle } from "../utils/styled-components";
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
