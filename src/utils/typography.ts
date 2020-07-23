@@ -7,42 +7,55 @@ interface Style {
   [selector: string]: CSSProperties;
 }
 
+const baseFonts = [
+  "-apple-system",
+  "BlinkMacSystemFont",
+  "Segoe UI",
+  "Roboto",
+  "Oxygen",
+  "Ubuntu",
+  "Cantarell",
+  "Open Sans",
+  "Helvetica Neue",
+  "sans-serif",
+];
+function serializeFonts(fonts: string[]) {
+  return fonts.map(font => (font.split(" ").length > 1 ? `'${font}'` : font)).join(", ");
+}
+const sansFonts = ["Noto Sans KR", ...baseFonts];
+export const sansFontsSerialized = serializeFonts(sansFonts);
+const serifFonts = ["Noto Serif KR", ...baseFonts];
+export const serifFontsSerialized = serializeFonts(serifFonts);
+
+
 export default new Typography({
   ...wordpressTheme,
   baseFontSize: "18px",
   baseLineHeight: 1.5,
   bodyColor: oc.gray[9],
-  googleFonts: [],
-  headerFontFamily: [
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Open Sans",
-    "Helvetica Neue",
-    "sans-serif",
+  googleFonts: [
+    {
+      /* https://fonts.google.com/specimen/Noto+Sans+KR */
+      /* 100 300 400 500 700 900 */
+      name: "Noto Sans KR",
+      styles: ["300", "500"],
+    },
+    {
+      /* https://fonts.google.com/specimen/Noto+Serif+KR */
+      /* 200 300 400 500 600 700 900 */
+      name: "Noto Serif KR",
+      styles: ["300", "500", "600"],
+    },
   ],
-  headerWeight: 600,
-  bodyFontFamily: [
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Open Sans",
-    "Helvetica Neue",
-    "sans-serif",
-  ],
+  headerFontFamily: serifFonts,
+  headerWeight: 500,
+  bodyFontFamily: serifFonts,
   bodyWeight: 300,
   boldWeight: 600,
   overrideThemeStyles({ rhythm }, options) {
     return {
-      "h1,h2": { color: "red" },  // test
+      ".sans": { fontFamily: sansFontsSerialized },
+      ".serif": { fontFamily: serifFontsSerialized },
     } as Style;
   },
 });
