@@ -1,18 +1,12 @@
 import React from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import oc from "open-color";
-import styled, { GlobalStyle, Breaks, css } from "../utils/styled-components";
+import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
 
 const Main = styled.main`
   width: 100%;
   margin: 0 auto;
-  ${Object.keys(Breaks).map(
-    key => css`
-      @media only screen and (min-width: ${Breaks[key]}px) {
-        max-width: ${Breaks[key]}px;
-      }
-    `
-  )}
+  ${ApplyBreaks((px) => css`max-width: ${px}px;`, ["xl"])}
 `;
 const Header = styled.header`
   position: sticky;
