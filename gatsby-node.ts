@@ -25,7 +25,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   }
 
   const posts = data.allMarkdownRemark.edges;
-  const postTemplate = resolve("./src/templates/post.tsx");
+  const postTemplate = resolve("./src/templates/Post.tsx");
   for (const { node } of posts) {
     createPage({
       path: node.fields.slug,
