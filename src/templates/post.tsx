@@ -1,7 +1,7 @@
 import React from "react";
 import { PageProps, graphql } from "gatsby";
 import { MarkdownRemarkFrontmatter } from "../generated/graphql-types";
-import Layout from "../components/layout";
+import Layout from "../components/Layout";
 import MarkdownSection from "../components/MarkdownSection";
 
 type DataProps = {
