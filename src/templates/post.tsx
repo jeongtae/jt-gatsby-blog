@@ -2,6 +2,7 @@ import React from "react";
 import { PageProps, graphql } from "gatsby";
 import { MarkdownRemarkFrontmatter } from "../generated/graphql-types";
 import Layout from "../components/layout";
+import MarkdownSection from "../components/MarkdownSection";
 
 type DataProps = {
   site: {
@@ -9,7 +10,7 @@ type DataProps = {
       title: string;
     }
   };
-  markdownRemark: {
+  post: {
     id: string;
     excerpt: string;
     html: string;
@@ -19,18 +20,15 @@ type DataProps = {
 
 const PostTemplate: React.FC<PageProps<DataProps>> = React.memo(props => {
   const {
-    data: { site, markdownRemark: post },
+    data: { site, post },
   } = props;
   return (
     <Layout>
       <h1>{site.siteMetadata.title}</h1>
       <h2>{post.frontmatter.title}</h2>
       <p>{post.excerpt}</p>
-      <time>{new Date(post.frontmatter.date).toLocaleDateString("ko")}</time>
-      <section dangerouslySetInnerHTML={{ __html: post.html }} />
-      <code>
-        <pre>{JSON.stringify(props, null, 4)}</pre>
-      </code>
+      <time>{post.frontmatter.date}</time>
+      <MarkdownSection html={post.html} />
     </Layout>
   );
 });
@@ -43,7 +41,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    post: markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
       html
