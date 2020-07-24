@@ -1,5 +1,5 @@
 import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql, Link } from "gatsby";
 import oc from "open-color";
 import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
 
@@ -20,8 +20,9 @@ const Header = styled.header`
   padding-right: env(safe-area-inset-right, 0);
   border-bottom: 1px solid ${oc.gray[3]};
   background-color: ${oc.white};
-  backdrop-filter: blur(3px);
-  opacity: 0.8;
+  backdrop-filter: blur(2px);
+  opacity: 0.9;
+  box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.12);
   transition: transform linear 150ms;
   transform: translateY(0%);
   display: flex;
@@ -75,7 +76,12 @@ const Layout = ({ children }) => {
   return (
     <>
       <GlobalStyle />
-      <Header>{data.site.siteMetadata.title}</Header>
+      <Header>
+        <span>{data.site.siteMetadata.title}</span>
+        <Link to="/">Home</Link>
+        <Link to="/">Portfolio</Link>
+        <Link to="/">About Me</Link>
+      </Header>
       <Main>{children}</Main>
       <Footer className="sans">
         <ul>
