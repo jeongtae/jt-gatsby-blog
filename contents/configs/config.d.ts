@@ -1,3 +1,17 @@
+declare type TagGroups = {
+  [id: string]: {
+    name: string;
+    color: string;
+  };
+};
+
+declare type Tags = {
+  [id: string]: {
+    name: string;
+    group: keyof TagGroups;
+  };
+};
+
 declare type Config = {
   title: string;
   description: string;
