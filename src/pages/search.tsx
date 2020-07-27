@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { PageProps, graphql } from "gatsby";
 import { useEffectOnce } from "react-use";
+import { debounce } from "lodash";
 import { MarkdownRemark } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
@@ -16,27 +17,34 @@ type PageData = {
 
 const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
   const posts = data.posts.edges.map(({ node: post }) => post);
-  const searchInput = useRef<HTMLInputElement>();
+  const filterPosts = query => {
+    return posts.filter(post => post.frontmatter.title?.toLowerCase().indexOf(query) >= 0);
+  };
+
   const query = new URLSearchParams(location.search).get("query") || "";
-  const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>([]);
+
+  const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>(query ? filterPosts(query) : []);
+  const setResultPostsDebounced = useCallback(
+    debounce((posts: MarkdownRemark[]) => setResultPosts(posts), 500),
+    []
+  );
+
+  const searchInput = useRef<HTMLInputElement>();
   useEffectOnce(() => searchInput.current.focus());
 
   return (
     <Layout>
-      <SEO title="포스트 검색" />
+      <SEO title={query ? `${query} 검색` : "검색"} />
       <input
         ref={searchInput}
         type="text"
         value={query}
         onChange={({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+          setResultPosts([]);
           if (value) {
-            const filteredPosts = posts.filter(
-              post => post.frontmatter.title?.toLowerCase().indexOf(value) >= 0
-            );
-            setResultPosts(filteredPosts);
             navigate(`./?query=${value}`, { replace: true });
+            setResultPostsDebounced(filterPosts(value));
           } else {
-            setResultPosts([]);
             navigate(".", { replace: true });
           }
         }}
