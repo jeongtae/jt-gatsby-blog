@@ -6,7 +6,13 @@ import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-component
 const Main = styled.main`
   width: 100%;
   margin: 0 auto;
-  ${ApplyBreaks((px) => css`max-width: ${px}px;`, ["xl"])}
+  ${ApplyBreaks(
+    px =>
+      css`
+        max-width: ${px}px;
+      `,
+    ["xl"]
+  )}
 `;
 const Header = styled.header`
   position: sticky;
@@ -26,7 +32,7 @@ const Header = styled.header`
   transition: transform linear 150ms;
   transform: translateY(0%);
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   &.hidden {
     transform: translateY(-100%);
@@ -76,11 +82,11 @@ const Layout = ({ children }) => {
   return (
     <>
       <GlobalStyle />
+      <noscript>Enable JavaScript</noscript>
       <Header>
         <span>{data.site.siteMetadata.title}</span>
-        <Link to="/">Home</Link>
-        <Link to="/">Portfolio</Link>
-        <Link to="/">About Me</Link>
+        <Link to="/">홈</Link>
+        <Link to="/search">검색</Link>
       </Header>
       <Main>{children}</Main>
       <Footer className="sans">
