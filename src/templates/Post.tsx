@@ -4,11 +4,11 @@ import { MarkdownRemarkFrontmatter } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import MarkdownSection from "../components/MarkdownSection";
 
-type DataProps = {
+type PageData = {
   site: {
     siteMetadata: {
       title: string;
-    }
+    };
   };
   post: {
     id: string;
@@ -18,10 +18,8 @@ type DataProps = {
   };
 };
 
-const PostTemplate: React.FC<PageProps<DataProps>> = React.memo(props => {
-  const {
-    data: { site, post },
-  } = props;
+const PostTemplate: React.FC<PageProps<PageData>> = ({ data }) => {
+  const { site, post } = data;
   return (
     <Layout>
       <h1>{site.siteMetadata.title}</h1>
@@ -31,11 +29,11 @@ const PostTemplate: React.FC<PageProps<DataProps>> = React.memo(props => {
       <MarkdownSection html={post.html} />
     </Layout>
   );
-});
+};
 export default PostTemplate;
 
-export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+export const query = graphql`
+  query postBySlug($slug: String!) {
     site {
       siteMetadata {
         title
