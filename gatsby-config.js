@@ -7,6 +7,7 @@ module.exports = {
     siteUrl,
   },
   plugins: [
+    `gatsby-plugin-lodash`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
