@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { PageProps, Link, graphql } from "gatsby";
-import { debounce } from "lodash";
+import { PageProps, graphql } from "gatsby";
+import { useEffectOnce } from "react-use";
 import { MarkdownRemark } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
@@ -14,14 +14,12 @@ type PageData = {
   };
 };
 
-const SearchPage: React.FC<PageProps<PageData>> = ({ data }) => {
+const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
   const posts = data.posts.edges.map(({ node: post }) => post);
   const searchInput = useRef<HTMLInputElement>();
-
-  useEffect(() => searchInput.current.focus(), []);
-
-  const [query, setQuery] = useState("");
+  const query = new URLSearchParams(location.search).get("query") || "";
   const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>([]);
+  useEffectOnce(() => searchInput.current.focus());
 
   return (
     <Layout>
@@ -31,11 +29,16 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data }) => {
         type="text"
         value={query}
         onChange={({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-          setQuery(value);
-          const filteredPosts = posts.filter(
-            post => post.frontmatter.title?.toLowerCase().indexOf(value) >= 0
-          );
-          setResultPosts(filteredPosts);
+          if (value) {
+            const filteredPosts = posts.filter(
+              post => post.frontmatter.title?.toLowerCase().indexOf(value) >= 0
+            );
+            setResultPosts(filteredPosts);
+            navigate(`./?query=${value}`, { replace: true });
+          } else {
+            setResultPosts([]);
+            navigate(".", { replace: true });
+          }
         }}
       />
       <p>{resultPosts.length}개의 결과</p>
