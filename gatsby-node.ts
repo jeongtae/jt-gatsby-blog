@@ -14,6 +14,7 @@ export function sourceNodes({ actions, createNodeId, createContentDigest }: Sour
     const tag = tags[tagId];
     const node: NodeInput = {
       id: createNodeId(`tag-${tagId}`),
+      slug: tagId,
       name: tag.name,
       group___NODE: createNodeId(`tagGroup-${tag.group}`),
       internal: {
