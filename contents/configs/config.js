@@ -13,7 +13,6 @@ const config = {
   /* Tags */
   tags: {
     javascript: { name: "JavaScript", group: "proglang" },
-    javascript: { name: "JavaScript", group: "proglang" },
     python: { name: "Python", group: "proglang" },
     react: { name: "React", group: "framework" },
     svelte: { name: "Svelte", group: "framework" },
