@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PageProps, graphql, navigate } from "gatsby";
+import { PageProps, Link, graphql } from "gatsby";
 import oc from "open-color";
 import { MarkdownRemarkEdge, TagEdge, TagGroupEdge } from "../generated/graphql-types";
 import Layout from "../components/Layout";
@@ -32,44 +32,31 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
   return (
     <Layout>
       <SEO />
-      <form name="tag">
-        <ul>
-          <li>
-            <input
-              type="radio"
-              name="tag"
-              id="all"
-              value="all"
-              checked={!selectedTag}
-              onChange={() => navigate(".")}
-            />
-            <label htmlFor="all">All ({posts.length})</label>
+      <ul>
+        <li>
+          <Link to="." className={!selectedTag ? "highlight" : ""}>
+            All ({posts.length})
+          </Link>
+        </li>
+        {tagGroups.map(tagGroup => (
+          <li key={tagGroup.id}>
+            <p>{tagGroup.name}</p>
+            <ul>
+              {tagGroup.tags.map(tag => (
+                <li key={tag.slug}>
+                  <Link
+                    to={`./?tag=${tag.slug}`}
+                    className={selectedTag && selectedTag.slug === tag.slug ? "highlight" : ""}
+                  >
+                    {tag.name} (
+                    {posts.filter(post => post.frontmatter.tags.includes(tag.slug)).length})
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </li>
-          {tagGroups.map(tagGroup => (
-            <li key={tagGroup.id}>
-              <p>{tagGroup.name}</p>
-              <ul>
-                {tagGroup.tags.map(tag => (
-                  <li key={tag.slug}>
-                    <input
-                      type="radio"
-                      name="tag"
-                      id={tag.slug}
-                      value={tag.slug}
-                      checked={selectedTag ? selectedTag.slug === tag.slug : false}
-                      onChange={() => navigate(`./?tag=${tag.slug}`)}
-                    />
-                    <label htmlFor={tag.slug} style={{ color: oc[tagGroup.color][5] }}>
-                      {tag.name} (
-                      {posts.filter(post => post.frontmatter.tags.includes(tag.slug)).length})
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </form>
+        ))}
+      </ul>
       <h1>{selectedTag ? `Post tagged with ${selectedTag.name}` : "All Post"}</h1>
       <ul>
         <PostList posts={filteredPosts} />
