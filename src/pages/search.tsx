@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { PageProps, Link, graphql } from "gatsby";
 import { debounce } from "lodash";
 import { MarkdownRemark } from "../generated/graphql-types";
@@ -16,6 +16,9 @@ type PageData = {
 
 const SearchPage: React.FC<PageProps<PageData>> = ({ data }) => {
   const posts = data.posts.edges.map(({ node: post }) => post);
+  const searchInput = useRef<HTMLInputElement>();
+
+  useEffect(() => searchInput.current.focus(), []);
 
   const [query, setQuery] = useState("");
   const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>([]);
@@ -24,6 +27,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data }) => {
     <Layout>
       <SEO title="포스트 검색" />
       <input
+        ref={searchInput}
         type="text"
         value={query}
         onChange={({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
