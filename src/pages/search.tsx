@@ -21,7 +21,8 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
     return posts.filter(post => post.frontmatter.title?.toLowerCase().indexOf(query) >= 0);
   };
 
-  const query = new URLSearchParams(location.search).get("query") || "";
+  // const query = ;
+  const [query, setQuery] = useState(new URLSearchParams(location.search).get("query") || "");
 
   const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>(query ? filterPosts(query) : []);
   const setResultPostsDebounced = useCallback(
@@ -30,7 +31,9 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
   );
 
   const searchInput = useRef<HTMLInputElement>();
-  useEffectOnce(() => searchInput.current.focus());
+  useEffectOnce(() => {
+    searchInput.current.focus();
+  });
 
   return (
     <Layout>
@@ -41,6 +44,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
         value={query}
         onChange={({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
           setResultPosts([]);
+          setQuery(value);
           if (value) {
             navigate(`./?query=${value}`, { replace: true });
             setResultPostsDebounced(filterPosts(value));
