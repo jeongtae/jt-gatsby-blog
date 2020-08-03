@@ -7,13 +7,20 @@ const config = {
   siteUrl: !isDebug ? "https://blog.jeongtae.com" : "http://localhost:8000",
   /* Tag Groups */
   tagGroups: {
-    proglang: { name: "Programming Language", color: "red" },
-    framework: { name: "Framework", color: "red" },
+    category: { name: "카테고리", color: "red" },
+    proglang: { name: "프로그래밍 언어", color: "blue" },
+    framework: { name: "프레임워크", color: "violet" },
   },
   /* Tags */
   tags: {
+    lecture: { name: "강의", group: "category" },
+    tip: { name: "팁", group: "category" },
+    diy: { name: "DIY", group: "category" },
     javascript: { name: "JavaScript", group: "proglang" },
+    typescript: { name: "TypeScript", group: "proglang" },
     python: { name: "Python", group: "proglang" },
+    csharp: { name: "C#", group: "proglang" },
+    lua: { name: "Lua", group: "proglang" },
     react: { name: "React", group: "framework" },
     svelte: { name: "Svelte", group: "framework" },
     django: { name: "Django", group: "framework" },
