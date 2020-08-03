@@ -27,10 +27,9 @@ export const sansFontsSerialized = serializeFonts(sansFonts);
 const serifFonts = ["Noto Serif KR", ...baseFonts];
 export const serifFontsSerialized = serializeFonts(serifFonts);
 
-
 export default new Typography({
   ...wordpressTheme,
-  baseFontSize: "18px",
+  baseFontSize: "16px",
   baseLineHeight: 1.5,
   bodyColor: oc.gray[9],
   googleFonts: [
@@ -47,9 +46,9 @@ export default new Typography({
       styles: ["300", "500", "600"],
     },
   ],
-  headerFontFamily: serifFonts,
+  headerFontFamily: sansFonts,
   headerWeight: 500,
-  bodyFontFamily: serifFonts,
+  bodyFontFamily: sansFonts,
   bodyWeight: 300,
   boldWeight: 600,
   overrideThemeStyles({ rhythm }, options) {
