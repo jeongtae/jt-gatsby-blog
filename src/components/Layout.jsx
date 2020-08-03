@@ -11,7 +11,7 @@ const Main = styled.main`
       css`
         max-width: ${px}px;
       `,
-    ["xl"]
+    ["sm", "md", "lg"]
   )}
 `;
 const Header = styled.header`

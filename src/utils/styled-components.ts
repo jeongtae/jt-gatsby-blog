@@ -18,11 +18,11 @@ export const breaks: { [breakName in BreakNames]: number } = {
 
 export function ApplyBreaks(
   callbackfn: (breakValue: number) => FlattenSimpleInterpolation,
-  excludes?: BreakNames[] | undefined
+  includingBreaks?: BreakNames[] | undefined
 ) {
   return css`
     ${Object.keys(breaks)
-      .filter(breakName => !excludes?.includes(breakName as BreakNames))
+      .filter(breakName => includingBreaks?.includes(breakName as BreakNames) ?? true)
       .map(
         breakName =>
           css`
