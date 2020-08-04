@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "gatsby";
+import { Link, useStaticQuery, graphql } from "gatsby";
 import oc from "open-color";
 import styled, { css, ApplyBreaks } from "../utils/styled-components";
-import { MarkdownRemark } from "../generated/graphql-types";
+import { MarkdownRemark, TagEdge } from "../generated/graphql-types";
 
 const List = styled.ul`
   margin: 0;
@@ -105,6 +105,29 @@ const Contents = styled.div`
 `;
 
 const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
+  const query = useStaticQuery(graphql`
+    query {
+      tags: allTag {
+        edges {
+          node {
+            name
+            slug
+            group {
+              color
+            }
+          }
+        }
+      }
+    }
+  `) as {
+    tags: {
+      edges: TagEdge[];
+    };
+  };
+  const {
+    tags: { edges: tagEdges },
+  } = query;
+
   return (
     <List>
       {posts.map(post => (
@@ -117,7 +140,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 <p className="description">{post.excerpt}</p>
                 <ul className="tags">
                   {post.frontmatter.tags.map(tagSlug => (
-                    <li>{tagSlug}</li>
+                    <li>{tagEdges.find(edge => edge.node.slug === tagSlug).node.name}</li>
                   ))}
                 </ul>
                 <div className="additional">
