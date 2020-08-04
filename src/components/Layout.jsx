@@ -6,6 +6,7 @@ import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-component
 const Main = styled.main`
   width: 100%;
   margin: 0 auto;
+  padding: 0 0.5rem;
   ${ApplyBreaks(
     px =>
       css`
