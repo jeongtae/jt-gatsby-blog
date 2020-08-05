@@ -1,6 +1,9 @@
 import React from "react";
 import { Link, useStaticQuery, graphql } from "gatsby";
 import oc from "open-color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import styled, { css, ApplyBreaks } from "../utils/styled-components";
 import { MarkdownRemark, TagEdge } from "../generated/graphql-types";
 
@@ -85,7 +88,7 @@ const Contents = styled.div`
     li {
       display: inline;
       margin: 0;
-      color: $oc-gray-7;
+      color: ${oc.gray[7]};
       font-size: 0.8rem;
       font-weight: 300;
       &::before {
@@ -98,9 +101,14 @@ const Contents = styled.div`
     flex-grow: 0;
     display: flex;
     justify-content: space-between;
-    color: $oc-gray-7;
+    color: ${oc.gray[7]};
     font-size: 0.8rem;
     font-weight: 400;
+    time,
+    p {
+      display: flex;
+      align-items: center;
+    }
   }
 `;
 
@@ -144,8 +152,14 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                   ))}
                 </ul>
                 <div className="additional">
-                  <time>{post.frontmatter.date}</time>
-                  <p>{post.timeToRead}분 소요</p>
+                  <time>
+                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "0.15rem" }} />
+                    <span>{post.frontmatter.date}</span>
+                  </time>
+                  <p>
+                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "0.15rem" }} />
+                    <span>약 {post.timeToRead}분 소요</span>
+                  </p>
                 </div>
               </Contents>
             </Link>
