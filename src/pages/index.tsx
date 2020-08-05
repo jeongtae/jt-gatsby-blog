@@ -7,6 +7,7 @@ import { MarkdownRemarkEdge, TagEdge, TagGroupEdge } from "../generated/graphql-
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
+import NoScript from "../components/NoScript";
 
 const ListHeading = styled.h1`
   margin: 1.5rem 0.2rem 0.5rem;
@@ -128,6 +129,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
   return (
     <Layout>
       <SEO />
+      <NoScript>글 목록이 제대로 보이지 않을 수 있습니다.</NoScript>
       <ListHeading>태그</ListHeading>
       <TagGroups>
         <Tag className={!selectedTag ? "selected" : ""}>
