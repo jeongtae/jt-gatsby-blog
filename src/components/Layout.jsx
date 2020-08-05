@@ -83,14 +83,13 @@ const Layout = ({ children }) => {
   return (
     <>
       <GlobalStyle />
-      <noscript>Enable JavaScript</noscript>
       <Header>
         <span>{data.site.siteMetadata.title}</span>
         <Link to="/">홈</Link>
         <Link to="/search">검색</Link>
       </Header>
       <Main>{children}</Main>
-      <Footer className="sans">
+      <Footer>
         <ul>
           <li>&copy; {new Date().getFullYear()} Jeongtae Kim, All Rights Reserved</li>
           <li>Built with Gatsby</li>
