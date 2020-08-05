@@ -2,6 +2,7 @@ import React from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import oc from "open-color";
 import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
+import { Site } from "../generated/graphql-types";
 
 const Main = styled.main`
   width: 100%;
@@ -70,7 +71,7 @@ const Footer = styled.footer`
   }
 `;
 
-const Layout = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -79,7 +80,7 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `);
+  `) as { site: Site };
   return (
     <>
       <GlobalStyle />
