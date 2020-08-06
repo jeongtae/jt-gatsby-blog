@@ -22,6 +22,7 @@ const List = styled.ul`
   list-style: none;
 `;
 const ListItem = styled.li`
+  margin: 0;
   height: 6.5rem;
   border-radius: 0.667rem;
   overflow: hidden;
