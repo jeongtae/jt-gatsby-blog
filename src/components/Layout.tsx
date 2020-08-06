@@ -1,8 +1,7 @@
 import React from "react";
-import { useStaticQuery, graphql, Link } from "gatsby";
 import oc from "open-color";
+import Navigation from "./Navigation";
 import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
-import { Site } from "../generated/graphql-types";
 
 const Main = styled.main`
   width: 100%;
@@ -33,9 +32,6 @@ const Header = styled.header`
   box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.12);
   transition: transform linear 150ms;
   transform: translateY(0%);
-  display: flex;
-  /* justify-content: space-between; */
-  align-items: center;
   &.hidden {
     transform: translateY(-100%);
   }
@@ -72,22 +68,11 @@ const Footer = styled.footer`
 `;
 
 const Layout: React.FC = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `) as { site: Site };
   return (
     <>
       <GlobalStyle />
       <Header>
-        <span>{data.site.siteMetadata.title}</span>
-        <Link to="/">홈</Link>
-        <Link to="/search">검색</Link>
+        <Navigation />
       </Header>
       <Main>{children}</Main>
       <Footer>
