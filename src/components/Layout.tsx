@@ -46,11 +46,11 @@ const Footer = styled.footer`
   }
 `;
 
-const Layout: React.FC = ({ children }) => {
+const Layout: React.FC<{ title?: string }> = ({ children, title }) => {
   return (
     <>
       <GlobalStyle />
-      <Navigation />
+      <Navigation title={title} />
       <Main>{children}</Main>
       <Footer>
         <ul>

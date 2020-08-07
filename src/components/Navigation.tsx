@@ -252,7 +252,7 @@ const Title = styled.p`
   }
 `;
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC<{ title?: string }> = ({ title }) => {
   const data = useStaticQuery(graphql`
     query {
       site {
@@ -331,7 +331,7 @@ const Navigation: React.FC = () => {
           </li>
         </Menu>
         <Title className={isMenuExpanded && "collapsed"}>
-          Hello {isWideScreen && "Wide"} World
+          {title || data.site.siteMetadata.title}
         </Title>
       </Center>
       <Right>
