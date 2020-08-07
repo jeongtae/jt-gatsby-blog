@@ -37,7 +37,7 @@ export default new Typography({
       /* https://fonts.google.com/specimen/Noto+Sans+KR */
       /* 100 300 400 500 700 900 */
       name: "Noto Sans KR",
-      styles: ["300", "500"],
+      styles: ["300", "500", "700"],
     },
     {
       /* https://fonts.google.com/specimen/Noto+Serif+KR */
