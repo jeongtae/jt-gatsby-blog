@@ -219,24 +219,24 @@ const Menu = styled.ul`
 
 const Title = styled.p`
   position: absolute;
-  top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
   margin: 0;
-  padding: 0 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0.5rem 4rem;
   transition: opacity ease-in-out 150ms 150ms;
   opacity: 1;
   font-size: 1.1rem;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
   ${ApplyBreaks(
     px =>
       css`
-        justify-content: flex-end;
-        padding: 0 3.5rem 0 18rem;
+        text-align: right;
+        padding-left: 18rem;
+        padding-right: 3.5rem;
       `,
     [RESPONSIVE_BREAK]
   )};
