@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -7,12 +7,16 @@ import { Site } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 
 const RESPONSIVE_BREAK = "md";
+const NAV_HEIGHT_REM = 3.8;
+
+const NAV_HEIGHT_PX =
+  parseFloat(getComputedStyle(document.documentElement).fontSize) * NAV_HEIGHT_REM;
 
 const Nav = styled.nav`
   position: sticky;
   top: 0;
-  height: 3.8rem;
-  height: calc(env(safe-area-inset-top, 0) + 3.8rem);
+  height: ${NAV_HEIGHT_REM}rem;
+  height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT_REM}rem);
   margin: 0;
   padding: 0;
   padding-top: env(safe-area-inset-top, 0);
@@ -23,6 +27,13 @@ const Nav = styled.nav`
   backdrop-filter: blur(2px);
   opacity: 0.9;
   box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.12);
+  transition: transform ease-in-out 200ms, box-shadow ease-in-out 200ms;
+  @media only screen and (max-width: ${breaks["lg"] - 0.03}px) and (orientation: portrait) {
+    &.hidden {
+      transform: translateY(-100%);
+      box-shadow: unset;
+    }
+  }
 `;
 
 const Left = styled.div`
@@ -250,27 +261,43 @@ const Navigation: React.FC = () => {
   `) as { site: Site };
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
+  const navRef = useRef<HTMLElement>();
+
   useLayoutEffect(() => {
-    window.addEventListener(
-      "scroll",
-      e => {
-        console.log("scroll");
-      },
-      false
-    );
+    let prevScrollY = window.scrollY;
+    const scrollListner = () => {
+      const classList = navRef.current.classList;
+      const newScrollY = Math.max(window.scrollY, 0);
+      if (newScrollY < NAV_HEIGHT_PX) {
+        classList.remove("hidden");
+        return;
+      }
+      if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT_PX / 2) {
+        return;
+      }
+      if (newScrollY > prevScrollY) {
+        classList.add("hidden");
+      } else {
+        classList.remove("hidden");
+      }
+      prevScrollY = newScrollY;
+    };
+    window.addEventListener("scroll", scrollListner, false);
+
     const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
     setIsWideScreen(mql.matches);
-    const listener = (e: MediaQueryListEvent) => {
+    const mqlListener = (e: MediaQueryListEvent) => {
       setIsWideScreen(e.matches);
     };
-    mql.addListener(listener);
+    mql.addListener(mqlListener);
     return () => {
-      mql.removeListener(listener);
+      mql.removeListener(mqlListener);
+      window.removeEventListener("scroll", scrollListner);
     };
   }, []);
 
   return (
-    <Nav>
+    <Nav ref={navRef}>
       <Left>
         <MenuButton
           className={isMenuExpanded && "expanded"}
