@@ -12,13 +12,14 @@ const List = styled.ul`
   display: grid;
   padding: 0;
   grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
   ${ApplyBreaks(
     px => css`
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
     `,
     ["md"]
   )}
-  gap: 0.25rem;
   list-style: none;
 `;
 const ListItem = styled.li`

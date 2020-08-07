@@ -10,7 +10,7 @@ import PostList from "../components/PostList";
 import NoScript from "../components/NoScript";
 
 const ListHeading = styled.h1`
-  margin: 1.5rem 0.2rem 0.5rem;
+  margin: 2rem 0.2rem 1rem;
 `;
 
 const TagGroups = styled.ul`
@@ -26,14 +26,14 @@ const TagGroup = styled.li`
   }
 `;
 const Tags = styled.ul`
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0.2rem;
   margin: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
 `;
 const Tag = styled.li`
-  margin: 0 0.15rem;
+  margin: 0 0.15rem 0.35rem;
   display: inline-block;
   a {
     width: 100%;
