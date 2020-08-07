@@ -7,6 +7,8 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import styled, { css, ApplyBreaks } from "../utils/styled-components";
 import { MarkdownRemark, TagEdge } from "../generated/graphql-types";
 
+const ITEM_HEIGHT = 5.5;
+
 const List = styled.ul`
   margin: 0;
   display: grid;
@@ -24,7 +26,7 @@ const List = styled.ul`
 `;
 const ListItem = styled.li`
   margin: 0;
-  height: 6.5rem;
+  height: ${ITEM_HEIGHT}rem;
   border-radius: 0.667rem;
   overflow: hidden;
   article,
@@ -34,6 +36,7 @@ const ListItem = styled.li`
     height: 100%;
     text-decoration: none;
     color: inherit;
+    transition: background-color ease-in-out 200ms;
   }
   a:hover {
     background-color: ${oc.gray[1]};
@@ -43,8 +46,8 @@ const Thumbnail = styled.img`
   flex-shrink: 0;
   float: right;
   margin: 0.3rem 0.3rem 0.3rem 0;
-  width: ${6.5 - 0.6}rem;
-  height: ${6.5 - 0.6}rem;
+  width: ${ITEM_HEIGHT - 0.6}rem;
+  height: ${ITEM_HEIGHT - 0.6}rem;
   background: ${oc.orange[4]};
   border-radius: 0.5rem;
   object-fit: cover;
@@ -58,8 +61,8 @@ const Contents = styled.div`
     flex-grow: 0;
     margin: 0;
     font-size: 1.2rem;
-    height: 1.5rem;
-    font-weight: 600;
+    height: 1.4rem;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -67,7 +70,7 @@ const Contents = styled.div`
   .description {
     margin: 0;
     flex-grow: 0;
-    color: $oc-gray-7;
+    color: ${oc.gray[7]};
     font-size: 0.9rem;
     height: 1.2rem;
     margin-bottom: -0.2rem;
@@ -80,7 +83,7 @@ const Contents = styled.div`
     flex-grow: 1;
     flex-basis: 0;
     margin: 0;
-    margin-top: 0.1rem;
+    margin-top: -0.1rem;
     height: 100%;
     white-space: nowrap;
     display: block;

@@ -22,7 +22,7 @@ const Footer = styled.footer`
   color: ${oc.gray[6]};
   border-top: 1px solid $oc-gray-3;
   ul {
-    margin: 1rem 0 2rem;
+    margin: 2.5rem 0 2rem;
     padding-bottom: env(safe-area-inset-bottom, 0);
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
