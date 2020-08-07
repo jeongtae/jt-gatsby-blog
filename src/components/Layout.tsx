@@ -21,7 +21,6 @@ const Footer = styled.footer`
   font-size: 0.8rem;
   font-weight: 300;
   color: ${oc.gray[6]};
-  border-top: 1px solid $oc-gray-3;
   ul {
     margin: 2.5rem 0 2rem;
     padding-bottom: env(safe-area-inset-bottom, 0);
