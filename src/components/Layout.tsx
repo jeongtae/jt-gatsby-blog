@@ -1,7 +1,8 @@
 import React from "react";
 import oc from "open-color";
-import Navigation from "./Navigation";
 import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
+import Navigation from "./Navigation";
+import NoScript from "./NoScript";
 
 const Main = styled.main`
   width: 100%;
@@ -51,6 +52,7 @@ const Layout: React.FC<{ title?: string }> = ({ children, title }) => {
     <>
       <GlobalStyle />
       <Navigation title={title} />
+      <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
       <Main>{children}</Main>
       <Footer>
         <ul>
