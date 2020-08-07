@@ -151,10 +151,11 @@ const LogoButton = styled(Link)`
 const Menu = styled.ul`
   position: absolute;
   left: 0;
-  height: 100%;
+  height: 0;
   margin: 0;
   margin-left: 2.25rem;
   padding: 0 0.5rem;
+  overflow: hidden;
   align-items: center;
   list-style: none;
   display: flex;
@@ -203,12 +204,14 @@ const Menu = styled.ul`
     transition-delay: 150ms;
     transform: translateX(0);
     opacity: 1;
+    height: 100%;
   }
   ${ApplyBreaks(
     px =>
       css`
         transform: translateX(0);
         opacity: 1;
+        height: 100%;
       `,
     [RESPONSIVE_BREAK]
   )};
