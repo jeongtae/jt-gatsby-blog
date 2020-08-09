@@ -24,7 +24,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
 
   const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>(query ? filterPosts(query) : []);
   const setResultPostsDebounced = useCallback(
-    debounce((posts: MarkdownRemark[]) => setResultPosts(posts), 500),
+    debounce((query: string) => setResultPosts(filterPosts(query)), 800),
     []
   );
 
@@ -38,7 +38,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
           setQuery(value);
           if (value) {
             navigate(`./?query=${value}`, { replace: true });
-            setResultPostsDebounced(filterPosts(value));
+            setResultPostsDebounced(value);
           } else {
             navigate(".", { replace: true });
           }
