@@ -1,8 +1,9 @@
 import React from "react";
 import { PageProps, graphql } from "gatsby";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
-import { MarkdownRemarkFrontmatter } from "../generated/graphql-types";
+import { SiteSiteMetadata, MarkdownRemarkFrontmatter, TagEdge } from "../generated/graphql-types";
 import Layout from "../components/Layout";
+import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 
 const Title = styled.h1`
@@ -35,11 +36,73 @@ const Description = styled.p`
   )};
 `;
 
+const TagListBox = styled.div`
+  margin: 1rem 0.7rem 1rem;
+  display: flex;
+  ${ApplyBreaks(
+    px => css`
+      margin-top: 1.3rem;
+      justify-content: center;
+    `,
+    ["sm"]
+  )};
+`;
+
+const AdditionalBox = styled.div`
+  display: flex;
+  margin: 2rem 0 2.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  ${ApplyBreaks(
+    px => css`
+      flex-direction: row;
+      align-items: center;
+    `,
+    ["sm"]
+  )};
+  address {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-style: inherit;
+    .profile {
+      padding: (0.25rem/4);
+      border-radius: 1.25rem;
+      display: flex;
+      align-items: center;
+      font-weight: 300;
+      @media (hover) {
+        &:hover {
+          background-color: $oc-gray-3;
+        }
+      }
+      .avatar {
+        width: 2.25rem;
+        height: 2.25rem;
+        object-fit: cover;
+        border-radius: 100%;
+        border: 0.125rem solid white;
+      }
+      .name {
+        margin: 0;
+        margin-left: 0.333rem;
+        margin-right: 0.667rem;
+      }
+    }
+  }
+  time {
+    font-weight: 300;
+    color: $oc-gray-6;
+    font-size: 0.8rem;
+  }
+`;
+
 type PageData = {
   site: {
     siteMetadata: {
       title: string;
     };
+    siteMetadata: SiteSiteMetadata;
   };
   post: {
     id: string;
@@ -47,15 +110,23 @@ type PageData = {
     html: string;
     frontmatter: MarkdownRemarkFrontmatter;
   };
+  allTag: {
+    edges: TagEdge[];
+  };
 };
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data }) => {
-  const { site, post } = data;
+  const { site, post, allTag } = data;
+  const tags = allTag.edges
+    .map(edge => edge.node)
+    .filter(tag => post.frontmatter.tags?.includes(tag.slug));
   return (
     <Layout navigationProps={{ title: post.frontmatter.title }}>
       <Title>{post.frontmatter.title}</Title>
       <Description>{post.excerpt}</Description>
-      <time>{post.frontmatter.date}</time>
+      <TagListBox>
+        <TagList tags={tags} />
+      </TagListBox>
       <MarkdownSection html={post.html} />
     </Layout>
   );
@@ -69,6 +140,17 @@ export const query = graphql`
         title
       }
     }
+    allTag {
+      edges {
+        node {
+          slug
+          name
+          group {
+            color
+          }
+        }
+      }
+    }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       id
       excerpt(pruneLength: 160)
@@ -76,6 +158,7 @@ export const query = graphql`
       frontmatter {
         title
         date
+        tags
       }
     }
   }
