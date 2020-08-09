@@ -37,6 +37,16 @@ const Nav = styled.nav`
   }
 `;
 
+const WidthLimiter = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  max-width: ${breaks["xl"] * 1.2}px;
+`;
+
 const Left = styled.div`
   position: absolute;
   top: 0;
@@ -389,74 +399,72 @@ const Navigation: React.FC<NavigationProps> = ({
 
   return (
     <Nav ref={navRef}>
-      <Left>
-        <MenuButton
-          className={isMenuExpanded && "expanded"}
-          onClick={() => {
-            setIsMenuExpanded(!isMenuExpanded);
-            searchInputRef.current?.blur();
-          }}
-          onMouseDown={e => e.preventDefault()}
-        >
-          <FontAwesomeIcon icon={faBars} />
-          <FontAwesomeIcon icon={faTimes} />
-        </MenuButton>
-        <LogoButton to="/">jtk</LogoButton>
-      </Left>
-      <Center>
-        <Menu className={isMenuExpanded && "expanded"}>
-          <li>
-            <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
-              포스트
-            </Link>
-          </li>
-          <li>
-            <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
-              포트폴리오
-            </Link>
-          </li>
-          <li>
-            <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
-              소개
-            </Link>
-          </li>
-        </Menu>
-        <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>
-          {title || data.site.siteMetadata.title}
-        </Title>
-        <SearchInputBox className={isMenuExpanded && "collapsed"} hidden={!showSearchInput}>
-          <input
-            ref={searchInputRef}
-            tabIndex={isMenuExpanded ? -1 : 0}
-            value={searchInputValue}
-            onChange={onChangeSearchInput}
-          />
-          <FontAwesomeIcon icon={faSearch} />
-        </SearchInputBox>
-      </Center>
-      <Right>
-        {showSearchInput ? (
-          <BackButton
-            className={isMenuExpanded && "collapsed"}
-            tabIndex={isMenuExpanded ? -1 : 0}
-            href="javascript:history.back()"
+      <WidthLimiter>
+        <Left>
+          <MenuButton
+            className={isMenuExpanded && "expanded"}
+            onClick={() => {
+              setIsMenuExpanded(!isMenuExpanded);
+              searchInputRef.current?.blur();
+            }}
+            onMouseDown={e => e.preventDefault()}
           >
+            <FontAwesomeIcon icon={faBars} />
             <FontAwesomeIcon icon={faTimes} />
-          </BackButton>
-        ) : (
-          <SearchButton
-            className={isMenuExpanded && "collapsed"}
-            tabIndex={isMenuExpanded ? -1 : 0}
-            to="/search"
-          >
+          </MenuButton>
+          <LogoButton to="/">jtk</LogoButton>
+        </Left>
+        <Center>
+          <Menu className={isMenuExpanded && "expanded"}>
+            <li>
+              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+                포스트
+              </Link>
+            </li>
+            <li>
+              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+                포트폴리오
+              </Link>
+            </li>
+            <li>
+              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+                소개
+              </Link>
+            </li>
+          </Menu>
+          <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>
+            {title || data.site.siteMetadata.title}
+          </Title>
+          <SearchInputBox className={isMenuExpanded && "collapsed"} hidden={!showSearchInput}>
+            <input
+              ref={searchInputRef}
+              tabIndex={isMenuExpanded ? -1 : 0}
+              value={searchInputValue}
+              onChange={onChangeSearchInput}
+            />
             <FontAwesomeIcon icon={faSearch} />
-          </SearchButton>
-        )}
-      </Right>
-      {/* <Link className={isMenuExpanded ? "logo expanded" : "logo"} to="/">
-        로고영역
-      </Link> */}
-      {/* <span>{data.site.siteMetadata.title}</span> */}
+          </SearchInputBox>
+        </Center>
+        <Right>
+          {showSearchInput ? (
+            <BackButton
+              className={isMenuExpanded && "collapsed"}
+              tabIndex={isMenuExpanded ? -1 : 0}
+              href="javascript:history.back()"
+            >
+              <FontAwesomeIcon icon={faTimes} />
+            </BackButton>
+          ) : (
+            <SearchButton
+              className={isMenuExpanded && "collapsed"}
+              tabIndex={isMenuExpanded ? -1 : 0}
+              to="/search"
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </SearchButton>
+          )}
+        </Right>
+      </WidthLimiter>
     </Nav>
   );
 };
