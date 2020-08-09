@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { PageProps, graphql } from "gatsby";
-import { useEffectOnce } from "react-use";
 import { debounce } from "lodash";
 import { MarkdownRemark } from "../generated/graphql-types";
 import Layout from "../components/Layout";
@@ -21,7 +20,6 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
     return posts.filter(post => post.frontmatter.title?.toLowerCase().indexOf(query) >= 0);
   };
 
-  // const query = ;
   const [query, setQuery] = useState(new URLSearchParams(location.search).get("query") || "");
 
   const [resultPosts, setResultPosts] = useState<MarkdownRemark[]>(query ? filterPosts(query) : []);
@@ -30,19 +28,12 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
     []
   );
 
-  const searchInput = useRef<HTMLInputElement>();
-  useEffectOnce(() => {
-    searchInput.current.focus();
-  });
-
   return (
-    <Layout>
-      <SEO title={query ? `${query} 검색` : "검색"} />
-      <input
-        ref={searchInput}
-        type="text"
-        value={query}
-        onChange={({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+    <Layout
+      navigationProps={{
+        showSearchInput: true,
+        searchInputValue: query,
+        onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
           setResultPosts([]);
           setQuery(value);
           if (value) {
@@ -51,8 +42,10 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
           } else {
             navigate(".", { replace: true });
           }
-        }}
-      />
+        },
+      }}
+    >
+      <SEO title={query ? `${query} 검색` : "검색"} />
       <p>{resultPosts.length}개의 결과</p>
       <PostList posts={resultPosts} />
     </Layout>
@@ -73,6 +66,7 @@ export const query = graphql`
           frontmatter {
             title
             date(formatString: "YYYY-MM-DD")
+            tags
           }
         }
       }

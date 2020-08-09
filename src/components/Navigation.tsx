@@ -1,12 +1,13 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
+import { useEffectOnce } from "react-use";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
 import { Site } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 
-const RESPONSIVE_BREAK = "md";
+const RESPONSIVE_BREAK = "sm";
 const NAV_HEIGHT_REM = 3.8;
 
 const NAV_HEIGHT_PX =
@@ -133,6 +134,14 @@ const SearchButton = styled(Link)`
     transform: scale(0);
   }
 `;
+const BackButton = styled.a`
+  ${baseButton}
+  transition: transform ease-in-out 150ms 150ms;
+  &.collapsed {
+    transform: scale(0);
+  }
+`;
+
 const LogoButton = styled(Link)`
   ${baseButton}
   transition: transform ease-in-out 150ms;
@@ -217,6 +226,69 @@ const Menu = styled.ul`
   )};
 `;
 
+const SearchInputBox = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2.5rem;
+  margin: 0 3.5rem;
+  padding: 0;
+  transition: opacity ease-in-out 150ms 150ms;
+  &.collapsed {
+    opacity: 0;
+  }
+  ${ApplyBreaks(
+    px =>
+      css`
+        justify-self: flex-end;
+        margin-left: auto;
+        width: 18rem;
+      `,
+    [RESPONSIVE_BREAK]
+  )};
+  > input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.7rem 0 2.2rem;
+    border: 2px solid transparent;
+    border-radius: 0.5rem;
+    background-color: ${oc.gray[2]};
+    font-size: 1rem;
+    font-weight: 500;
+    color: ${oc.gray[7]};
+    appearance: none;
+    transition: background-color ease-in-out 100ms, border-color ease-in-out 100ms;
+    &::placeholder {
+      padding: 0.2rem 0;
+      font-size: 1rem;
+      color: ${oc.gray[6]};
+      font-weight: 500;
+    }
+    @media (hover) {
+      &:hover {
+        border-color: ${oc.gray[3]};
+        background-color: ${oc.gray[1]};
+      }
+    }
+    &:focus {
+      background-color: ${oc.gray[0]};
+      border-color: ${oc.gray[6]};
+      outline: none;
+    }
+  }
+  > svg {
+    height: fit-content;
+    margin: auto 0;
+    margin-left: 0.7rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    color: ${oc.gray[6]};
+    pointer-events: none;
+  }
+`;
+
 const Title = styled.p`
   position: absolute;
   left: 0;
@@ -254,9 +326,15 @@ const Title = styled.p`
 
 export type NavigationProps = {
   title?: string;
+  showSearchInput?: boolean;
+  searchInputValue?: string;
+  onChangeSearchInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 const Navigation: React.FC<NavigationProps> = ({
   title,
+  showSearchInput,
+  searchInputValue,
+  onChangeSearchInput,
 }) => {
   const data = useStaticQuery(graphql`
     query {
@@ -270,6 +348,11 @@ const Navigation: React.FC<NavigationProps> = ({
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navRef = useRef<HTMLElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
+
+  useEffectOnce(() => {
+    searchInputRef.current?.focus();
+  });
 
   useLayoutEffect(() => {
     let prevScrollY = window.scrollY;
@@ -309,7 +392,10 @@ const Navigation: React.FC<NavigationProps> = ({
       <Left>
         <MenuButton
           className={isMenuExpanded && "expanded"}
-          onClick={() => setIsMenuExpanded(!isMenuExpanded)}
+          onClick={() => {
+            setIsMenuExpanded(!isMenuExpanded);
+            searchInputRef.current?.blur();
+          }}
           onMouseDown={e => e.preventDefault()}
         >
           <FontAwesomeIcon icon={faBars} />
@@ -335,18 +421,37 @@ const Navigation: React.FC<NavigationProps> = ({
             </Link>
           </li>
         </Menu>
-        <Title className={isMenuExpanded && "collapsed"}>
+        <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>
           {title || data.site.siteMetadata.title}
         </Title>
+        <SearchInputBox className={isMenuExpanded && "collapsed"} hidden={!showSearchInput}>
+          <input
+            ref={searchInputRef}
+            tabIndex={isMenuExpanded ? -1 : 0}
+            value={searchInputValue}
+            onChange={onChangeSearchInput}
+          />
+          <FontAwesomeIcon icon={faSearch} />
+        </SearchInputBox>
       </Center>
       <Right>
-        <SearchButton
-          className={isMenuExpanded && "collapsed"}
-          tabIndex={isMenuExpanded ? -1 : 0}
-          to="/search"
-        >
-          <FontAwesomeIcon icon={faSearch} />
-        </SearchButton>
+        {showSearchInput ? (
+          <BackButton
+            className={isMenuExpanded && "collapsed"}
+            tabIndex={isMenuExpanded ? -1 : 0}
+            href="javascript:history.back()"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </BackButton>
+        ) : (
+          <SearchButton
+            className={isMenuExpanded && "collapsed"}
+            tabIndex={isMenuExpanded ? -1 : 0}
+            to="/search"
+          >
+            <FontAwesomeIcon icon={faSearch} />
+          </SearchButton>
+        )}
       </Right>
       {/* <Link className={isMenuExpanded ? "logo expanded" : "logo"} to="/">
         로고영역
