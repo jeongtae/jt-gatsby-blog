@@ -16,9 +16,17 @@ type PageData = {
 
 const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
   const posts = data.posts.edges.map(({ node: post }) => post);
-  const filterPosts = query => {
-    return posts.filter(post => post.frontmatter.title?.toLowerCase().indexOf(query) >= 0);
-  };
+  const filterPosts = query =>
+    posts.filter(post => {
+      const title = post.frontmatter.title?.replace(" ", "").toLowerCase() ?? "";
+      const queries: string[] = query.split(" ").filter(q => q);
+      for (const query of queries) {
+        if (title.indexOf(query) < 0) {
+          return false;
+        }
+      }
+      return true;
+    });
 
   const [query, setQuery] = useState(new URLSearchParams(location.search).get("query") || "");
 
@@ -36,6 +44,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
         onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
           setResultPosts([]);
           setQuery(value);
+          value = value.trim();
           if (value) {
             navigate(`./?query=${value}`, { replace: true });
             setResultPostsDebounced(value);
