@@ -1,12 +1,11 @@
 import React from "react";
 import { PageProps, Link, graphql } from "gatsby";
-import { useEffectOnce } from "react-use";
-import styled, { css } from "styled-components";
-import oc from "open-color";
+import styled from "styled-components";
 import { MarkdownRemarkEdge, TagEdge, TagGroupEdge } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
+import TagList, { ListItem as TagListItem } from "../components/TagList";
 
 const ListHeading = styled.h1`
   margin: 2rem 0.2rem 1rem;
@@ -23,76 +22,6 @@ const TagGroup = styled.li`
     font-weight: 500;
     font-size: 1.2rem;
   }
-`;
-const Tags = styled.ul`
-  margin: 0.5rem 0 0.2rem;
-  margin: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-`;
-const Tag = styled.li`
-  margin: 0 0.15rem 0.35rem;
-  display: inline-block;
-  a {
-    width: 100%;
-    height: 1.5rem;
-    border: 1px solid ${oc.gray[7]};
-    border-radius: 0.5rem;
-    padding: 0 0.3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 300;
-    color: ${oc.gray[7]};
-    text-decoration: none;
-    transition: background-color ease-in-out 100ms, color ease-in-out 100ms;
-    &::before {
-      content: "#";
-      margin-right: 0.2rem;
-      transition: color ease-in-out 100ms;
-      color: ${oc.gray[7]};
-    }
-    &:visited {
-      color: ${oc.gray[7]};
-    }
-    @media (hover) {
-      &:hover {
-        background-color: ${oc.gray[2]};
-      }
-    }
-  }
-  &.selected a {
-    background-color: ${oc.gray[7]};
-    color: white;
-    &::before {
-      color: white;
-    }
-  }
-  ${Object.keys(oc).map(
-    key => css`
-      &.${key} a {
-        border-color: ${oc[key][5]};
-        color: ${oc[key][5]};
-        &::before {
-          color: ${oc[key][5]};
-        }
-        @media (hover) {
-          &:hover {
-            background-color: ${oc[key][1]};
-          }
-        }
-      }
-      &.${key}.selected a {
-        background-color: ${oc[key][5]};
-        color: white;
-        &::before {
-          color: white;
-        }
-      }
-    `
-  )}
 `;
 
 type PageData = {
@@ -118,42 +47,21 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
     ? posts.filter(post => post.frontmatter.tags.includes(selectedTag.slug))
     : posts;
 
-  const preventingHandler: React.UIEventHandler = e => e.preventDefault();
-  // useEffectOnce(() => {
-  //   for (const element of document.querySelectorAll<HTMLAnchorElement>("")) {
-  //     element.addEventListener("mousedown", e => e.preventDefault());
-  //   }
-  // });
-
   return (
     <Layout>
       <SEO />
       <ListHeading>태그</ListHeading>
       <TagGroups>
-        <Tag className={!selectedTag ? "selected" : ""}>
-          <Link to="." onMouseDown={preventingHandler}>
-            전체 ({posts.length})
-          </Link>
-        </Tag>
+        <TagListItem className={!selectedTag ? "highlighted" : ""}>
+          <Link to=".">전체 ({posts.length})</Link>
+        </TagListItem>
         {tagGroups.map(tagGroup => (
           <TagGroup key={tagGroup.id}>
             <h2>{tagGroup.name}</h2>
-            <Tags>
-              {tagGroup.tags.map(tag => (
-                <Tag
-                  key={tag.slug}
-                  className={[
-                    tagGroup.color || "",
-                    selectedTag && selectedTag.slug === tag.slug ? "selected" : "",
-                  ].join(" ")}
-                >
-                  <Link to={`./?tag=${tag.slug}`} onMouseDown={preventingHandler}>
-                    {tag.name} (
-                    {posts.filter(post => post.frontmatter.tags.includes(tag.slug)).length})
-                  </Link>
-                </Tag>
-              ))}
-            </Tags>
+            <TagList
+              tags={tagGroup.tags}
+              highlightedTagSlug={selectedTag ? selectedTag.slug : null}
+            />
           </TagGroup>
         ))}
       </TagGroups>
@@ -192,6 +100,9 @@ export const query = graphql`
           tags {
             slug
             name
+            group {
+              color
+            }
           }
         }
       }
