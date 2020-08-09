@@ -1,10 +1,21 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { PageProps, graphql } from "gatsby";
 import { debounce } from "lodash";
+import oc from "open-color";
+import styled from "../utils/styled-components";
 import { MarkdownRemark } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
+
+const SearchResultText = styled.p`
+  margin: 2rem 0 1rem;
+  padding: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: ${oc.gray[7]};
+`;
 
 type PageData = {
   posts: {
@@ -42,7 +53,7 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
         showSearchInput: true,
         searchInputValue: query,
         onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-          setResultPosts([]);
+          setResultPosts(null);
           setQuery(value);
           value = value.trim();
           if (value) {
@@ -55,8 +66,20 @@ const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate })
       }}
     >
       <SEO title={query ? `${query} 검색` : "검색"} />
-      <p>{resultPosts.length}개의 결과</p>
-      <PostList posts={resultPosts} />
+      {query.trim() ? (
+        <>
+          <SearchResultText>
+            {resultPosts
+              ? resultPosts.length
+                ? `${resultPosts.length}개의 결과`
+                : "결과 없음"
+              : "검색 중"}
+          </SearchResultText>
+          <PostList posts={resultPosts || []} />
+        </>
+      ) : (
+        <SearchResultText>검색어를 입력하세요.</SearchResultText>
+      )}
     </Layout>
   );
 };
