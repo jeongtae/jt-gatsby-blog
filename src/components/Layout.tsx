@@ -1,7 +1,7 @@
 import React from "react";
 import oc from "open-color";
 import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
-import Navigation from "./Navigation";
+import Navigation, { NavigationProps } from "./Navigation";
 import NoScript from "./NoScript";
 
 const Main = styled.main`
@@ -46,11 +46,13 @@ const Footer = styled.footer`
   }
 `;
 
-const Layout: React.FC<{ title?: string }> = ({ children, title }) => {
+const Layout: React.FC<{
+  navigationProps?: NavigationProps;
+}> = ({ children, navigationProps }) => {
   return (
     <>
       <GlobalStyle />
-      <Navigation title={title} />
+      <Navigation {...(navigationProps || {})} />
       <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
       <Main>{children}</Main>
       <Footer>

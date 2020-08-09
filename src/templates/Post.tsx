@@ -21,7 +21,7 @@ type PageData = {
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data }) => {
   const { site, post } = data;
   return (
-    <Layout title={post.frontmatter.title}>
+    <Layout navigationProps={{ title: post.frontmatter.title }}>
       <h1>{site.siteMetadata.title}</h1>
       <h2>{post.frontmatter.title}</h2>
       <p>{post.excerpt}</p>

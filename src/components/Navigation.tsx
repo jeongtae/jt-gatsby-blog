@@ -252,7 +252,12 @@ const Title = styled.p`
   }
 `;
 
-const Navigation: React.FC<{ title?: string }> = ({ title }) => {
+export type NavigationProps = {
+  title?: string;
+};
+const Navigation: React.FC<NavigationProps> = ({
+  title,
+}) => {
   const data = useStaticQuery(graphql`
     query {
       site {
