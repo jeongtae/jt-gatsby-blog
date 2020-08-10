@@ -146,7 +146,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
       {posts.map(post => (
         <ListItem key={post.id}>
           <article>
-            <Link to={post.fields.slug}>
+            <Link to={`/${post.fields.slug}`}>
               <Thumbnail alt="" src="#" />
               <Contents>
                 <h1 className="title">{post.frontmatter.title}</h1>

@@ -61,15 +61,16 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     throw errors;
   }
 
-  const posts = data.allMarkdownRemark.edges;
-  const postTemplate = resolve("./src/templates/Post.tsx");
-  for (const { node } of posts) {
+  const remarks = data.allMarkdownRemark.edges.map(edge => edge.node);
+  for (const remark of remarks) {
+    const slug = remark.fields.slug;
+
     createPage({
-      path: node.fields.slug,
+      path: `/${slug}`,
       context: {
-        slug: node.fields.slug,
+        slug,
       },
-      component: postTemplate,
+      component: resolve("./src/templates/Post.tsx"),
     });
   }
 }
@@ -78,7 +79,7 @@ export function onCreateNode({ node, actions: { createNodeField }, getNode }: Cr
   if (node.internal.type === "MarkdownRemark") {
     const path = createFilePath({ node, getNode }).normalize("NFC").replace("\\", "/");
     const paths = path.split("/").filter(x => x);
-    const slug = "/" + paths.pop();
+    const slug = paths.pop();
     createNodeField({
       node: node,
       name: "slug",
