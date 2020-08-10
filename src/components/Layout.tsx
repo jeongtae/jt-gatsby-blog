@@ -1,21 +1,63 @@
 import React from "react";
 import oc from "open-color";
-import styled, { GlobalStyle, ApplyBreaks, css } from "../utils/styled-components";
+import styled, { GlobalStyle, ApplyBreaks, css, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps } from "./Navigation";
 import NoScript from "./NoScript";
 
-const Main = styled.main`
+const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 0 0.5rem;
+  display: flex;
+  justify-content: center;
   ${ApplyBreaks(
     px =>
       css`
         max-width: ${px}px;
       `,
-    ["sm", "md", "lg"]
-  )}
+    ["sm", "md", "lg", "xl", "xxl"]
+  )};
 `;
+const Main = styled.main`
+  width: 100%;
+  ${ApplyBreaks(
+    px =>
+      css`
+        max-width: ${breaks["lg"]}px;
+      `,
+    ["xl"]
+  )};
+`;
+const AsidePadder = styled.div`
+  display: none;
+  width: ${(breaks["xxl"] - breaks["lg"]) / 2}px;
+  ${ApplyBreaks(
+    px =>
+      css`
+        display: block;
+      `,
+    ["xxl"]
+  )};
+`;
+const Aside = styled.aside`
+  display: none;
+  ${ApplyBreaks(
+    px =>
+      css`
+        display: block;
+        width: ${breaks["xl"] - breaks["lg"]}px;
+      `,
+    ["xl"]
+  )};
+  ${ApplyBreaks(
+    px =>
+      css`
+        width: ${(breaks["xxl"] - breaks["lg"]) / 2}px;
+      `,
+    ["xxl"]
+  )};
+`;
+
 const Footer = styled.footer`
   text-align: center;
   font-size: 0.8rem;
@@ -48,13 +90,18 @@ const Footer = styled.footer`
 
 const Layout: React.FC<{
   navigationProps?: NavigationProps;
-}> = ({ children, navigationProps }) => {
+  asideChildren?: React.ReactNode;
+}> = ({ children, navigationProps, asideChildren }) => {
   return (
     <>
       <GlobalStyle />
       <Navigation {...(navigationProps || {})} />
       <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
-      <Main>{children}</Main>
+      <Container>
+        {asideChildren && <AsidePadder />}
+        <Main>{children}</Main>
+        {asideChildren && <Aside>{asideChildren}</Aside>}
+      </Container>
       <Footer>
         <ul>
           <li>&copy; {new Date().getFullYear()} Jeongtae Kim, All Rights Reserved</li>

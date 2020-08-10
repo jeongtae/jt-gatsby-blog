@@ -14,12 +14,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
-type BreakNames = "sm" | "md" | "lg" | "xl";
+type BreakNames = "sm" | "md" | "lg" | "xl" | "xxl";
 export const breaks: { [breakName in BreakNames]: number } = {
   sm: 640,
   md: 768,
-  lg: 1024,
-  xl: 1280,
+  lg: 1000,
+  xl: 1300,
+  xxl: 1600,
 };
 
 export function ApplyBreaks(
