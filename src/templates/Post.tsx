@@ -8,6 +8,7 @@ import {
   MarkdownRemarkFrontmatter,
   TagEdge,
   SitePageContext,
+  MarkdownRemark,
 } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import TagList from "../components/TagList";
@@ -175,12 +176,7 @@ type PageData = {
   site: {
     siteMetadata: SiteSiteMetadata;
   };
-  post: {
-    id: string;
-    excerpt: string;
-    html: string;
-    frontmatter: MarkdownRemarkFrontmatter;
-  };
+  post: MarkdownRemark;
   allTag: {
     edges: TagEdge[];
   };
@@ -250,7 +246,6 @@ export const query = graphql`
       }
     }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
       excerpt(pruneLength: 180)
       html
       frontmatter {
