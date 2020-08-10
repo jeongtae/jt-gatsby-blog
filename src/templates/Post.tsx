@@ -131,6 +131,24 @@ const NameAndDate = styled.div`
     margin: 0;
     margin-left: 0.5rem;
     color: ${oc.gray[6]};
+    ul {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+      &::before {
+        content: "\\30FB";
+        margin: 0 0.15rem;
+      }
+      &:first-child::before {
+        content: unset;
+        margin: 0;
+      }
+    }
   }
 `;
 
@@ -172,11 +190,18 @@ const Buttons = styled.div`
   }
 `;
 
+interface MarkdownRemarkFrontmatterExtended extends MarkdownRemarkFrontmatter {
+  dateFromNow?: string;
+}
 type PageData = {
   site: {
     siteMetadata: SiteSiteMetadata;
   };
-  post: MarkdownRemark;
+  post: {
+    excerpt: string;
+    html: string;
+    frontmatter?: MarkdownRemarkFrontmatterExtended;
+  };
   allTag: {
     edges: TagEdge[];
   };
@@ -207,7 +232,12 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
               <p className="name">{site.siteMetadata.author}</p>
             </Link>
           </address>
-          <time>{post.frontmatter.date}</time>
+          <time>
+            <ul>
+              <li>{post.frontmatter.dateFromNow}</li>
+              <li>{post.frontmatter.date}</li>
+            </ul>
+          </time>
         </NameAndDate>
         <Buttons>
           <button
@@ -250,9 +280,10 @@ export const query = graphql`
       html
       frontmatter {
         title
-        date
         description
         tags
+        date(formatString: "YYYY년 M월 D일")
+        dateFromNow: date(locale: "ko", fromNow: true)
       }
     }
   }
