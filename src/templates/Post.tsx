@@ -1,34 +1,41 @@
 import React from "react";
-import { PageProps, graphql } from "gatsby";
+import { Link, PageProps, graphql } from "gatsby";
+import oc from "open-color";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
-import { SiteSiteMetadata, MarkdownRemarkFrontmatter, TagEdge } from "../generated/graphql-types";
+import {
+  SiteSiteMetadata,
+  MarkdownRemarkFrontmatter,
+  TagEdge,
+  SitePageContext,
+} from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Title = styled.h1`
-  margin: 1.5rem 0 0.75rem;
+  margin: 2rem 0.5rem 0;
   font-size: 2.2rem;
   font-weight: 500;
   ${ApplyBreaks(
     px => css`
-      margin: 2.5rem 0 1rem;
+      margin-top: 3rem;
       text-align: center;
-      font-size: 3rem;
-      font-weight: 700;
+      font-size: 2.75rem;
     `,
     ["sm"]
   )};
 `;
 
 const Description = styled.p`
-  margin: 0.75rem 0.5rem 2rem;
-  color: $oc-gray-7;
+  margin: 1rem 0.7rem 0;
+  color: ${oc.gray[7]};
   font-size: 0.9rem;
   font-weight: 300;
   ${ApplyBreaks(
     px => css`
-      margin: 1.5rem 10% 1rem;
+      margin: 1.5rem 10% 0;
       text-align: center;
       font-size: 1rem;
     `,
@@ -49,10 +56,26 @@ const TagListBox = styled.div`
 `;
 
 const AdditionalBox = styled.div`
+  margin: 2rem 0.3rem 2.5rem;
+  padding: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid ${oc.gray[4]};
   display: flex;
-  margin: 2rem 0 2.5rem;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: flex-end;
+  ${ApplyBreaks(
+    px => css`
+      align-items: center;
+    `,
+    ["sm"]
+  )};
+  > * {
+  }
+`;
+
+const NameAndDate = styled.div`
+  display: flex;
+  flex-direction: column-reverse;
   ${ApplyBreaks(
     px => css`
       flex-direction: row;
@@ -60,28 +83,39 @@ const AdditionalBox = styled.div`
     `,
     ["sm"]
   )};
-  address {
-    display: inline-block;
+  address,
+  time {
+    display: block;
     margin: 0;
     padding: 0;
     font-style: inherit;
-    .profile {
-      padding: (0.25rem/4);
-      border-radius: 1.25rem;
+  }
+  address {
+    a {
+      width: fit-content;
+      border-radius: 1.5rem;
+      padding: 0.25rem;
       display: flex;
       align-items: center;
+      text-decoration: none;
       font-weight: 300;
+      &:visited {
+        color: inherit;
+      }
       @media (hover) {
         &:hover {
-          background-color: $oc-gray-3;
+          background-color: ${oc.gray[1]};
         }
       }
-      .avatar {
-        width: 2.25rem;
-        height: 2.25rem;
+      .image {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0;
+        padding: 0;
         object-fit: cover;
-        border-radius: 100%;
+        border-radius: 50%;
         border: 0.125rem solid white;
+        background-color: ${oc.gray[1]};
       }
       .name {
         margin: 0;
@@ -91,17 +125,52 @@ const AdditionalBox = styled.div`
     }
   }
   time {
+    margin: 0;
+    margin-left: 0.5rem;
+    color: ${oc.gray[6]};
+  }
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  /* margin-top: 0.5rem; */
+  margin-bottom: 0.5rem;
+  ${ApplyBreaks(
+    px => css`
+      margin-bottom: 0;
+    `,
+    ["sm"]
+  )};
+  button {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    appearance: none;
+    background: none;
+    cursor: pointer;
     font-weight: 300;
-    color: $oc-gray-6;
-    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: ${oc.gray[8]};
+    margin-right: 0.4rem;
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+      }
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    svg {
+      margin-right: 0.3rem;
+    }
   }
 `;
 
 type PageData = {
   site: {
-    siteMetadata: {
-      title: string;
-    };
     siteMetadata: SiteSiteMetadata;
   };
   post: {
@@ -115,8 +184,9 @@ type PageData = {
   };
 };
 
-const PostTemplate: React.FC<PageProps<PageData>> = ({ data }) => {
+const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const { site, post, allTag } = data;
+  const { author } = pageContext as SitePageContext;
   const tags = allTag.edges
     .map(edge => edge.node)
     .filter(tag => post.frontmatter.tags?.includes(tag.slug));
@@ -127,6 +197,26 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data }) => {
       <TagListBox>
         <TagList tags={tags} />
       </TagListBox>
+      <AdditionalBox>
+        <NameAndDate>
+          <address>
+            <Link to="/">
+              <img className="image" alt="" src="#" />
+              <p className="name">{site.siteMetadata.author}</p>
+            </Link>
+          </address>
+          <time>{post.frontmatter.date}</time>
+        </NameAndDate>
+        <Buttons>
+          <button
+            onMouseDown={e => e.preventDefault()}
+          >
+            <FontAwesomeIcon icon={faLink} />
+            <span>URL 복사</span>
+          </button>
+        </Buttons>
+      </AdditionalBox>
+      <hr />
       <MarkdownSection html={post.html} />
     </Layout>
   );
@@ -137,7 +227,7 @@ export const query = graphql`
   query postBySlug($slug: String!) {
     site {
       siteMetadata {
-        title
+        author
       }
     }
     allTag {
