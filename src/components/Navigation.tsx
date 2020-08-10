@@ -417,17 +417,29 @@ const Navigation: React.FC<NavigationProps> = ({
         <Center>
           <Menu className={isMenuExpanded && "expanded"}>
             <li>
-              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+              <Link
+                to="/"
+                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                onMouseDown={e => e.preventDefault()}
+              >
                 포스트
               </Link>
             </li>
             <li>
-              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+              <Link
+                to="/"
+                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                onMouseDown={e => e.preventDefault()}
+              >
                 포트폴리오
               </Link>
             </li>
             <li>
-              <Link to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+              <Link
+                to="/"
+                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                onMouseDown={e => e.preventDefault()}
+              >
                 소개
               </Link>
             </li>
