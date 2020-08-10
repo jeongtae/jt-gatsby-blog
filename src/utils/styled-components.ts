@@ -6,6 +6,12 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+  img {
+    -ms-interpolation-mode: bicubic;
+  }
+  html {
+    line-height: unset;
+  }
 `;
 
 type BreakNames = "sm" | "md" | "lg" | "xl";
