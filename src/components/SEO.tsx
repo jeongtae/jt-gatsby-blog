@@ -15,6 +15,7 @@ const SEO: React.FC<{ title?: string; description?: string; lang?: string }> = (
         site {
           siteMetadata {
             title
+            author
             description
           }
         }
@@ -30,6 +31,10 @@ const SEO: React.FC<{ title?: string; description?: string; lang?: string }> = (
       title={title || siteMetadata.title}
       titleTemplate={title && `%s | ${siteMetadata.title}`}
       meta={[
+        {
+          name: "author",
+          content: siteMetadata.author,
+        },
         {
           name: "description",
           content: description || siteMetadata.description,

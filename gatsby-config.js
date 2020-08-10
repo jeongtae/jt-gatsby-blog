@@ -1,8 +1,9 @@
-const { title, description, siteUrl } = require("./contents/configs/config").default;
+const { title, author, description, siteUrl } = require("./contents/configs/config").default;
 
 module.exports = {
   siteMetadata: {
     title,
+    author,
     description,
     siteUrl,
   },
