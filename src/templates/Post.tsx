@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, PageProps, graphql } from "gatsby";
 import oc from "open-color";
+import copy from "copy-to-clipboard";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
 import {
   SiteSiteMetadata,
@@ -186,7 +187,7 @@ type PageData = {
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const { site, post, allTag } = data;
-  const { author } = pageContext as SitePageContext;
+  const { slug } = pageContext as SitePageContext;
   const tags = allTag.edges
     .map(edge => edge.node)
     .filter(tag => post.frontmatter.tags?.includes(tag.slug));
@@ -210,6 +211,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <Buttons>
           <button
             onMouseDown={e => e.preventDefault()}
+            onClick={() => copy(site.siteMetadata.siteUrl + slug)}
           >
             <FontAwesomeIcon icon={faLink} />
             <span>URL 복사</span>
@@ -228,6 +230,7 @@ export const query = graphql`
     site {
       siteMetadata {
         author
+        siteUrl
       }
     }
     allTag {
