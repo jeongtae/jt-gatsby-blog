@@ -12,6 +12,7 @@ import {
 import Layout from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
+import SEO from "../components/SEO";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -193,6 +194,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     .filter(tag => post.frontmatter.tags?.includes(tag.slug));
   return (
     <Layout navigationProps={{ title: post.frontmatter.title }}>
+      <SEO
+        title={post.frontmatter.title}
+        description={post.frontmatter.description || post.excerpt}
+      />
       <Title>{post.frontmatter.title}</Title>
       <Description>{post.excerpt}</Description>
       <TagListBox>
@@ -246,11 +251,12 @@ export const query = graphql`
     }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       id
-      excerpt(pruneLength: 160)
+      excerpt(pruneLength: 180)
       html
       frontmatter {
         title
         date
+        description
         tags
       }
     }

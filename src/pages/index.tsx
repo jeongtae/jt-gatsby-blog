@@ -78,13 +78,14 @@ export const query = graphql`
       edges {
         node {
           id
-          excerpt(truncate: true, pruneLength: 200)
+          excerpt(truncate: true, pruneLength: 180)
           timeToRead
           fields {
             slug
           }
           frontmatter {
             title
+            description
             date(formatString: "YYYY-MM-DD")
             tags
           }

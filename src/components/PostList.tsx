@@ -150,7 +150,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
               <Thumbnail alt="" src="#" />
               <Contents>
                 <h1 className="title">{post.frontmatter.title}</h1>
-                <p className="description">{post.excerpt}</p>
+                <p className="description">{post.frontmatter.description || post.excerpt}</p>
                 <ul className="tags">
                   {post.frontmatter.tags.map(tagSlug => (
                     <li key={tagSlug}>
