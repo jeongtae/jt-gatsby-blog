@@ -15,6 +15,7 @@ declare type Tags = {
 declare type Config = {
   title: string;
   description: string;
+  author: string;
   siteUrl: string;
   tagGroups: TagGroups;
   tags: Tags;
