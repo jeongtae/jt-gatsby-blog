@@ -4,6 +4,8 @@ import styled, { GlobalStyle, ApplyBreaks, css, breaks } from "../utils/styled-c
 import Navigation, { NavigationProps } from "./Navigation";
 import NoScript from "./NoScript";
 
+export const ASIDE_BREAK = "xl";
+
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
@@ -14,8 +16,7 @@ const Container = styled.div`
     px =>
       css`
         max-width: ${px}px;
-      `,
-    ["sm", "md", "lg", "xl", "xxl"]
+      `
   )};
 `;
 const Main = styled.main`
@@ -25,7 +26,7 @@ const Main = styled.main`
       css`
         max-width: ${breaks["lg"]}px;
       `,
-    ["xl"]
+    [ASIDE_BREAK]
   )};
 `;
 const AsidePadder = styled.div`
@@ -45,9 +46,9 @@ const Aside = styled.aside`
     px =>
       css`
         display: block;
-        width: ${breaks["xl"] - breaks["lg"]}px;
+        width: ${breaks[ASIDE_BREAK] - breaks["lg"]}px;
       `,
-    ["xl"]
+    [ASIDE_BREAK]
   )};
   ${ApplyBreaks(
     px =>
