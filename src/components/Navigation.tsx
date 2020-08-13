@@ -6,12 +6,12 @@ import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
 import { Site } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
+import { baseFontSizePx } from "../utils/typography";
 
 const RESPONSIVE_BREAK = "sm";
 const NAV_HEIGHT_REM = 3.8;
 
-const NAV_HEIGHT_PX =
-  parseFloat(getComputedStyle(document.documentElement).fontSize) * NAV_HEIGHT_REM;
+const NAV_HEIGHT_PX = baseFontSizePx * NAV_HEIGHT_REM;
 
 const Nav = styled.nav`
   position: sticky;

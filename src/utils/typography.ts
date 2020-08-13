@@ -26,10 +26,11 @@ const sansFonts = ["Noto Sans KR", ...baseFonts];
 export const sansFontsSerialized = serializeFonts(sansFonts);
 const serifFonts = ["Noto Serif KR", ...baseFonts];
 export const serifFontsSerialized = serializeFonts(serifFonts);
+export const baseFontSizePx = 16;
 
 export default new Typography({
   ...wordpressTheme,
-  baseFontSize: "16px",
+  baseFontSize: `${baseFontSizePx}px`,
   baseLineHeight: 1.5,
   bodyColor: oc.gray[9],
   googleFonts: [
