@@ -21,6 +21,8 @@ const Container = styled.div`
 `;
 const Main = styled.main`
   width: 100%;
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
   ${ApplyBreaks(
     px =>
       css`
@@ -42,6 +44,7 @@ const AsidePadder = styled.div`
 `;
 const Aside = styled.aside`
   display: none;
+  padding-right: env(safe-area-inset-right, 0);
   ${ApplyBreaks(
     px =>
       css`
