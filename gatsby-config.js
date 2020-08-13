@@ -91,7 +91,33 @@ module.exports = {
         path: `${__dirname}/contents/posts/`,
       },
     },
-    `gatsby-transformer-remark`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        tableOfContents: {
+          maxDepth: 3,
+        },
+        plugins: [
+          `gatsby-remark-smartypants`,
+          `gatsby-remark-autolink-headers`,
+          {
+            resolve: `gatsby-remark-responsive-iframe`,
+            options: {
+              wrapperStyle: `margin-bottom: 1.0725rem`,
+            },
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options: {
+              destinationDir({ hash, name }) {
+                return `downloads/${hash}/${name}`;
+              },
+              ignoreFileExtensions: [`png`, `jpg`, `jpeg`, `bmp`, `tiff`],
+            },
+          },
+        ],
+      },
+    },
     {
       // automatically generate typings from graphql schema
       resolve: `gatsby-plugin-generate-typings`,
