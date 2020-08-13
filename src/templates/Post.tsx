@@ -248,6 +248,7 @@ const Part = styled.li`
     text-decoration: none;
     align-items: center;
     font-size: 0.9rem;
+    color: inherit;
     &::before {
       content: counter(part-list);
       width: 1.2rem;
