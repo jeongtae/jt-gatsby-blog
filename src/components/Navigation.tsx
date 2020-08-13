@@ -1,16 +1,17 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import { useEffectOnce } from "react-use";
+import Img from "gatsby-image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
-import { Site } from "../generated/graphql-types";
+import { Site, File } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 import { baseFontSizePx } from "../utils/typography";
 
 const RESPONSIVE_BREAK = "sm";
-const NAV_HEIGHT_REM = 3.8;
 
+const NAV_HEIGHT_REM = 3.8;
 const NAV_HEIGHT_PX = baseFontSizePx * NAV_HEIGHT_REM;
 
 const Nav = styled.nav`
@@ -138,14 +139,14 @@ const MenuButton = styled.button`
   )};
 `;
 const SearchButton = styled(Link)`
-  ${baseButton}
+  ${baseButton};
   transition: transform ease-in-out 150ms 150ms;
   &.collapsed {
     transform: scale(0);
   }
 `;
 const BackButton = styled.a`
-  ${baseButton}
+  ${baseButton};
   transition: transform ease-in-out 150ms 150ms;
   &.collapsed {
     transform: scale(0);
@@ -153,7 +154,7 @@ const BackButton = styled.a`
 `;
 
 const LogoButton = styled(Link)`
-  ${baseButton}
+  ${baseButton};
   transition: transform ease-in-out 150ms;
   display: none;
   transform: scale(0);
@@ -346,15 +347,24 @@ const Navigation: React.FC<NavigationProps> = ({
   searchInputValue,
   onChangeSearchInput,
 }) => {
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        siteMetadata {
-          title
+  const data = useStaticQuery(
+    graphql`
+      query {
+        site {
+          siteMetadata {
+            title
+          }
+        }
+        logoFile: file(relativePath: { eq: "logo.png" }) {
+          childImageSharp {
+            fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
+              ...GatsbyImageSharpFluid_withWebp_tracedSVG
+            }
+          }
         }
       }
-    }
-  `) as { site: Site };
+    `
+  ) as { site: Site; logoFile: File };
   const [isMenuExpanded, setIsMenuExpanded] = useState(false);
   const [isWideScreen, setIsWideScreen] = useState(false);
   const navRef = useRef<HTMLElement>();
@@ -412,7 +422,9 @@ const Navigation: React.FC<NavigationProps> = ({
             <FontAwesomeIcon icon={faBars} />
             <FontAwesomeIcon icon={faTimes} />
           </MenuButton>
-          <LogoButton to="/">jtk</LogoButton>
+          <LogoButton to="/">
+            <Img fluid={data.logoFile.childImageSharp.fluid} />
+          </LogoButton>
         </Left>
         <Center>
           <Menu className={isMenuExpanded && "expanded"}>
