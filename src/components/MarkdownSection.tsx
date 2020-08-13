@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { transparentize } from "polished";
 import oc from "open-color";
 
 // @ts-ignore
@@ -10,7 +11,7 @@ const Section = styled.section`
 
   pre[class*="language-"].line-numbers {
     display: block;
-    position: initial;
+    position: relative;
     margin: 0;
     padding: 0;
     font-size: 0.8rem;
@@ -19,15 +20,26 @@ const Section = styled.section`
     background-color: ${oc.gray[0]};
     display: flex;
     flex-direction: row-reverse;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 1.2rem;
+      background: linear-gradient(to left, ${oc.gray[0]}, ${transparentize(1, oc.gray[0])});
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
     code[class*="language-"] {
       position: initial;
       display: block;
       margin: 0;
       padding: 0.2rem 0.3rem;
+      padding-right: 1rem;
       font-size: inherit;
       text-shadow: none;
       overflow: scroll;
-      flex-grow: 1;
+      flex: 1;
       &::selection,
       span::selection {
         background-color: ${oc.gray[3]};
