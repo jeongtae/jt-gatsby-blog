@@ -2,19 +2,19 @@ import React from "react";
 import { Link, PageProps, graphql } from "gatsby";
 import oc from "open-color";
 import copy from "copy-to-clipboard";
-import styled, { ApplyBreaks, css } from "../utils/styled-components";
+import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 import {
   SiteSiteMetadata,
   MarkdownRemarkFrontmatter,
   TagEdge,
   SitePageContext,
-  MarkdownRemark,
 } from "../generated/graphql-types";
-import Layout from "../components/Layout";
+import Layout, { ASIDE_BREAK } from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 import SEO from "../components/SEO";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Title = styled.h1`
@@ -174,11 +174,12 @@ const Buttons = styled.div`
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: ${oc.gray[8]};
+    color: ${oc.gray[7]};
     margin-right: 0.4rem;
     @media (hover) {
       &:hover {
         background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
       }
     }
     &:last-child {
@@ -186,6 +187,85 @@ const Buttons = styled.div`
     }
     svg {
       margin-right: 0.3rem;
+    }
+  }
+`;
+
+const PartListBoxInMain = styled.section`
+  ${ApplyBreaks(
+    px => css`
+      display: none;
+    `,
+    [ASIDE_BREAK]
+  )};
+`;
+
+const PartListBoxInAside = styled.section`
+  margin: 2rem 0.5rem 1rem;
+  > p {
+    justify-content: center;
+    text-align: end;
+  }
+`;
+
+const PartListHeader = styled.p`
+  margin: 0;
+  padding: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  > span {
+    margin: 0 0.3rem;
+  }
+`;
+const PartList = styled.ol`
+  display: block;
+  max-width: ${breaks["sm"]}px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: part-list;
+`;
+const Part = styled.li`
+  margin: 0.2rem 0;
+  padding: 0;
+  counter-increment: part-list;
+  color: ${oc.gray[6]};
+  &.highlighted {
+    color: ${oc.gray[9]};
+    font-weight: 500;
+    a::before {
+      content: "\\2022";
+    }
+  }
+  a {
+    display: inline-flex;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    align-items: center;
+    font-size: 0.9rem;
+    &::before {
+      content: counter(part-list);
+      width: 1.2rem;
+      margin-left: -0.2rem;
+      margin-right: 0.1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
+        &::before {
+          color: ${oc.gray[9]};
+        }
+      }
     }
   }
 `;
@@ -209,18 +289,37 @@ type PageData = {
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const { site, post, allTag } = data;
-  const { slug } = pageContext as SitePageContext;
+  const { slug, parts } = pageContext as SitePageContext;
   const tags = allTag.edges
     .map(edge => edge.node)
     .filter(tag => post.frontmatter.tags?.includes(tag.slug));
+
+  const PartListFragment = (
+    <>
+      <PartListHeader>
+        <FontAwesomeIcon icon={faCopy} />
+        <span>이어지는 글</span>
+      </PartListHeader>
+      <PartList>
+        {parts.map(part => (
+          <Part key={part.slug} className={part.slug === slug ? "highlighted" : ""}>
+            <Link to={`/${part.slug}`}>{part.title}</Link>
+          </Part>
+        ))}
+      </PartList>
+    </>
+  );
+  const Aside = (
+    <div>{parts?.length > 0 && <PartListBoxInAside>{PartListFragment}</PartListBoxInAside>}</div>
+  );
   return (
-    <Layout navigationProps={{ title: post.frontmatter.title }}>
+    <Layout navigationProps={{ title: post.frontmatter.title }} asideChildren={Aside}>
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
       <Title>{post.frontmatter.title}</Title>
-      <Description>{post.excerpt}</Description>
+      <Description>{post.frontmatter.description || post.excerpt}</Description>
       <TagListBox>
         <TagList tags={tags} />
       </TagListBox>
@@ -249,7 +348,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </button>
         </Buttons>
       </AdditionalBox>
-      <hr />
+      {parts?.length > 0 && <PartListBoxInMain>{PartListFragment}</PartListBoxInMain>}
       <MarkdownSection html={post.html} />
     </Layout>
   );
