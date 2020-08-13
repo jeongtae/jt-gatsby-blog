@@ -37,9 +37,14 @@ const ListItem = styled.li`
     text-decoration: none;
     color: inherit;
     transition: background-color ease-in-out 200ms;
+    a:visited .title {
+      color: ${oc.gray[6]};
+    }
   }
-  a:hover {
-    background-color: ${oc.gray[1]};
+  @media (hover) {
+    a:hover {
+      background-color: ${oc.gray[1]};
+    }
   }
 `;
 const Thumbnail = styled.img`
