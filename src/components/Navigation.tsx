@@ -27,6 +27,7 @@ const Nav = styled.nav`
   opacity: 0.9;
   box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.12);
   transition: transform ease-in-out 200ms, box-shadow ease-in-out 200ms;
+  z-index: 1;
   @media only screen and (max-width: ${breaks["lg"] - 0.03}px) and (orientation: portrait) {
     &.hidden {
       transform: translateY(-100%);
@@ -52,7 +53,7 @@ const Left = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  z-index: 2;
+  z-index: 3;
 `;
 const Center = styled.div`
   position: absolute;
@@ -66,7 +67,7 @@ const Center = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 2;
 `;
 const Right = styled.div`
   position: absolute;
@@ -75,7 +76,7 @@ const Right = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  z-index: 2;
+  z-index: 4;
 `;
 
 const baseButton = css`
