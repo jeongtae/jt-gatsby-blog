@@ -2,7 +2,7 @@ import React from "react";
 import { Link, graphql, useStaticQuery } from "gatsby";
 import oc from "open-color";
 import styled, { css } from "../utils/styled-components";
-import { Tag, MarkdownRemarkEdge } from "../generated/graphql-types";
+import { Tag, MarkdownRemark } from "../generated/graphql-types";
 
 export const List = styled.ul`
   margin: 0.5rem 0 0.2rem;
@@ -79,22 +79,18 @@ const TagList: React.FC<{ tags: Tag[]; highlightedTagSlug?: string }> = ({
   tags,
   highlightedTagSlug,
 }) => {
-  const {
-    allMarkdownRemark: { edges: postEdges },
-  } = useStaticQuery(graphql`
+  const query = useStaticQuery(graphql`
     query {
       allMarkdownRemark {
-        edges {
-          node {
-            frontmatter {
-              tags
-            }
+        nodes {
+          frontmatter {
+            tags
           }
         }
       }
     }
-  `) as { allMarkdownRemark: { edges: MarkdownRemarkEdge[] } };
-  const posts = postEdges.map(edge => edge.node);
+  `) as { allMarkdownRemark: { nodes: MarkdownRemark[] } };
+  const posts = query.allMarkdownRemark.nodes;
 
   return (
     <List>

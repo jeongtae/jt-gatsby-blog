@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import styled, { css, ApplyBreaks } from "../utils/styled-components";
-import { MarkdownRemark, TagEdge } from "../generated/graphql-types";
+import { MarkdownRemark, Tag } from "../generated/graphql-types";
 
 const ITEM_HEIGHT = 5.5;
 
@@ -120,26 +120,22 @@ const Contents = styled.div`
 const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
   const query = useStaticQuery(graphql`
     query {
-      tags: allTag {
-        edges {
-          node {
-            name
-            slug
-            group {
-              color
-            }
+      allTag {
+        nodes {
+          name
+          slug
+          group {
+            color
           }
         }
       }
     }
   `) as {
-    tags: {
-      edges: TagEdge[];
+    allTag: {
+      nodes: Tag[];
     };
   };
-  const {
-    tags: { edges: tagEdges },
-  } = query;
+  const tags = query.allTag.nodes;
 
   return (
     <List>
@@ -153,9 +149,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 <p className="description">{post.frontmatter.description || post.excerpt}</p>
                 <ul className="tags">
                   {post.frontmatter.tags.map(tagSlug => (
-                    <li key={tagSlug}>
-                      {tagEdges.find(edge => edge.node.slug === tagSlug).node.name}
-                    </li>
+                    <li key={tagSlug}>{tags.find(tag => tag.slug === tagSlug).name}</li>
                   ))}
                 </ul>
                 <div className="additional">

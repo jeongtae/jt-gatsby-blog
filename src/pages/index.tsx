@@ -1,7 +1,7 @@
 import React from "react";
 import { PageProps, Link, graphql } from "gatsby";
 import styled from "styled-components";
-import { MarkdownRemarkEdge, TagEdge, TagGroupEdge } from "../generated/graphql-types";
+import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
@@ -11,12 +11,12 @@ const ListHeading = styled.h1`
   margin: 2rem 0.2rem 1rem;
 `;
 
-const TagGroups = styled.ul`
+const TagGroupList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
 `;
-const TagGroup = styled.li`
+const TagGroupListItem = styled.li`
   h2 {
     margin: 0.5rem 0.5rem;
     font-weight: 500;
@@ -26,20 +26,22 @@ const TagGroup = styled.li`
 
 type PageData = {
   posts: {
-    edges: MarkdownRemarkEdge[];
+    nodes: MarkdownRemark[];
   };
   tags: {
-    edges: TagEdge[];
+    nodes: Tag[];
   };
   tagGroups: {
-    edges: TagGroupEdge[];
+    nodes: TagGroup[];
   };
 };
 
 const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
-  const posts = data.posts.edges.map(({ node: post }) => post);
-  const tagGroups = data.tagGroups.edges.map(({ node: tagGroup }) => tagGroup);
-  const tags = data.tags.edges.map(({ node: tag }) => tag);
+  const {
+    posts: { nodes: posts },
+    tags: { nodes: tags },
+    tagGroups: { nodes: tagGroups },
+  } = data;
   const searchParams = new URLSearchParams(location.search);
   const selectedTagSlug = searchParams.get("tag")?.toLowerCase() || "";
   const selectedTag = tags.find(tag => tag.slug === selectedTagSlug);
@@ -51,20 +53,20 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
     <Layout>
       <SEO />
       <ListHeading>태그</ListHeading>
-      <TagGroups>
+      <TagGroupList>
         <TagListItem className={!selectedTag ? "highlighted" : ""}>
           <Link to=".">전체 ({posts.length})</Link>
         </TagListItem>
         {tagGroups.map(tagGroup => (
-          <TagGroup key={tagGroup.id}>
+          <TagGroupListItem key={tagGroup.id}>
             <h2>{tagGroup.name}</h2>
             <TagList
               tags={tagGroup.tags}
               highlightedTagSlug={selectedTag ? selectedTag.slug : null}
             />
-          </TagGroup>
+          </TagGroupListItem>
         ))}
-      </TagGroups>
+      </TagGroupList>
       <ListHeading>{selectedTag ? `${selectedTag.name} 포스트` : "모든 포스트"}</ListHeading>
       <PostList posts={filteredPosts} />
     </Layout>
@@ -75,47 +77,41 @@ export default IndexPage;
 export const query = graphql`
   query {
     posts: allMarkdownRemark(sort: { order: DESC, fields: frontmatter___date }) {
-      edges {
-        node {
-          id
-          excerpt(truncate: true, pruneLength: 180)
-          timeToRead
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            description
-            date(formatString: "YYYY-MM-DD")
-            tags
-          }
+      nodes {
+        id
+        excerpt(truncate: true, pruneLength: 180)
+        timeToRead
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+          description
+          date(formatString: "YYYY-MM-DD")
+          tags
         }
       }
     }
     tagGroups: allTagGroup {
-      edges {
-        node {
-          id
+      nodes {
+        id
+        name
+        color
+        tags {
+          slug
           name
-          color
-          tags {
-            slug
-            name
-            group {
-              color
-            }
+          group {
+            color
           }
         }
       }
     }
     tags: allTag {
-      edges {
-        node {
-          name
-          slug
-          group {
-            color
-          }
+      nodes {
+        name
+        slug
+        group {
+          color
         }
       }
     }

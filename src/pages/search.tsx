@@ -19,14 +19,12 @@ const SearchResultText = styled.p`
 
 type PageData = {
   posts: {
-    edges: {
-      node: MarkdownRemark;
-    }[];
+    nodes: MarkdownRemark[];
   };
 };
 
 const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
-  const posts = data.posts.edges.map(({ node: post }) => post);
+  const posts = data.posts.nodes;
   const filterPosts = query =>
     posts.filter(post => {
       const title = post.frontmatter.title?.replace(" ", "").toLowerCase() ?? "";
@@ -88,18 +86,16 @@ export default SearchPage;
 export const query = graphql`
   query {
     posts: allMarkdownRemark(sort: { order: DESC, fields: frontmatter___date }) {
-      edges {
-        node {
-          id
-          excerpt(truncate: true, pruneLength: 200)
-          fields {
-            slug
-          }
-          frontmatter {
-            title
-            date(formatString: "YYYY-MM-DD")
-            tags
-          }
+      nodes {
+        id
+        excerpt(truncate: true, pruneLength: 200)
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+          date(formatString: "YYYY-MM-DD")
+          tags
         }
       }
     }

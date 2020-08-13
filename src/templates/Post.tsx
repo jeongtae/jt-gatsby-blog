@@ -6,7 +6,7 @@ import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 import {
   SiteSiteMetadata,
   MarkdownRemarkFrontmatter,
-  TagEdge,
+  Tag,
   SitePageContext,
 } from "../generated/graphql-types";
 import Layout, { ASIDE_BREAK } from "../components/Layout";
@@ -283,16 +283,14 @@ type PageData = {
     frontmatter?: MarkdownRemarkFrontmatterExtended;
   };
   allTag: {
-    edges: TagEdge[];
+    nodes: Tag[];
   };
 };
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const { site, post, allTag } = data;
   const { slug, parts } = pageContext as SitePageContext;
-  const tags = allTag.edges
-    .map(edge => edge.node)
-    .filter(tag => post.frontmatter.tags?.includes(tag.slug));
+  const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
 
   const PartListFragment = (
     <>
@@ -364,13 +362,11 @@ export const query = graphql`
       }
     }
     allTag {
-      edges {
-        node {
-          slug
-          name
-          group {
-            color
-          }
+      nodes {
+        slug
+        name
+        group {
+          color
         }
       }
     }
