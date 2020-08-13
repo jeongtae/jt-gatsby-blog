@@ -8,7 +8,17 @@ import prism from "!!raw-loader!./prism.css";
 
 const Section = styled.section`
   ${prism};
-
+  code[class*="language-"] {
+    display: inline;
+    padding: 0.1rem 0.25rem;
+    border: 1px solid ${oc.gray[3]};
+    border-radius: 0.25rem;
+    background-color: ${oc.gray[0]};
+    font-size: 0.9rem;
+    text-shadow: none;
+    white-space: normal;
+    color: inherit;
+  }
   pre[class*="language-"].line-numbers {
     display: block;
     position: relative;
@@ -33,6 +43,9 @@ const Section = styled.section`
     code[class*="language-"] {
       position: initial;
       display: block;
+      border: none;
+      border-radius: 0;
+      background: none;
       margin: 0;
       padding: 0.2rem 0.3rem;
       padding-right: 1rem;
@@ -40,6 +53,7 @@ const Section = styled.section`
       text-shadow: none;
       overflow: scroll;
       flex: 1;
+      color: inherit;
       &::selection,
       span::selection {
         background-color: ${oc.gray[3]};
