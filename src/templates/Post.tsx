@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, PageProps, graphql } from "gatsby";
+import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
 import copy from "copy-to-clipboard";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
@@ -8,6 +9,7 @@ import {
   MarkdownRemarkFrontmatter,
   Tag,
   SitePageContext,
+  File,
 } from "../generated/graphql-types";
 import Layout, { ASIDE_BREAK } from "../components/Layout";
 import TagList from "../components/TagList";
@@ -115,7 +117,7 @@ const NameAndDate = styled.div`
         height: 2.5rem;
         margin: 0;
         padding: 0;
-        object-fit: cover;
+        /* object-fit: cover; */
         border-radius: 50%;
         border: 0.125rem solid white;
         background-color: ${oc.gray[1]};
@@ -285,10 +287,11 @@ type PageData = {
   allTag: {
     nodes: Tag[];
   };
+  profileFile: File;
 };
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
-  const { site, post, allTag } = data;
+  const { site, post, allTag, profileFile } = data;
   const { slug, parts } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
 
@@ -325,7 +328,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <NameAndDate>
           <address>
             <Link to="/">
-              <img className="image" alt="" src="#" />
+              <Img className="image" fluid={profileFile.childImageSharp.fluid} objectFit="cover" />
               <p className="name">{site.siteMetadata.author}</p>
             </Link>
           </address>
@@ -379,6 +382,13 @@ export const query = graphql`
         tags
         date(formatString: "YYYY년 M월 D일")
         dateFromNow: date(locale: "ko", fromNow: true)
+      }
+    }
+    profileFile: file(relativePath: { eq: "profile.jpg" }) {
+      childImageSharp {
+        fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
+          ...GatsbyImageSharpFluid_withWebp_tracedSVG
+        }
       }
     }
   }
