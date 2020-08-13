@@ -1,4 +1,10 @@
-const { title, author, description, siteUrl } = require("./contents/configs/config").default;
+const {
+  title,
+  author,
+  description,
+  siteUrl,
+  googleAnalyticsTrackingId,
+} = require("./contents/configs/config").default;
 
 module.exports = {
   siteMetadata: {
@@ -52,6 +58,13 @@ module.exports = {
             }
           });
         },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: googleAnalyticsTrackingId,
+        exclude: ["/search"],
       },
     },
     `gatsby-plugin-react-helmet`,
