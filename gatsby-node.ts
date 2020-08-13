@@ -52,6 +52,9 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
             fields {
               slug
             }
+            frontmatter {
+              title
+            }
           }
         }
       }
@@ -61,14 +64,57 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     throw errors;
   }
 
+  const getPartNumber = (slug: string) => {
+    const splits = slug.split("-");
+    if (splits.length < 3) {
+      return -1;
+    }
+    const numberString = splits[splits.length - 1];
+    if (/^\d+$/g.test(numberString) === false) {
+      return -1;
+    }
+    const number = parseInt(numberString);
+    if (isNaN(number)) {
+      return -1;
+    }
+    return number;
+  };
+  const getPartTitle = (slug: string) => {
+    if (getPartNumber(slug) < 0) {
+      return null;
+    }
+    const splits = slug.split("-");
+    splits.splice(splits.length - 1, 1);
+    return splits.join("-");
+  };
+
   const remarks = data.allMarkdownRemark.edges.map(edge => edge.node);
   for (const remark of remarks) {
     const slug = remark.fields.slug;
+    const parts: { slug: string; title: string }[] = [];
+    const partNumber = getPartNumber(slug);
+    if (partNumber >= 0) {
+      const partTitle = getPartTitle(slug);
+      const filteredParts = remarks.filter(
+        remark => getPartTitle(remark.fields.slug) === partTitle
+      );
+      filteredParts.sort((part1, part2) => {
+        const number1 = getPartNumber(part1.fields.slug);
+        const number2 = getPartNumber(part2.fields.slug);
+        if (number1 > number2) return 1;
+        else if (number1 < number2) return -1;
+        else return 0;
+      });
+      filteredParts.forEach(part =>
+        parts.push({ slug: part.fields.slug, title: part.frontmatter.title })
+      );
+    }
 
     createPage({
       path: `/${slug}`,
       context: {
         slug,
+        parts,
       },
       component: resolve("./src/templates/Post.tsx"),
     });
