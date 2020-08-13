@@ -8,7 +8,7 @@ import prism from "!!raw-loader!./prism.css";
 
 const Section = styled.section`
   ${prism};
-  code[class*="language-"] {
+  code[class|="language"] {
     display: inline;
     padding: 0.1rem 0.25rem;
     border: 1px solid ${oc.gray[3]};
@@ -19,7 +19,7 @@ const Section = styled.section`
     white-space: normal;
     color: inherit;
   }
-  pre[class*="language-"].line-numbers {
+  pre[class|="language"].line-numbers {
     display: block;
     position: relative;
     margin: 0;
@@ -40,7 +40,7 @@ const Section = styled.section`
       background: linear-gradient(to left, ${oc.gray[0]}, ${transparentize(1, oc.gray[0])});
       border-radius: 0 0.5rem 0.5rem 0;
     }
-    code[class*="language-"] {
+    code[class|="language"] {
       position: initial;
       display: block;
       border: none;
