@@ -21,9 +21,6 @@ const Nav = styled.nav`
   height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT_REM}rem);
   margin: 0;
   padding: 0;
-  padding-top: env(safe-area-inset-top, 0);
-  padding-left: env(safe-area-inset-left, 0);
-  padding-right: env(safe-area-inset-right, 0);
   border-bottom: 1px solid ${oc.gray[3]};
   background-color: ${oc.white};
   backdrop-filter: blur(2px);
@@ -51,7 +48,7 @@ const WidthLimiter = styled.div`
 const Left = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  left: env(safe-area-inset-left, 0);
   height: 100%;
   display: flex;
   align-items: center;
@@ -60,7 +57,11 @@ const Left = styled.div`
 const Center = styled.div`
   position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
+  width: calc(100% - env(safe-area-inset-left, 0) - env(safe-area-inset-right, 0));
+  margin: 0 auto;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -70,7 +71,7 @@ const Center = styled.div`
 const Right = styled.div`
   position: absolute;
   top: 0;
-  right: 0;
+  right: env(safe-area-inset-right, 0);
   height: 100%;
   display: flex;
   align-items: center;
