@@ -101,6 +101,19 @@ module.exports = {
           `gatsby-remark-smartypants`,
           `gatsby-remark-autolink-headers`,
           {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1000,
+              backgroundColor: "transparent",
+              quality: 80,
+              withWebp: true,
+              srcSetBreakpoints: [375, 414, 624, 752, 1000],
+              // wrapperStyle(fluid) {
+              //   return `margin: 0 -0.75rem`;
+              // },
+            },
+          },
+          {
             resolve: `gatsby-remark-prismjs`,
             options: {
               classPrefix: `language-`,

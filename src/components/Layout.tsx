@@ -9,20 +9,20 @@ export const ASIDE_BREAK = "xl";
 const Container = styled.div`
   width: 100%;
   margin: 0 auto;
-  padding: 0 0.5rem;
   display: flex;
   justify-content: center;
   ${ApplyBreaks(
     px =>
       css`
         max-width: ${px}px;
+        padding: 0 0.5rem;
       `
   )};
 `;
 const Main = styled.main`
   width: 100%;
-  padding-left: env(safe-area-inset-left, 0);
-  padding-right: env(safe-area-inset-right, 0);
+  padding-left: calc(env(safe-area-inset-left, 0) + 0.75rem);
+  padding-right: calc(env(safe-area-inset-right, 0) + 0.75rem);
   ${ApplyBreaks(
     px =>
       css`

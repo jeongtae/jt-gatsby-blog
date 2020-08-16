@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ApplyBreaks, css } from "../utils/styled-components";
 import { transparentize } from "polished";
 import oc from "open-color";
 
@@ -77,6 +77,18 @@ const Section = styled.section`
       }
     }
   }
+  span.gatsby-resp-image-wrapper {
+    margin: 0.5rem -0.75rem;
+    ${ApplyBreaks(
+      px =>
+        css`
+          margin: 0.5rem auto;
+          border-radius: 0.5rem;
+          overflow: hidden;
+        `,
+      ["sm"]
+    )};
+  }
   a {
     text-decoration: none;
     position: relative;
@@ -99,7 +111,8 @@ const Section = styled.section`
     &:active {
       background-image: linear-gradient(90deg, ${oc.blue[6]} 0%, ${oc.blue[8]} 100%);
     }
-    &.anchor.before {
+    &.anchor.before,
+    &.gatsby-resp-image-link {
       text-shadow: none;
       background: none;
     }
