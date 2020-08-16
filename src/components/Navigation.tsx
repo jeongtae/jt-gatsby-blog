@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
 import { useEffectOnce } from "react-use";
 import Img from "gatsby-image";
+import { throttle } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
@@ -378,7 +379,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   useLayoutEffect(() => {
     let prevScrollY = window.scrollY;
-    const scrollListner = () => {
+    const scrollListner = throttle(() => {
       const classList = navRef.current.classList;
       const newScrollY = Math.max(window.scrollY, 0);
       if (newScrollY < NAV_HEIGHT_PX) {
@@ -394,7 +395,7 @@ const Navigation: React.FC<NavigationProps> = ({
         classList.remove("hidden");
       }
       prevScrollY = newScrollY;
-    };
+    }, 100);
     window.addEventListener("scroll", scrollListner, false);
 
     const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
