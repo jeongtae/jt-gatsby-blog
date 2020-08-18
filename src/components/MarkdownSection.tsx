@@ -76,6 +76,14 @@ const Section = styled.section`
         text-shadow: none;
       }
     }
+    span.gatsby-highlight-code-line {
+      display: block;
+      text-shadow: 0 0 0.2rem ${oc.yellow[4]};
+      &::selection,
+      span::selection {
+        background-color: ${oc.red[3]};
+      }
+    }
   }
   span.gatsby-resp-image-wrapper {
     margin: 0.5rem -0.75rem;
