@@ -187,6 +187,38 @@ const Section = styled.section`
       }
     }
   }
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-left: 0.75rem;
+    font-weight: 500;
+    ${ApplyBreaks(
+      px =>
+        css`
+          margin-left: 0;
+        `,
+      ["sm"]
+    )}
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+  }
+  h5 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  h6 {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
 `;
 
 type Props = {
