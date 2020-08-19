@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
 import { transparentize } from "polished";
 import oc from "open-color";
@@ -172,14 +172,37 @@ const Section = styled.section`
       text-align: right;
     }
   }
+  div.hidden-heading-anchor {
+    position: relative;
+    height: 0;
+    top: -10rem;
+    visibility: hidden;
+  }
 `;
 
 type Props = {
   html: string;
 };
 
-const MarkdownSection: React.FC<Props> = ({ html }) => {
-  return <Section dangerouslySetInnerHTML={{ __html: html }} />;
-};
+const MarkdownSection: React.FC<Props> = React.forwardRef(({ html }, ref) => {
+  let markdownRef = useRef<HTMLElement>();
+  if (ref) markdownRef = ref as any;
+  useLayoutEffect(() => {
+    const markdown = markdownRef.current;
+    const appendedHiddenElements: HTMLElement[] = [];
+    markdown.querySelectorAll("h2, h3, h4, h5, h6").forEach(heading => {
+      const hiddenElement = document.createElement("div");
+      hiddenElement.id = heading.id;
+      hiddenElement.classList.add("hidden-heading-anchor");
+      heading.parentElement.insertBefore(hiddenElement, heading);
+      appendedHiddenElements.push(hiddenElement);
+    });
+    return () => {
+      appendedHiddenElements.forEach(element => element.remove());
+      appendedHiddenElements.length = 0;
+    };
+  }, []);
+  return <Section ref={markdownRef} dangerouslySetInnerHTML={{ __html: html }} />;
+});
 
 export default MarkdownSection;
