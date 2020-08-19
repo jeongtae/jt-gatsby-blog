@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import oc from "open-color";
 import styled, { GlobalStyle, ApplyBreaks, css, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps } from "./Navigation";
 import NoScript from "./NoScript";
+import { debounce } from "lodash";
 
 export const ASIDE_BREAK = "xl";
 
@@ -45,10 +46,12 @@ const AsidePadder = styled.div`
 const Aside = styled.aside`
   display: none;
   padding-right: env(safe-area-inset-right, 0);
+  transition: transform 500ms ease-in-out;
   ${ApplyBreaks(
     px =>
       css`
         display: block;
+        height: fit-content;
         width: ${breaks[ASIDE_BREAK] - breaks["lg"]}px;
       `,
     [ASIDE_BREAK]
@@ -96,15 +99,57 @@ const Layout: React.FC<{
   navigationProps?: NavigationProps;
   asideChildren?: React.ReactNode;
 }> = ({ children, navigationProps, asideChildren }) => {
+  const asideRef = useRef<HTMLElement>();
+  const navRef = useRef<HTMLElement>();
+
+  useEffect(() => {
+    let asideY = 0;
+    const updateAsideY = () => {
+      const aside = asideRef.current;
+      if (!aside) return;
+      const asideHeight = aside.clientHeight;
+      const nav = navRef.current;
+      const navHeight = nav.clientHeight;
+      const body = document.body;
+      const html = document.documentElement;
+      const documentHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      const windowHeight = window.innerHeight;
+      const windowY = Math.min(window.scrollY, documentHeight - windowHeight);
+      if (windowY + windowHeight > asideY + (asideHeight + navHeight)) {
+        asideY = Math.min(windowY, windowY + windowHeight - (asideHeight + navHeight));
+      } else if (windowY < asideY) {
+        asideY = windowY;
+      }
+      if (windowY + windowHeight > documentHeight - 100) {
+        asideY = Math.min(
+          documentHeight - windowHeight,
+          documentHeight - (asideHeight + navHeight)
+        );
+      } else if (windowY < 100) {
+        asideY = 0;
+      }
+      aside.style.transform = `translateY(${asideY}px)`;
+    };
+    const listener = debounce(updateAsideY, 500);
+    document.addEventListener("scroll", listener, false);
+    return () => document.removeEventListener("scroll", listener);
+  }, []);
+
   return (
     <>
       <GlobalStyle />
-      <Navigation {...(navigationProps || {})} />
+      <Navigation {...(navigationProps || {})} ref={navRef} />
       <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
       <Container>
         {asideChildren && <AsidePadder />}
         <Main>{children}</Main>
-        {asideChildren && <Aside>{asideChildren}</Aside>}
+        {asideChildren && <Aside ref={asideRef}>{asideChildren}</Aside>}
       </Container>
       <Footer>
         <ul>
