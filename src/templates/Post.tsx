@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Link, PageProps, graphql } from "gatsby";
 import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
@@ -15,9 +15,10 @@ import Layout, { ASIDE_BREAK } from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 import SEO from "../components/SEO";
-import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faList } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { throttle } from "lodash";
 
 const Title = styled.h1`
   margin: 2rem 0.5rem 0;
@@ -193,7 +194,11 @@ const Buttons = styled.div`
   }
 `;
 
-const PartListBoxInMain = styled.section`
+const AsideBox = styled.div`
+  position: fixed;
+`;
+const AsideBoxItemInMain = styled.section`
+  margin: 2rem 0.5rem 1rem;
   ${ApplyBreaks(
     px => css`
       display: none;
@@ -201,16 +206,14 @@ const PartListBoxInMain = styled.section`
     [ASIDE_BREAK]
   )};
 `;
-
-const PartListBoxInAside = styled.section`
+const AsideBoxItemInAside = styled.section`
   margin: 2rem 0.5rem 1rem;
   > p {
     justify-content: center;
     text-align: end;
   }
 `;
-
-const PartListHeader = styled.p`
+const AsideBoxItemHeader = styled.p`
   margin: 0;
   padding: 0;
   font-size: 1.25rem;
@@ -221,6 +224,7 @@ const PartListHeader = styled.p`
     margin: 0 0.3rem;
   }
 `;
+
 const PartList = styled.ol`
   display: block;
   max-width: ${breaks["sm"]}px;
@@ -249,6 +253,8 @@ const Part = styled.li`
     align-items: center;
     font-size: 0.9rem;
     color: inherit;
+    transition: 100ms ease-in-out;
+    transition-property: background-color, color;
     &::before {
       content: counter(part-list);
       width: 1.2rem;
@@ -266,7 +272,93 @@ const Part = styled.li`
         background-color: ${oc.gray[1]};
         color: ${oc.gray[9]};
         &::before {
-          color: ${oc.gray[9]};
+          color: inherit;
+        }
+      }
+    }
+  }
+`;
+
+const Toc = styled.div`
+  ul {
+    max-width: ${breaks["sm"]}px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    margin: 0;
+    padding: 0;
+    color: ${oc.gray[6]};
+    font-weight: 300;
+    &.highlighted {
+      color: ${oc.gray[9]};
+      font-weight: 500;
+      > a::before,
+      > p > a::before {
+        content: "\\2022";
+      }
+    }
+  }
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    display: inline-flex;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    text-decoration: none;
+    align-items: center;
+    font-size: 0.9rem;
+    color: inherit;
+    transition: 100ms ease-in-out;
+    transition-property: background-color, color;
+    &::before {
+      width: 1.2rem;
+      margin-left: -0.2rem;
+      margin-right: 0.1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    &:link,
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
+        &::before {
+          color: inherit;
+        }
+      }
+    }
+  }
+  /* List H1 */
+  > ul {
+    counter-reset: toc-h1;
+    > li {
+      > a,
+      > p > a {
+        counter-increment: toc-h1;
+        &::before {
+          content: counter(toc-h1);
+        }
+      }
+      /* List H2 */
+      > ul {
+        margin-left: 1rem;
+        counter-reset: toc-h2;
+        > li {
+          > a,
+          > p > a {
+            counter-increment: toc-h2;
+            &::before {
+              content: counter(toc-h2);
+            }
+          }
         }
       }
     }
@@ -284,6 +376,7 @@ type PageData = {
   post: {
     excerpt: string;
     html: string;
+    tableOfContents: string;
     frontmatter?: MarkdownRemarkFrontmatterExtended;
   };
   allTag: {
@@ -296,13 +389,16 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const { site, post, allTag, profileFile } = data;
   const { slug, parts } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
+  const tocRef = useRef<HTMLDivElement>();
+  const markdownRef = useRef<HTMLElement>();
+  const asideRef = useRef<HTMLDivElement>();
 
   const PartListFragment = (
     <>
-      <PartListHeader>
+      <AsideBoxItemHeader>
         <FontAwesomeIcon icon={faCopy} />
         <span>이어지는 글</span>
-      </PartListHeader>
+      </AsideBoxItemHeader>
       <PartList>
         {parts.map(part => (
           <Part key={part.slug} className={part.slug === slug ? "highlighted" : ""}>
@@ -312,11 +408,54 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       </PartList>
     </>
   );
-  const Aside = (
-    <div>{parts?.length > 0 && <PartListBoxInAside>{PartListFragment}</PartListBoxInAside>}</div>
+  const TocFragment = (
+    <>
+      <AsideBoxItemHeader>
+        <FontAwesomeIcon icon={faList} />
+        <span>목차</span>
+      </AsideBoxItemHeader>
+      <Toc ref={tocRef} dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+    </>
   );
+
+  useEffect(() => {
+    const headings = markdownRef.current.querySelectorAll("h2, h3");
+    const tocListItems = tocRef.current?.querySelectorAll("li") ?? [];
+    const scrollListner = throttle(() => {
+      const highlightIndex =
+        Array.prototype.filter.call(
+          headings,
+          heading => (heading as HTMLElement).offsetTop < window.pageYOffset
+        ).length - 1;
+      tocListItems.forEach((li, index) => {
+        if (index === highlightIndex) {
+          li.classList.add("highlighted");
+        } else {
+          li.classList.remove("highlighted");
+        }
+      });
+    }, 100);
+    document.addEventListener("scroll", scrollListner, false);
+
+    return () => {
+      document.removeEventListener("scroll", scrollListner);
+    };
+  }, []);
+
   return (
-    <Layout navigationProps={{ title: post.frontmatter.title }} asideChildren={Aside}>
+    <Layout
+      navigationProps={{ title: post.frontmatter.title }}
+      asideChildren={
+        <AsideBox ref={asideRef}>
+          {parts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
+          {post.tableOfContents && (
+            <AsideBoxItemInAside style={{ top: 0, position: "sticky" }}>
+              {TocFragment}
+            </AsideBoxItemInAside>
+          )}
+        </AsideBox>
+      }
+    >
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
@@ -351,8 +490,9 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </button>
         </Buttons>
       </AdditionalBox>
-      {parts?.length > 0 && <PartListBoxInMain>{PartListFragment}</PartListBoxInMain>}
-      <MarkdownSection html={post.html} />
+      {parts?.length > 0 && <AsideBoxItemInMain>{PartListFragment}</AsideBoxItemInMain>}
+      {post.tableOfContents && <AsideBoxItemInMain>{TocFragment}</AsideBoxItemInMain>}
+      <MarkdownSection ref={markdownRef} html={post.html} />
     </Layout>
   );
 };
@@ -378,6 +518,7 @@ export const query = graphql`
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       excerpt(pruneLength: 180)
       html
+      tableOfContents
       frontmatter {
         title
         description
