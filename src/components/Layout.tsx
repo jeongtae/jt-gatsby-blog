@@ -46,7 +46,7 @@ const AsidePadder = styled.div`
 const Aside = styled.aside`
   display: none;
   padding-right: env(safe-area-inset-right, 0);
-  transition: transform 500ms ease-in-out;
+  transition: transform 200ms ease-in-out;
   ${ApplyBreaks(
     px =>
       css`
@@ -136,7 +136,7 @@ const Layout: React.FC<{
       }
       aside.style.transform = `translateY(${asideY}px)`;
     };
-    const listener = debounce(updateAsideY, 500);
+    const listener = debounce(updateAsideY, 200);
     document.addEventListener("scroll", listener, false);
     return () => document.removeEventListener("scroll", listener);
   }, []);
