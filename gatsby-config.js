@@ -95,6 +95,7 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         tableOfContents: {
+          absolute: false,
           maxDepth: 3,
         },
         plugins: [
