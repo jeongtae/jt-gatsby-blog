@@ -297,6 +297,9 @@ const Toc = styled.div`
       }
     }
   }
+  .nothing-highlighted & li {
+    color: ${oc.gray[9]};
+  }
   p {
     margin: 0;
     padding: 0;
@@ -410,19 +413,24 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <FontAwesomeIcon icon={faList} />
         <span>목차</span>
       </AsideBoxItemHeader>
-      <Toc ref={tocRef} dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+      <Toc dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
     </>
   );
 
   useEffect(() => {
     const bodyHnElements = markdownRef.current.querySelectorAll("h2, h3");
     const tocLiElements = tocRef.current?.querySelectorAll("li") ?? [];
-    const tocHighlightingScrollListener = throttle(() => {
+    const updateTocHighlighting = () => {
       const highlightingTocLiIndex =
         Array.prototype.filter.call(
           bodyHnElements,
-          bodyHnElement => (bodyHnElement as HTMLHeadingElement).offsetTop < window.pageYOffset
+          bodyHnElement => document.getElementById(bodyHnElement.id).offsetTop < window.pageYOffset
         ).length - 1;
+      if (highlightingTocLiIndex < 0) {
+        tocRef.current?.classList.add("nothing-highlighted");
+      } else {
+        tocRef.current?.classList.remove("nothing-highlighted");
+      }
       tocLiElements.forEach((tocLiElement, tocLiIndex) => {
         if (tocLiIndex === highlightingTocLiIndex) {
           tocLiElement.classList.add("highlighted");
@@ -430,9 +438,11 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           tocLiElement.classList.remove("highlighted");
         }
       });
-    }, 300);
-    document.addEventListener("scroll", tocHighlightingScrollListener, false);
-    return () => document.removeEventListener("scroll", tocHighlightingScrollListener);
+    };
+    updateTocHighlighting();
+    const listener = throttle(updateTocHighlighting, 300);
+    document.addEventListener("scroll", listener, false);
+    return () => document.removeEventListener("scroll", listener);
   }, []);
 
   return (
@@ -441,7 +451,9 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       asideChildren={
         <>
           {parts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
-          {post.tableOfContents && <AsideBoxItemInAside>{TocFragment}</AsideBoxItemInAside>}
+          {post.tableOfContents && (
+            <AsideBoxItemInAside ref={tocRef}>{TocFragment}</AsideBoxItemInAside>
+          )}
         </>
       }
     >
@@ -480,7 +492,9 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         </Buttons>
       </AdditionalBox>
       {parts?.length > 0 && <AsideBoxItemInMain>{PartListFragment}</AsideBoxItemInMain>}
-      {post.tableOfContents && <AsideBoxItemInMain>{TocFragment}</AsideBoxItemInMain>}
+      {post.tableOfContents && (
+        <AsideBoxItemInMain className="nothing-highlighted">{TocFragment}</AsideBoxItemInMain>
+      )}
       <MarkdownSection ref={markdownRef} html={post.html} />
     </Layout>
   );
