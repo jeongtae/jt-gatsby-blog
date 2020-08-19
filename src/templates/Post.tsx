@@ -4,6 +4,7 @@ import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
 import copy from "copy-to-clipboard";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
+import { throttle } from "lodash";
 import {
   SiteSiteMetadata,
   MarkdownRemarkFrontmatter,
@@ -18,7 +19,6 @@ import SEO from "../components/SEO";
 import { faLink, faList } from "@fortawesome/free-solid-svg-icons";
 import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { throttle } from "lodash";
 
 const Title = styled.h1`
   margin: 2rem 0.5rem 0;
@@ -194,9 +194,6 @@ const Buttons = styled.div`
   }
 `;
 
-const AsideBox = styled.div`
-  position: fixed;
-`;
 const AsideBoxItemInMain = styled.section`
   margin: 2rem 0.5rem 1rem;
   ${ApplyBreaks(
@@ -391,7 +388,6 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
   const tocRef = useRef<HTMLDivElement>();
   const markdownRef = useRef<HTMLElement>();
-  const asideRef = useRef<HTMLDivElement>();
 
   const PartListFragment = (
     <>
@@ -419,41 +415,34 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   );
 
   useEffect(() => {
-    const headings = markdownRef.current.querySelectorAll("h2, h3");
-    const tocListItems = tocRef.current?.querySelectorAll("li") ?? [];
-    const scrollListner = throttle(() => {
-      const highlightIndex =
+    const bodyHnElements = markdownRef.current.querySelectorAll("h2, h3");
+    const tocLiElements = tocRef.current?.querySelectorAll("li") ?? [];
+    const tocHighlightingScrollListener = throttle(() => {
+      const highlightingTocLiIndex =
         Array.prototype.filter.call(
-          headings,
-          heading => (heading as HTMLElement).offsetTop < window.pageYOffset
+          bodyHnElements,
+          bodyHnElement => (bodyHnElement as HTMLHeadingElement).offsetTop < window.pageYOffset
         ).length - 1;
-      tocListItems.forEach((li, index) => {
-        if (index === highlightIndex) {
-          li.classList.add("highlighted");
+      tocLiElements.forEach((tocLiElement, tocLiIndex) => {
+        if (tocLiIndex === highlightingTocLiIndex) {
+          tocLiElement.classList.add("highlighted");
         } else {
-          li.classList.remove("highlighted");
+          tocLiElement.classList.remove("highlighted");
         }
       });
-    }, 100);
-    document.addEventListener("scroll", scrollListner, false);
-
-    return () => {
-      document.removeEventListener("scroll", scrollListner);
-    };
+    }, 300);
+    document.addEventListener("scroll", tocHighlightingScrollListener, false);
+    return () => document.removeEventListener("scroll", tocHighlightingScrollListener);
   }, []);
 
   return (
     <Layout
       navigationProps={{ title: post.frontmatter.title }}
       asideChildren={
-        <AsideBox ref={asideRef}>
+        <>
           {parts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
-          {post.tableOfContents && (
-            <AsideBoxItemInAside style={{ top: 0, position: "sticky" }}>
-              {TocFragment}
-            </AsideBoxItemInAside>
-          )}
-        </AsideBox>
+          {post.tableOfContents && <AsideBoxItemInAside>{TocFragment}</AsideBoxItemInAside>}
+        </>
       }
     >
       <SEO
