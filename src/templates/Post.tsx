@@ -274,6 +274,7 @@ const Part = styled.li`
 `;
 
 interface MarkdownRemarkFrontmatterExtended extends MarkdownRemarkFrontmatter {
+  dateFormal?: string;
   dateFromNow?: string;
 }
 type PageData = {
@@ -333,7 +334,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
               <p className="name">{site.siteMetadata.author}</p>
             </Link>
           </address>
-          <time>
+          <time dateTime={post.frontmatter.dateFormal}>
             <ul>
               <li>{post.frontmatter.dateFromNow}</li>
               <li>{post.frontmatter.date}</li>
@@ -382,6 +383,7 @@ export const query = graphql`
         description
         tags
         date(formatString: "YYYY년 M월 D일")
+        dateFormal: date(formatString: "YYYY-MM-DD")
         dateFromNow: date(locale: "ko", fromNow: true)
       }
     }
