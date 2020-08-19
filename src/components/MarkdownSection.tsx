@@ -177,11 +177,21 @@ const Section = styled.section`
     height: 0;
     top: -10rem;
     visibility: hidden;
+    &:target {
+      + h2,
+      + h3,
+      + h4,
+      + h5,
+      + h6 {
+        animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+      }
+    }
   }
 `;
 
 type Props = {
   html: string;
+  ref: React.Ref<HTMLElement>;
 };
 
 const MarkdownSection: React.FC<Props> = React.forwardRef(({ html }, ref) => {
