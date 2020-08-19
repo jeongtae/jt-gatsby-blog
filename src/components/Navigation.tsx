@@ -343,157 +343,156 @@ export type NavigationProps = {
   showSearchInput?: boolean;
   searchInputValue?: string;
   onChangeSearchInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  ref?: React.Ref<HTMLElement>;
 };
-const Navigation: React.FC<NavigationProps> = ({
-  title,
-  showSearchInput,
-  searchInputValue,
-  onChangeSearchInput,
-}) => {
-  const data = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
+const Navigation: React.FC<NavigationProps> = React.forwardRef(
+  ({ title, showSearchInput, searchInputValue, onChangeSearchInput }, ref) => {
+    const data = useStaticQuery(
+      graphql`
+        query {
+          site {
+            siteMetadata {
+              title
+            }
           }
-        }
-        logoFile: file(relativePath: { eq: "logo.png" }) {
-          childImageSharp {
-            fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
-              ...GatsbyImageSharpFluid_withWebp_tracedSVG
+          logoFile: file(relativePath: { eq: "logo.png" }) {
+            childImageSharp {
+              fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
+                ...GatsbyImageSharpFluid_withWebp_tracedSVG
+              }
             }
           }
         }
-      }
-    `
-  ) as { site: Site; logoFile: File };
-  const [isMenuExpanded, setIsMenuExpanded] = useState(false);
-  const [isWideScreen, setIsWideScreen] = useState(false);
-  const navRef = useRef<HTMLElement>();
-  const searchInputRef = useRef<HTMLInputElement>();
+      `
+    ) as { site: Site; logoFile: File };
+    const [isMenuExpanded, setIsMenuExpanded] = useState(false);
+    const [isWideScreen, setIsWideScreen] = useState(false);
+    let navRef = useRef<HTMLElement>();
+    if (ref) navRef = ref as any;
+    const searchInputRef = useRef<HTMLInputElement>();
 
-  useEffectOnce(() => {
-    searchInputRef.current?.focus();
-  });
+    useEffectOnce(() => {
+      searchInputRef.current?.focus();
+    });
 
-  useLayoutEffect(() => {
-    let prevScrollY = window.scrollY;
-    const scrollListner = throttle(() => {
-      const classList = navRef.current.classList;
-      const newScrollY = Math.max(window.scrollY, 0);
-      if (newScrollY < NAV_HEIGHT_PX) {
-        classList.remove("hidden");
-        return;
-      }
-      if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT_PX / 2) {
-        return;
-      }
-      if (newScrollY > prevScrollY) {
-        classList.add("hidden");
-      } else {
-        classList.remove("hidden");
-      }
-      prevScrollY = newScrollY;
-    }, 100);
-    document.addEventListener("scroll", scrollListner, false);
+    useLayoutEffect(() => {
+      let prevScrollY = window.scrollY;
+      const scrollListner = throttle(() => {
+        const classList = navRef.current.classList;
+        const newScrollY = Math.max(window.scrollY, 0);
+        if (newScrollY < NAV_HEIGHT_PX) {
+          classList.remove("hidden");
+          return;
+        }
+        if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT_PX / 2) {
+          return;
+        }
+        if (newScrollY > prevScrollY) {
+          classList.add("hidden");
+        } else {
+          classList.remove("hidden");
+        }
+        prevScrollY = newScrollY;
+      }, 100);
+      document.addEventListener("scroll", scrollListner, false);
 
-    const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
-    setIsWideScreen(mql.matches);
-    const mqlListener = (e: MediaQueryListEvent) => {
-      setIsWideScreen(e.matches);
-    };
-    mql.addListener(mqlListener);
-    return () => {
-      mql.removeListener(mqlListener);
-      document.removeEventListener("scroll", scrollListner);
-    };
-  }, []);
+      const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
+      setIsWideScreen(mql.matches);
+      const mqlListener = (e: MediaQueryListEvent) => {
+        setIsWideScreen(e.matches);
+      };
+      mql.addListener(mqlListener);
+      return () => {
+        mql.removeListener(mqlListener);
+        document.removeEventListener("scroll", scrollListner);
+      };
+    }, []);
 
-  return (
-    <Nav ref={navRef}>
-      <WidthLimiter>
-        <Left>
-          <MenuButton
-            className={isMenuExpanded && "expanded"}
-            onClick={() => {
-              setIsMenuExpanded(!isMenuExpanded);
-              searchInputRef.current?.blur();
-            }}
-            onMouseDown={e => e.preventDefault()}
-          >
-            <FontAwesomeIcon icon={faBars} />
-            <FontAwesomeIcon icon={faTimes} />
-          </MenuButton>
-          <LogoButton to="/">
-            <Img fluid={data.logoFile.childImageSharp.fluid} />
-          </LogoButton>
-        </Left>
-        <Center>
-          <Menu className={isMenuExpanded && "expanded"}>
-            <li>
-              <Link
-                to="/"
-                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                onMouseDown={e => e.preventDefault()}
-              >
-                포스트
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                onMouseDown={e => e.preventDefault()}
-              >
-                포트폴리오
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/"
-                tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                onMouseDown={e => e.preventDefault()}
-              >
-                소개
-              </Link>
-            </li>
-          </Menu>
-          <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>
-            {title || data.site.siteMetadata.title}
-          </Title>
-          <SearchInputBox className={isMenuExpanded && "collapsed"} hidden={!showSearchInput}>
-            <input
-              ref={searchInputRef}
-              tabIndex={isMenuExpanded ? -1 : 0}
-              value={searchInputValue}
-              onChange={onChangeSearchInput}
-            />
-            <FontAwesomeIcon icon={faSearch} />
-          </SearchInputBox>
-        </Center>
-        <Right>
-          {showSearchInput ? (
-            <BackButton
-              className={isMenuExpanded && "collapsed"}
-              tabIndex={isMenuExpanded ? -1 : 0}
-              href="javascript:history.back()"
+    return (
+      <Nav ref={navRef}>
+        <WidthLimiter>
+          <Left>
+            <MenuButton
+              className={isMenuExpanded && "expanded"}
+              onClick={() => {
+                setIsMenuExpanded(!isMenuExpanded);
+                searchInputRef.current?.blur();
+              }}
+              onMouseDown={e => e.preventDefault()}
             >
+              <FontAwesomeIcon icon={faBars} />
               <FontAwesomeIcon icon={faTimes} />
-            </BackButton>
-          ) : (
-            <SearchButton
-              className={isMenuExpanded && "collapsed"}
-              tabIndex={isMenuExpanded ? -1 : 0}
-              to="/search"
-            >
+            </MenuButton>
+            <LogoButton to="/">
+              <Img fluid={data.logoFile.childImageSharp.fluid} />
+            </LogoButton>
+          </Left>
+          <Center>
+            <Menu className={isMenuExpanded && "expanded"}>
+              <li>
+                <Link
+                  to="/"
+                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
+                >
+                  포스트
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
+                >
+                  포트폴리오
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/"
+                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
+                >
+                  소개
+                </Link>
+              </li>
+            </Menu>
+            <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>
+              {title || data.site.siteMetadata.title}
+            </Title>
+            <SearchInputBox className={isMenuExpanded && "collapsed"} hidden={!showSearchInput}>
+              <input
+                ref={searchInputRef}
+                tabIndex={isMenuExpanded ? -1 : 0}
+                value={searchInputValue}
+                onChange={onChangeSearchInput}
+              />
               <FontAwesomeIcon icon={faSearch} />
-            </SearchButton>
-          )}
-        </Right>
-      </WidthLimiter>
-    </Nav>
-  );
-};
+            </SearchInputBox>
+          </Center>
+          <Right>
+            {showSearchInput ? (
+              <BackButton
+                className={isMenuExpanded && "collapsed"}
+                tabIndex={isMenuExpanded ? -1 : 0}
+                href="javascript:history.back()"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </BackButton>
+            ) : (
+              <SearchButton
+                className={isMenuExpanded && "collapsed"}
+                tabIndex={isMenuExpanded ? -1 : 0}
+                to="/search"
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </SearchButton>
+            )}
+          </Right>
+        </WidthLimiter>
+      </Nav>
+    );
+  }
+);
 
 export default Navigation;
