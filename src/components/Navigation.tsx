@@ -396,7 +396,7 @@ const Navigation: React.FC<NavigationProps> = ({
       }
       prevScrollY = newScrollY;
     }, 100);
-    window.addEventListener("scroll", scrollListner, false);
+    document.addEventListener("scroll", scrollListner, false);
 
     const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
     setIsWideScreen(mql.matches);
@@ -406,7 +406,7 @@ const Navigation: React.FC<NavigationProps> = ({
     mql.addListener(mqlListener);
     return () => {
       mql.removeListener(mqlListener);
-      window.removeEventListener("scroll", scrollListner);
+      document.removeEventListener("scroll", scrollListner);
     };
   }, []);
 
