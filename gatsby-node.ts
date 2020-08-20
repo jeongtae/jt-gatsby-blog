@@ -91,7 +91,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   const remarks = data.allMarkdownRemark.edges.map(edge => edge.node);
   for (const remark of remarks) {
     const slug = remark.fields.slug;
-    const parts: { slug: string; title: string }[] = [];
+    const partSlugs: string[] = [];
     const partNumber = getPartNumber(slug);
     if (partNumber >= 0) {
       const partTitle = getPartTitle(slug);
@@ -105,16 +105,14 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
         else if (number1 < number2) return -1;
         else return 0;
       });
-      filteredParts.forEach(part =>
-        parts.push({ slug: part.fields.slug, title: part.frontmatter.title })
-      );
+      filteredParts.forEach(part => partSlugs.push(part.fields.slug));
     }
 
     createPage({
       path: `/${slug}`,
       context: {
         slug,
-        parts,
+        partSlugs,
       },
       component: resolve("./src/templates/Post.tsx"),
     });

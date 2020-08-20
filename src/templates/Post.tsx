@@ -379,6 +379,12 @@ type PageData = {
     tableOfContents: string;
     frontmatter?: MarkdownRemarkFrontmatterExtended;
   };
+  partPosts: {
+    nodes: {
+      fields: { slug: string };
+      frontmatter?: { title: string };
+    }[];
+  };
   allTag: {
     nodes: Tag[];
   };
@@ -386,8 +392,14 @@ type PageData = {
 };
 
 const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
-  const { site, post, allTag, profileFile } = data;
-  const { slug, parts } = pageContext as SitePageContext;
+  const {
+    site,
+    post,
+    allTag,
+    profileFile,
+    partPosts: { nodes: partPosts },
+  } = data;
+  const { slug } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
   const tocRef = useRef<HTMLDivElement>();
   const markdownRef = useRef<HTMLElement>();
@@ -399,9 +411,9 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <span>이어지는 글</span>
       </AsideBoxItemHeader>
       <PartList>
-        {parts.map(part => (
-          <Part key={part.slug} className={part.slug === slug ? "highlighted" : ""}>
-            <Link to={`/${part.slug}`}>{part.title}</Link>
+        {partPosts.map(post => (
+          <Part key={post.fields.slug} className={post.fields.slug === slug ? "highlighted" : ""}>
+            <Link to={`/${post.fields.slug}`}>{post.frontmatter.title}</Link>
           </Part>
         ))}
       </PartList>
@@ -450,7 +462,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       navigationProps={{ title: post.frontmatter.title }}
       asideChildren={
         <>
-          {parts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
+          {partPosts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
           {post.tableOfContents && (
             <AsideBoxItemInAside ref={tocRef}>{TocFragment}</AsideBoxItemInAside>
           )}
@@ -491,7 +503,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </button>
         </Buttons>
       </AdditionalBox>
-      {parts?.length > 0 && <AsideBoxItemInMain>{PartListFragment}</AsideBoxItemInMain>}
+      {partPosts?.length > 0 && <AsideBoxItemInMain>{PartListFragment}</AsideBoxItemInMain>}
       {post.tableOfContents && (
         <AsideBoxItemInMain className="nothing-highlighted">{TocFragment}</AsideBoxItemInMain>
       )}
@@ -502,7 +514,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
 export default PostTemplate;
 
 export const query = graphql`
-  query postBySlug($slug: String!) {
+  query postBySlug($slug: String!, $partSlugs: [String]) {
     site {
       siteMetadata {
         author
@@ -529,6 +541,19 @@ export const query = graphql`
         date(formatString: "YYYY년 M월 D일")
         dateFormal: date(formatString: "YYYY-MM-DD")
         dateFromNow: date(locale: "ko", fromNow: true)
+      }
+    }
+    partPosts: allMarkdownRemark(
+      filter: { fields: { slug: { in: $partSlugs } } }
+      sort: { fields: fields___slug, order: ASC }
+    ) {
+      nodes {
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+        }
       }
     }
     profileFile: file(relativePath: { eq: "profile.jpg" }) {
