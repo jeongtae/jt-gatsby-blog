@@ -538,9 +538,7 @@ export const query = graphql`
         title
         description
         tags
-        date(formatString: "YYYY년 M월 D일")
-        dateFormal: date(formatString: "YYYY-MM-DD")
-        dateFromNow: date(locale: "ko", fromNow: true)
+        ...DateFragment
       }
     }
     partPosts: allMarkdownRemark(
@@ -563,5 +561,10 @@ export const query = graphql`
         }
       }
     }
+  }
+  fragment DateFragment on MarkdownRemarkFrontmatter {
+    date(formatString: "YYYY년 M월 D일")
+    dateFormal: date(formatString: "YYYY-MM-DD")
+    dateFromNow: date(locale: "ko", fromNow: true)
   }
 `;
