@@ -103,6 +103,8 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   const allCategoryTag = allTag.filter(tag => tag.group.slug === "category");
   for (const remark of allRemark) {
     const slug = remark.fields.slug;
+    const tagSlugs = remark.frontmatter.tags;
+    const tags = allTag.filter(tag => tagSlugs.includes(tag.slug));
 
     const partSlugs: string[] = [];
     const partNumber = getPartNumber(slug);
@@ -115,28 +117,25 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     }
 
     const categorySlugs: string[] = [];
-    const tagSlugs = remark.frontmatter.tags;
-    if (tagSlugs?.length) {
-      const categoryTags = allCategoryTag.filter(({ slug }) => tagSlugs.includes(slug));
-      if (categoryTags.length) {
-        const categoryRemarks = allRemark.filter(testRemark => {
-          const testTagSlugs = testRemark.frontmatter.tags;
-          const testCategoryTags = allCategoryTag.filter(({ slug }) => testTagSlugs.includes(slug));
-          let isPassed = true;
-          if (categoryTags.length !== testCategoryTags.length) {
-            isPassed = false;
-          } else {
-            for (const categoryTag of categoryTags) {
-              if (testCategoryTags.includes(categoryTag) === false) {
-                isPassed = false;
-                break;
-              }
+    const categoryTags = tags.filter(tag => allCategoryTag.includes(tag));
+    if (categoryTags.length) {
+      const categoryRemarks = allRemark.filter(testRemark => {
+        const testTagSlugs = testRemark.frontmatter.tags;
+        const testCategoryTags = allCategoryTag.filter(({ slug }) => testTagSlugs.includes(slug));
+        let isPassed = true;
+        if (categoryTags.length !== testCategoryTags.length) {
+          isPassed = false;
+        } else {
+          for (const categoryTag of categoryTags) {
+            if (testCategoryTags.includes(categoryTag) === false) {
+              isPassed = false;
+              break;
             }
           }
-          return isPassed;
-        });
-        categoryRemarks.forEach(remark => categorySlugs.push(remark.fields.slug));
-      }
+        }
+        return isPassed;
+      });
+      categoryRemarks.forEach(remark => categorySlugs.push(remark.fields.slug));
     }
 
     createPage({
