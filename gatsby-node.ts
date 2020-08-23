@@ -29,6 +29,7 @@ export function sourceNodes({ actions, createNodeId, createContentDigest }: Sour
     const tagGroup = tagGroups[tagGroupId];
     const node: NodeInput = {
       id: createNodeId(`tagGroup-${tagGroupId}`),
+      slug: tagGroupId,
       name: tagGroup.name,
       color: tagGroup.color,
       tags___NODE: Object.keys(tags)
@@ -54,7 +55,16 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
             }
             frontmatter {
               title
+              tags
             }
+          }
+        }
+      }
+      allTag {
+        nodes {
+          slug
+          group {
+            slug
           }
         }
       }
@@ -89,6 +99,8 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   };
 
   const allRemark = data.allMarkdownRemark.edges.map(edge => edge.node);
+  const allTag = data.allTag.nodes;
+  const allCategoryTag = allTag.filter(tag => tag.group.slug === "category");
   for (const remark of allRemark) {
     const slug = remark.fields.slug;
 
@@ -96,15 +108,35 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     const partNumber = getPartNumber(slug);
     if (partNumber >= 0) {
       const partTitle = getPartTitle(slug);
-      const parts = allRemark.filter(remark => getPartTitle(remark.fields.slug) === partTitle);
-      // parts.sort((part1, part2) => {
-      //   const number1 = getPartNumber(part1.fields.slug);
-      //   const number2 = getPartNumber(part2.fields.slug);
-      //   if (number1 > number2) return 1;
-      //   else if (number1 < number2) return -1;
-      //   else return 0;
-      // });
-      parts.forEach(part => partSlugs.push(part.fields.slug));
+      const partRemarks = allRemark.filter(
+        remark => getPartTitle(remark.fields.slug) === partTitle
+      );
+      partRemarks.forEach(remark => partSlugs.push(remark.fields.slug));
+    }
+
+    const categorySlugs: string[] = [];
+    const tagSlugs = remark.frontmatter.tags;
+    if (tagSlugs?.length) {
+      const categoryTags = allCategoryTag.filter(({ slug }) => tagSlugs.includes(slug));
+      if (categoryTags.length) {
+        const categoryRemarks = allRemark.filter(testRemark => {
+          const testTagSlugs = testRemark.frontmatter.tags;
+          const testCategoryTags = allCategoryTag.filter(({ slug }) => testTagSlugs.includes(slug));
+          let isPassed = true;
+          if (categoryTags.length !== testCategoryTags.length) {
+            isPassed = false;
+          } else {
+            for (const categoryTag of categoryTags) {
+              if (testCategoryTags.includes(categoryTag) === false) {
+                isPassed = false;
+                break;
+              }
+            }
+          }
+          return isPassed;
+        });
+        categoryRemarks.forEach(remark => categorySlugs.push(remark.fields.slug));
+      }
     }
 
     createPage({
@@ -112,6 +144,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
       context: {
         slug,
         partSlugs,
+        categorySlugs,
       },
       component: resolve("./src/templates/Post.tsx"),
     });

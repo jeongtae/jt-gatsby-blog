@@ -385,6 +385,12 @@ type PageData = {
       frontmatter?: { title: string };
     }[];
   };
+  categoryPosts: {
+    nodes: {
+      fields: { slug: string };
+      frontmatter?: MarkdownRemarkFrontmatterExtended;
+    }[];
+  };
   allTag: {
     nodes: Tag[];
   };
@@ -398,6 +404,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     allTag,
     profileFile,
     partPosts: { nodes: partPosts },
+    categoryPosts: { nodes: categoryPosts },
   } = data;
   const { slug } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
@@ -430,6 +437,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   );
 
   useEffect(() => {
+    console.log(
+      "CATEGORY",
+      categoryPosts.map(p => p.frontmatter.title)
+    );
     const bodyHnElements = markdownRef.current.querySelectorAll("h2, h3");
     const tocLiElements = tocRef.current?.querySelectorAll("li") ?? [];
     const updateTocHighlighting = () => {
@@ -514,7 +525,11 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
 export default PostTemplate;
 
 export const query = graphql`
-  query postBySlug($slug: String!, $partSlugs: [String]) {
+  query postBySlug(
+    $slug: String!
+    $partSlugs: [String]
+    $categorySlugs: [String]
+  ) {
     site {
       siteMetadata {
         author
@@ -551,6 +566,20 @@ export const query = graphql`
         }
         frontmatter {
           title
+        }
+      }
+    }
+    categoryPosts: allMarkdownRemark(
+      filter: { fields: { slug: { in: $categorySlugs } } }
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
+      nodes {
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+          ...DateFragment
         }
       }
     }
