@@ -397,6 +397,12 @@ type PageData = {
       frontmatter?: MarkdownRemarkFrontmatterExtended;
     }[];
   };
+  relatedPosts: {
+    nodes: {
+      fields: { slug: string };
+      frontmatter?: MarkdownRemarkFrontmatterExtended;
+    }[];
+  };
   allTag: {
     nodes: Tag[];
   };
@@ -412,6 +418,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     partPosts: { nodes: partPosts },
     categoryPosts: { nodes: categoryPosts },
     recentPosts: { nodes: recentPosts },
+    relatedPosts: { nodes: relatedPosts },
   } = data;
   const { slug } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
@@ -451,6 +458,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     console.log(
       "RECENT",
       recentPosts.map(p => p.frontmatter.title)
+    );
+    console.log(
+      "RELATED",
+      relatedPosts.map(p => p.frontmatter.title)
     );
     const bodyHnElements = markdownRef.current.querySelectorAll("h2, h3");
     const tocLiElements = tocRef.current?.querySelectorAll("li") ?? [];
@@ -536,7 +547,12 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
 export default PostTemplate;
 
 export const query = graphql`
-  query postBySlug($slug: String!, $partSlugs: [String], $categorySlugs: [String]) {
+  query postBySlug(
+    $slug: String!
+    $partSlugs: [String]
+    $categorySlugs: [String]
+    $relatedSlugs: [String]
+  ) {
     site {
       siteMetadata {
         author
@@ -591,6 +607,20 @@ export const query = graphql`
       }
     }
     recentPosts: allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }, limit: 5) {
+      nodes {
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+          ...DateFragment
+        }
+      }
+    }
+    relatedPosts: allMarkdownRemark(
+      filter: { fields: { slug: { in: $relatedSlugs } } }
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       nodes {
         fields {
           slug

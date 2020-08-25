@@ -56,6 +56,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
             frontmatter {
               title
               tags
+              relatedTags
             }
           }
         }
@@ -104,7 +105,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   for (const remark of allRemark) {
     const slug = remark.fields.slug;
     const tagSlugs = remark.frontmatter.tags;
-    const tags = allTag.filter(tag => tagSlugs.includes(tag.slug));
+    const tags = allTag.filter(tag => tagSlugs?.includes(tag.slug));
 
     const partSlugs: string[] = [];
     const partNumber = getPartNumber(slug);
@@ -138,12 +139,49 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
       categoryRemarks.forEach(remark => categorySlugs.push(remark.fields.slug));
     }
 
+    const relatedSlugs: string[] = [];
+    const relatedTagSlugs = remark.frontmatter.relatedTags;
+    const nonCategoryTags = tags.filter(tag => !allCategoryTag.includes(tag));
+    if (relatedTagSlugs?.length) {
+      const relatedRemarks = allRemark.filter(testRemark => {
+        const testTagSlugs = testRemark.frontmatter.tags;
+        let isPassed = true;
+        if (relatedTagSlugs.length > testTagSlugs.length) {
+          isPassed = false;
+        } else {
+          for (const relatedTagSlug of relatedTagSlugs) {
+            if (testTagSlugs.includes(relatedTagSlug) === false) {
+              isPassed = false;
+              break;
+            }
+          }
+        }
+        return isPassed;
+      });
+      relatedRemarks.forEach(remark => relatedSlugs.push(remark.fields.slug));
+    } else if (nonCategoryTags.length) {
+      let relatedRemarks = [...allRemark];
+      for (const nonCategoryTag of nonCategoryTags) {
+        const newRelatedRemarks = relatedRemarks.filter(testRemark =>
+          testRemark.frontmatter?.tags.includes(nonCategoryTag.slug)
+        );
+        if (newRelatedRemarks.length > 5) {
+          relatedRemarks = newRelatedRemarks;
+          continue;
+        } else {
+          break;
+        }
+      }
+      relatedRemarks.forEach(remark => relatedSlugs.push(remark.fields.slug));
+    }
+
     createPage({
       path: `/${slug}`,
       context: {
         slug,
         partSlugs,
         categorySlugs,
+        relatedSlugs,
       },
       component: resolve("./src/templates/Post.tsx"),
     });
