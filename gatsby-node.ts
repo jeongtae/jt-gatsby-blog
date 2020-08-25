@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import { CreatePagesArgs, CreateNodeArgs, SourceNodesArgs, NodeInput } from "gatsby";
 import { createFilePath } from "gatsby-source-filesystem";
+import { intersection, difference, isEqual } from "lodash";
 import config from "./contents/configs/config";
 
 /* Make inversed the commented states of 2 lines below if you have a generated *.d.ts file */
@@ -102,10 +103,10 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
   const allRemark = data.allMarkdownRemark.edges.map(edge => edge.node);
   const allTag = data.allTag.nodes;
   const allCategoryTag = allTag.filter(tag => tag.group.slug === "category");
+  const allCategoryTagSlug = allCategoryTag.map(({ slug }) => slug);
   for (const remark of allRemark) {
     const slug = remark.fields.slug;
-    const tagSlugs = remark.frontmatter.tags;
-    const tags = allTag.filter(tag => tagSlugs?.includes(tag.slug));
+    const tagSlugs = remark.frontmatter.tags ?? [];
 
     const partSlugs: string[] = [];
     const partNumber = getPartNumber(slug);
@@ -118,61 +119,43 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
     }
 
     const categorySlugs: string[] = [];
-    const categoryTags = tags.filter(tag => allCategoryTag.includes(tag));
-    if (categoryTags.length) {
+    const categoryTagSlugs = intersection(tagSlugs, allCategoryTagSlug);
+    if (categoryTagSlugs.length) {
       const categoryRemarks = allRemark.filter(testRemark => {
-        const testTagSlugs = testRemark.frontmatter.tags;
-        const testCategoryTags = allCategoryTag.filter(({ slug }) => testTagSlugs.includes(slug));
-        let isPassed = true;
-        if (categoryTags.length !== testCategoryTags.length) {
-          isPassed = false;
-        } else {
-          for (const categoryTag of categoryTags) {
-            if (testCategoryTags.includes(categoryTag) === false) {
-              isPassed = false;
-              break;
-            }
-          }
-        }
-        return isPassed;
+        const testCategoryTagSlugs = intersection(allCategoryTagSlug, testRemark.frontmatter.tags);
+        return isEqual(categoryTagSlugs, testCategoryTagSlugs);
       });
       categoryRemarks.forEach(remark => categorySlugs.push(remark.fields.slug));
     }
 
     const relatedSlugs: string[] = [];
-    const relatedTagSlugs = remark.frontmatter.relatedTags;
-    const nonCategoryTags = tags.filter(tag => !allCategoryTag.includes(tag));
-    if (relatedTagSlugs?.length) {
+    const relatedTagSlugs = remark.frontmatter.relatedTags ?? [];
+    const nonCategoryTagSlugs = difference(tagSlugs, allCategoryTagSlug);
+    if (relatedTagSlugs.length) {
       const relatedRemarks = allRemark.filter(testRemark => {
         const testTagSlugs = testRemark.frontmatter.tags;
-        let isPassed = true;
-        if (relatedTagSlugs.length > testTagSlugs.length) {
-          isPassed = false;
-        } else {
-          for (const relatedTagSlug of relatedTagSlugs) {
-            if (testTagSlugs.includes(relatedTagSlug) === false) {
-              isPassed = false;
-              break;
-            }
-          }
-        }
-        return isPassed;
+        const testSlug = testRemark.fields.slug;
+        return slug !== testSlug && difference(relatedTagSlugs, testTagSlugs).length === 0;
       });
       relatedRemarks.forEach(remark => relatedSlugs.push(remark.fields.slug));
-    } else if (nonCategoryTags.length) {
+    } else if (nonCategoryTagSlugs.length) {
       let relatedRemarks = [...allRemark];
-      for (const nonCategoryTag of nonCategoryTags) {
-        const newRelatedRemarks = relatedRemarks.filter(testRemark =>
-          testRemark.frontmatter?.tags.includes(nonCategoryTag.slug)
+      for (const nonCategoryTagSlug of nonCategoryTagSlugs) {
+        const newRelatedRemarks = relatedRemarks.filter(
+          testRemark =>
+            testRemark.frontmatter.tags?.includes(nonCategoryTagSlug) &&
+            testRemark.fields.slug !== slug
         );
-        if (newRelatedRemarks.length > 5) {
+        if (newRelatedRemarks.length > 5 || relatedRemarks.length === allRemark.length) {
           relatedRemarks = newRelatedRemarks;
           continue;
         } else {
           break;
         }
       }
-      relatedRemarks.forEach(remark => relatedSlugs.push(remark.fields.slug));
+      if (relatedRemarks.length !== allRemark.length) {
+        relatedRemarks.forEach(remark => relatedSlugs.push(remark.fields.slug));
+      }
     }
 
     createPage({
