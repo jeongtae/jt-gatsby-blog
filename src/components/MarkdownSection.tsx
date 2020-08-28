@@ -14,7 +14,8 @@ const Section = styled.section`
     border: 1px solid ${oc.gray[3]};
     border-radius: 0.25rem;
     background-color: ${oc.gray[0]};
-    font-size: 0.9rem;
+    font-size: 0.9em;
+    font-weight: 400;
     text-shadow: none;
     white-space: normal;
     color: inherit;
@@ -147,6 +148,15 @@ const Section = styled.section`
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1.5;
+    &[align="center"] {
+      text-align: center;
+    }
+    &[align="left"] {
+      text-align: left;
+    }
+    &[align="right"] {
+      text-align: right;
+    }
   }
   tr {
     transition: background-color ease-in-out 100ms;
@@ -173,6 +183,9 @@ const Section = styled.section`
     }
     &[align="right"] {
       text-align: right;
+    }
+    &[rowspan] {
+      vertical-align: middle;
     }
   }
   div.hidden-heading-anchor {
