@@ -440,7 +440,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/portfolio"
                   tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
                   onMouseDown={e => e.preventDefault()}
                 >
@@ -449,7 +449,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/about"
                   tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
                   onMouseDown={e => e.preventDefault()}
                 >
