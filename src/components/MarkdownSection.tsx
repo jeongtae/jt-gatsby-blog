@@ -97,6 +97,9 @@ const Section = styled.section`
       ["sm"]
     )};
   }
+  iframe.embedVideo-iframe {
+    border-radius: 0.5rem;
+  }
   a {
     text-decoration: none;
     position: relative;
