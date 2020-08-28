@@ -378,19 +378,19 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
     useLayoutEffect(() => {
       let prevScrollY = window.scrollY;
       const scrollListner = throttle(() => {
-        const classList = navRef.current.classList;
+        const classList = navRef.current?.classList;
         const newScrollY = Math.max(window.scrollY, 0);
         if (newScrollY < NAV_HEIGHT_PX) {
-          classList.remove("hidden");
+          classList?.remove("hidden");
           return;
         }
         if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT_PX / 2) {
           return;
         }
         if (newScrollY > prevScrollY) {
-          classList.add("hidden");
+          classList?.add("hidden");
         } else {
-          classList.remove("hidden");
+          classList?.remove("hidden");
         }
         prevScrollY = newScrollY;
       }, 100);

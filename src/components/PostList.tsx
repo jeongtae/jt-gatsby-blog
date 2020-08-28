@@ -153,8 +153,8 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 <h1 className="title">{post.frontmatter.title}</h1>
                 <p className="description">{post.frontmatter.description || post.excerpt}</p>
                 <ul className="tags">
-                  {post.frontmatter.tags.map(tagSlug => (
-                    <li key={tagSlug}>{tags.find(tag => tag.slug === tagSlug).name}</li>
+                  {post.frontmatter.tags?.map((tagSlug, index) => (
+                    <li key={index}>{tags.find(tag => tag.slug === tagSlug)?.name ?? tagSlug}</li>
                   ))}
                 </ul>
                 <div className="additional">

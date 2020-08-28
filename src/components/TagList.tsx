@@ -94,7 +94,7 @@ const TagList: React.FC<{ tags: Tag[]; highlightedTagSlug?: string }> = ({
 
   return (
     <List>
-      {tags.map(tag => (
+      {tags?.map(tag => (
         <ListItem
           key={tag.slug}
           className={[
@@ -103,7 +103,7 @@ const TagList: React.FC<{ tags: Tag[]; highlightedTagSlug?: string }> = ({
           ].join(" ")}
         >
           <Link to={`/?tag=${tag.slug}`} onMouseDown={e => e.preventDefault()}>
-            {tag.name} ({posts.filter(post => post.frontmatter.tags.includes(tag.slug)).length})
+            {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length})
           </Link>
         </ListItem>
       ))}
