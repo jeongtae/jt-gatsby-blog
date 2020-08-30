@@ -469,7 +469,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       const highlightingTocLiIndex =
         Array.prototype.filter.call(
           bodyHnElements,
-          bodyHnElement => document.getElementById(bodyHnElement.id).offsetTop < window.pageYOffset
+          bodyHnElement => document.getElementById(bodyHnElement.id)?.offsetTop < window.pageYOffset
         ).length - 1;
       if (highlightingTocLiIndex < 0) {
         tocRef.current?.classList.add("nothing-highlighted");
