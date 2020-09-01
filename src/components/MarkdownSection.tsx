@@ -8,7 +8,6 @@ import prism from "!!raw-loader!./prism.css";
 
 const Section = styled.section`
   ${prism};
-  line-height: 1.5rem;
   code[class|="language"] {
     display: inline;
     padding: 0.1rem 0.25rem;

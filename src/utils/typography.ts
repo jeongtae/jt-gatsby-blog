@@ -31,7 +31,7 @@ export const baseFontSizePx = 16;
 export default new Typography({
   ...wordpressTheme,
   baseFontSize: `${baseFontSizePx}px`,
-  baseLineHeight: 1.5,
+  baseLineHeight: 1.6,
   bodyColor: oc.gray[9],
   googleFonts: [
     {
