@@ -53,6 +53,7 @@ export default new Typography({
   boldWeight: 600,
   overrideThemeStyles({ rhythm }, options) {
     return {
+      body: { fontSize: "1.5rem" },
       ".sans": { fontFamily: sansFontsSerialized },
       ".serif": { fontFamily: serifFontsSerialized },
     } as Style;
