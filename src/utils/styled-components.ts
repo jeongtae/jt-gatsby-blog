@@ -29,7 +29,7 @@ export const breaks: { [breakName in BreakNames]: number } = {
 };
 
 export function ApplyBreaks(
-  callbackfn: (breakValue: number) => FlattenSimpleInterpolation,
+  callbackfn: (breakPx: number) => FlattenSimpleInterpolation,
   includingBreaks?: BreakNames[] | undefined
 ) {
   return css`
@@ -38,7 +38,7 @@ export function ApplyBreaks(
       .map(
         breakName =>
           css`
-            @media only screen and (min-width: ${breaks[breakName]}px) {
+            @media only screen and (min-width: ${breaks[breakName] / 16}em) {
               ${callbackfn(breaks[breakName])}
             }
           `

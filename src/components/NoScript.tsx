@@ -5,21 +5,21 @@ import styled from "../utils/styled-components";
 const StyledNoScript = styled.noscript`
   display: block;
   width: fit-content;
-  margin: 0.5rem auto;
-  padding: 0.667rem 1rem;
+  margin: 0.8rem auto;
+  padding: 1.1rem 1.6rem;
   color: ${oc.red[9]};
   background-color: ${oc.red[1]};
-  border-radius: 1rem;
+  border-radius: 1.6rem;
   p {
     margin: 0;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     font-weight: 500;
   }
   div {
-    margin-top: 0.333rem;
+    margin-top: 0.5rem;
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     font-weight: 300;
   }
 `;

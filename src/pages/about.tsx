@@ -4,9 +4,9 @@ import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 
 const Message = styled.p`
-  margin: 3rem 0;
+  margin: 4.8rem 0;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   font-weight: 500;
 `;
 

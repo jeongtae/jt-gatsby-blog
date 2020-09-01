@@ -21,40 +21,40 @@ import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Title = styled.h1`
-  margin: 2rem 0.5rem 0;
-  font-size: 2.2rem;
+  margin: 3.2rem 0.8rem 0;
+  font-size: 3.5rem;
   font-weight: 500;
   ${ApplyBreaks(
     px => css`
-      margin-top: 3rem;
+      margin-top: 4.8rem;
       text-align: center;
-      font-size: 2.75rem;
+      font-size: 4.4rem;
     `,
     ["sm"]
   )};
 `;
 
 const Description = styled.p`
-  margin: 1rem 0.7rem 0;
+  margin: 1.6rem 1.1rem 0;
   color: ${oc.gray[7]};
-  font-size: 0.9rem;
+  font-size: 1.4rem;
   font-weight: 300;
   ${ApplyBreaks(
     px => css`
-      margin: 1.5rem 10% 0;
+      margin: 2.4rem 10% 0;
       text-align: center;
-      font-size: 1rem;
+      font-size: 1.6rem;
     `,
     ["sm"]
   )};
 `;
 
 const TagListBox = styled.div`
-  margin: 1rem 0.7rem 1rem;
+  margin: 1.6rem 1.1rem 1.6rem;
   display: flex;
   ${ApplyBreaks(
     px => css`
-      margin-top: 1.3rem;
+      margin-top: 2.1rem;
       justify-content: center;
     `,
     ["sm"]
@@ -62,10 +62,10 @@ const TagListBox = styled.div`
 `;
 
 const AdditionalBox = styled.div`
-  margin: 2rem 0.3rem 2.5rem;
+  margin: 3.2rem 0.5rem 4rem;
   padding: 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid ${oc.gray[4]};
+  padding-bottom: 0.8rem;
+  border-bottom: 0.1rem solid ${oc.gray[4]};
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -99,8 +99,8 @@ const NameAndDate = styled.div`
   address {
     a {
       width: fit-content;
-      border-radius: 1.5rem;
-      padding: 0.25rem;
+      border-radius: 2.4rem;
+      padding: 0.4rem;
       display: flex;
       align-items: center;
       text-decoration: none;
@@ -114,25 +114,25 @@ const NameAndDate = styled.div`
         }
       }
       .image {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 4rem;
+        height: 4rem;
         margin: 0;
         padding: 0;
         /* object-fit: cover; */
         border-radius: 50%;
-        border: 0.125rem solid white;
+        border: 0.2rem solid white;
         background-color: ${oc.gray[1]};
       }
       .name {
         margin: 0;
-        margin-left: 0.333rem;
-        margin-right: 0.667rem;
+        margin-left: 0.5rem;
+        margin-right: 1rem;
       }
     }
   }
   time {
     margin: 0;
-    margin-left: 0.5rem;
+    margin-left: 0.8rem;
     color: ${oc.gray[6]};
     ul {
       display: flex;
@@ -145,7 +145,7 @@ const NameAndDate = styled.div`
       padding: 0;
       &::before {
         content: "\\30FB";
-        margin: 0 0.15rem;
+        margin: 0 0.2rem;
       }
       &:first-child::before {
         content: unset;
@@ -158,8 +158,8 @@ const NameAndDate = styled.div`
 const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
-  /* margin-top: 0.5rem; */
-  margin-bottom: 0.5rem;
+  /* margin-top: 0.8rem; */
+  margin-bottom: 0.8rem;
   ${ApplyBreaks(
     px => css`
       margin-bottom: 0;
@@ -168,17 +168,17 @@ const Buttons = styled.div`
   )};
   button {
     border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    border-radius: 0.8rem;
+    padding: 0.8rem 1.2rem;
     appearance: none;
     background: none;
     cursor: pointer;
     font-weight: 300;
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     color: ${oc.gray[7]};
-    margin-right: 0.4rem;
+    margin-right: 0.6rem;
     @media (hover) {
       &:hover {
         background-color: ${oc.gray[1]};
@@ -189,13 +189,13 @@ const Buttons = styled.div`
       margin-right: 0;
     }
     svg {
-      margin-right: 0.3rem;
+      margin-right: 0.5rem;
     }
   }
 `;
 
 const AsideBoxItemInMain = styled.section`
-  margin: 2rem 0.5rem 1rem;
+  margin: 3.2rem 0.8rem 1.6rem;
   ${ApplyBreaks(
     px => css`
       display: none;
@@ -204,7 +204,7 @@ const AsideBoxItemInMain = styled.section`
   )};
 `;
 const AsideBoxItemInAside = styled.section`
-  margin: 2rem 0.5rem 1rem;
+  margin: 3.2rem 0.8rem 1.6rem;
   > p {
     justify-content: center;
     text-align: end;
@@ -213,25 +213,25 @@ const AsideBoxItemInAside = styled.section`
 const AsideBoxItemHeader = styled.p`
   margin: 0;
   padding: 0;
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   > span {
-    margin: 0 0.3rem;
+    margin: 0 0.5rem;
   }
 `;
 
 const PartList = styled.ol`
   display: block;
-  max-width: ${breaks["sm"]}px;
+  max-width: ${breaks["sm"] / 10}rem;
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: part-list;
 `;
 const Part = styled.li`
-  margin: 0.2rem 0;
+  margin: 0.3rem 0;
   padding: 0;
   counter-increment: part-list;
   color: ${oc.gray[6]};
@@ -244,22 +244,22 @@ const Part = styled.li`
   }
   a {
     display: inline-flex;
-    border-radius: 0.5rem;
-    padding: 0.2rem 0.5rem;
+    border-radius: 0.8rem;
+    padding: 0.3rem 0.8rem;
     text-decoration: none;
     align-items: center;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
     &::before {
       content: counter(part-list);
-      width: 1.2rem;
-      margin-left: -0.2rem;
+      width: 1.9rem;
+      margin-left: -0.3rem;
       margin-right: 0.1rem;
       text-align: center;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 1.3rem;
     }
     &:visited {
       color: inherit;
@@ -278,7 +278,7 @@ const Part = styled.li`
 
 const Toc = styled.div`
   ul {
-    max-width: ${breaks["sm"]}px;
+    max-width: ${breaks["sm"] / 10}rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -309,17 +309,17 @@ const Toc = styled.div`
     padding: 0;
   }
   a {
-    border-radius: 0.5rem;
-    padding: 0.2rem 0.5rem;
+    border-radius: 0.8rem;
+    padding: 0.3rem 0.8rem;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
     &::before {
-      width: 1.2rem;
-      margin-left: -0.2rem;
-      margin-right: 0.4rem;
+      width: 1.9rem;
+      margin-left: -0.3rem;
+      margin-right: 0.6rem;
       text-align: center;
       font-weight: 500;
     }
@@ -350,7 +350,7 @@ const Toc = styled.div`
       }
       /* List H2 */
       > ul {
-        margin-left: 1rem;
+        margin-left: 1.6rem;
         counter-reset: toc-h2;
         > li {
           > a,

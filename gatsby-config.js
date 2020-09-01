@@ -110,7 +110,7 @@ module.exports = {
               withWebp: true,
               srcSetBreakpoints: [375, 414, 624, 752, 1000],
               // wrapperStyle(fluid) {
-              //   return `margin: 0 -0.75rem`;
+              //   return `margin: 0 -1.2rem`;
               // },
             },
           },
@@ -140,7 +140,7 @@ module.exports = {
           {
             resolve: `gatsby-remark-responsive-iframe`,
             options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
+              wrapperStyle: `margin-bottom: 1.7rem`,
             },
           },
           {

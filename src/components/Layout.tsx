@@ -15,26 +15,26 @@ const Container = styled.div`
   ${ApplyBreaks(
     px =>
       css`
-        max-width: ${px}px;
-        padding: 0 0.5rem;
+        max-width: ${px / 10}rem;
+        padding: 0 0.8rem;
       `
   )};
 `;
 const Main = styled.main`
   width: 100%;
-  padding-left: calc(env(safe-area-inset-left, 0) + 0.75rem);
-  padding-right: calc(env(safe-area-inset-right, 0) + 0.75rem);
+  padding-left: calc(env(safe-area-inset-left, 0) + 1.2rem);
+  padding-right: calc(env(safe-area-inset-right, 0) + 1.2rem);
   ${ApplyBreaks(
     px =>
       css`
-        max-width: ${breaks["lg"]}px;
+        max-width: ${breaks["lg"] / 10}rem;
       `,
     [ASIDE_BREAK]
   )};
 `;
 const AsidePadder = styled.div`
   display: none;
-  width: ${(breaks["xxl"] - breaks["lg"]) / 2}px;
+  width: ${(breaks["xxl"] - breaks["lg"]) / 20}rem;
   ${ApplyBreaks(
     px =>
       css`
@@ -52,14 +52,14 @@ const Aside = styled.aside`
       css`
         display: block;
         height: fit-content;
-        width: ${breaks[ASIDE_BREAK] - breaks["lg"]}px;
+        width: ${(breaks[ASIDE_BREAK] - breaks["lg"]) / 10}rem;
       `,
     [ASIDE_BREAK]
   )};
   ${ApplyBreaks(
     px =>
       css`
-        width: ${(breaks["xxl"] - breaks["lg"]) / 2}px;
+        width: ${(breaks["xxl"] - breaks["lg"]) / 20}rem;
       `,
     ["xxl"]
   )};
@@ -67,11 +67,11 @@ const Aside = styled.aside`
 
 const Footer = styled.footer`
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   font-weight: 300;
   color: ${oc.gray[6]};
   ul {
-    margin: 2.5rem 0 2rem;
+    margin: 4rem 0 3.2rem;
     padding-bottom: env(safe-area-inset-bottom, 0);
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
@@ -83,7 +83,7 @@ const Footer = styled.footer`
       display: block;
       &::after {
         content: "•";
-        margin: 0.2rem;
+        margin: 0.8rem;
       }
       &:last-child::after {
         content: "";
@@ -154,8 +154,8 @@ const Layout: React.FC<{
       <Footer>
         <ul>
           <li>&copy; {new Date().getFullYear()} Jeongtae Kim, All Rights Reserved</li>
-          <li>Built with Gatsby</li>
-          <li>Open Source Software Notice</li>
+          {/* <li>Built with Gatsby</li>
+          <li>Open Source Software Notice</li> */}
         </ul>
       </Footer>
     </>

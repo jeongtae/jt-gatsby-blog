@@ -7,18 +7,18 @@ import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import styled, { css, ApplyBreaks } from "../utils/styled-components";
 import { MarkdownRemark, Tag } from "../generated/graphql-types";
 
-const ITEM_HEIGHT = 5.5;
+const ITEM_HEIGHT = 88;
 
 const List = styled.ul`
   margin: 0;
   display: grid;
   padding: 0;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.2rem;
   ${ApplyBreaks(
     px => css`
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.5rem;
+      gap: 0.8rem;
     `,
     ["md"]
   )}
@@ -26,8 +26,8 @@ const List = styled.ul`
 `;
 const ListItem = styled.li`
   margin: 0;
-  height: ${ITEM_HEIGHT}rem;
-  border-radius: 0.667rem;
+  height: ${ITEM_HEIGHT / 10}rem;
+  border-radius: 1.1rem;
   overflow: hidden;
   article,
   a {
@@ -50,23 +50,23 @@ const ListItem = styled.li`
 const Thumbnail = styled.img`
   flex-shrink: 0;
   float: right;
-  margin: 0.3rem 0.3rem 0.3rem 0;
-  width: ${ITEM_HEIGHT - 0.6}rem;
-  height: ${ITEM_HEIGHT - 0.6}rem;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  width: ${ITEM_HEIGHT / 10 - 1}rem;
+  height: ${ITEM_HEIGHT / 10 - 1}rem;
   background: ${oc.orange[4]};
-  border-radius: 0.5rem;
+  border-radius: 0.8rem;
   object-fit: cover;
 `;
 const Contents = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 0.2rem 0.5rem 0.5rem;
+  padding: 0.3rem 0.8rem 0.8rem;
   .title {
     flex-grow: 0;
     margin: 0;
-    font-size: 1.2rem;
-    height: 1.4rem;
+    font-size: 1.9rem;
+    height: 2.2rem;
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
@@ -76,9 +76,9 @@ const Contents = styled.div`
     margin: 0;
     flex-grow: 0;
     color: ${oc.gray[7]};
-    font-size: 0.9rem;
-    height: 1.2rem;
-    margin-bottom: -0.2rem;
+    font-size: 1.4rem;
+    height: 1.9rem;
+    margin-bottom: -0.3rem;
     font-weight: 300;
     white-space: nowrap;
     overflow: hidden;
@@ -88,7 +88,7 @@ const Contents = styled.div`
     flex-grow: 1;
     flex-basis: 0;
     margin: 0;
-    margin-top: -0.1rem;
+    margin-top: -0.2rem;
     height: 100%;
     white-space: nowrap;
     display: block;
@@ -99,11 +99,11 @@ const Contents = styled.div`
       display: inline;
       margin: 0;
       color: ${oc.gray[7]};
-      font-size: 0.8rem;
+      font-size: 1.3rem;
       font-weight: 300;
       &::before {
         content: "#";
-        padding-left: 0.2rem;
+        padding-left: 0.3rem;
       }
     }
   }
@@ -112,7 +112,7 @@ const Contents = styled.div`
     display: flex;
     justify-content: space-between;
     color: ${oc.gray[7]};
-    font-size: 0.8rem;
+    font-size: 1.3rem;
     font-weight: 400;
     time,
     p {
@@ -159,11 +159,11 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 </ul>
                 <div className="additional">
                   <time>
-                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "0.15rem" }} />
+                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "0.2rem" }} />
                     <span>{post.frontmatter.date}</span>
                   </time>
                   <p>
-                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "0.15rem" }} />
+                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "0.2rem" }} />
                     <span>약 {post.timeToRead}분 소요</span>
                   </p>
                 </div>

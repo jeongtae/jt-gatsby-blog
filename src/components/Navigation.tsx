@@ -8,25 +8,23 @@ import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
 import { Site, File } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
-import { baseFontSizePx } from "../utils/typography";
 
 const RESPONSIVE_BREAK = "sm";
 
-const NAV_HEIGHT_REM = 3.8;
-const NAV_HEIGHT_PX = baseFontSizePx * NAV_HEIGHT_REM;
+const NAV_HEIGHT = 60;
 
 const Nav = styled.nav`
   position: sticky;
   top: 0;
-  height: ${NAV_HEIGHT_REM}rem;
-  height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT_REM}rem);
+  height: ${NAV_HEIGHT / 10}rem;
+  height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT / 10}rem);
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid ${oc.gray[3]};
+  border-bottom: 0.2rem solid ${oc.gray[3]};
   background-color: ${oc.white};
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(0.2rem);
   opacity: 0.9;
-  box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 1.1rem rgba(0, 0, 0, 0.12);
   transition: transform ease-in-out 200ms, box-shadow ease-in-out 200ms;
   z-index: 1;
   @media only screen and (max-width: ${breaks["lg"] - 0.03}px) and (orientation: portrait) {
@@ -44,7 +42,7 @@ const WidthLimiter = styled.div`
   left: 0;
   right: 0;
   margin: 0 auto;
-  max-width: ${breaks["xl"] * 1.2}px;
+  max-width: ${(breaks["xl"] / 10) * 1.2}rem;
 `;
 
 const Left = styled.div`
@@ -81,18 +79,18 @@ const Right = styled.div`
 `;
 
 const baseButton = css`
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: 0 0.5rem;
+  width: 4rem;
+  height: 4rem;
+  margin: 0 0.8rem;
   background: none;
   appearance: none;
   border: none;
   display: block;
-  font-size: 1.4rem;
+  font-size: 2.2rem;
   color: ${oc.gray[9]};
   cursor: pointer;
   position: relative;
-  border-radius: 0.667rem;
+  border-radius: 1rem;
   transition: background-color ease-in-out 200ms;
   text-decoration: none;
   > svg {
@@ -176,14 +174,14 @@ const Menu = styled.ul`
   left: 0;
   height: 0;
   margin: 0;
-  margin-left: 2.25rem;
-  padding: 0 0.5rem;
+  margin-left: 3.6rem;
+  padding: 0 0.8rem;
   overflow: hidden;
   align-items: center;
   list-style: none;
   display: flex;
   transition: transform ease-in-out 150ms, opacity ease-in-out 150ms;
-  transform: translateX(-1rem);
+  transform: translateX(-1.6rem);
   opacity: 0;
   z-index: 3;
   @media (hover) {
@@ -202,7 +200,7 @@ const Menu = styled.ul`
     padding: 0;
     &::after {
       content: "";
-      border-right: 1px solid ${oc.gray[4]};
+      border-right: 0.1rem solid ${oc.gray[4]};
       opacity: 0;
       color: transparent;
       transition: opacity ease-in-out 200ms;
@@ -211,8 +209,8 @@ const Menu = styled.ul`
       border-right: none;
     }
     a {
-      padding: 0.75rem;
-      font-size: 1rem;
+      padding: 1.2rem;
+      font-size: 1.6rem;
       font-weight: 700;
       text-transform: uppercase;
       text-decoration: none;
@@ -245,8 +243,8 @@ const SearchInputBox = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  height: 2.5rem;
-  margin: 0 3.5rem;
+  height: 4rem;
+  margin: 0 5.6rem;
   padding: 0;
   transition: opacity ease-in-out 150ms 150ms;
   &.collapsed {
@@ -257,7 +255,7 @@ const SearchInputBox = styled.div`
       css`
         justify-self: flex-end;
         margin-left: auto;
-        width: 18rem;
+        width: 28.8rem;
       `,
     [RESPONSIVE_BREAK]
   )};
@@ -265,18 +263,18 @@ const SearchInputBox = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
-    padding: 0 0.7rem 0 2.2rem;
-    border: 2px solid transparent;
-    border-radius: 0.5rem;
+    padding: 0 1.1rem 0 3.5rem;
+    border: 0.2rem solid transparent;
+    border-radius: 0.8rem;
     background-color: ${oc.gray[2]};
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: ${oc.gray[7]};
     appearance: none;
     transition: background-color ease-in-out 100ms, border-color ease-in-out 100ms;
     &::placeholder {
-      padding: 0.2rem 0;
-      font-size: 1rem;
+      padding: 0.3rem 0;
+      font-size: 1.6rem;
       color: ${oc.gray[6]};
       font-weight: 500;
     }
@@ -295,7 +293,7 @@ const SearchInputBox = styled.div`
   > svg {
     height: fit-content;
     margin: auto 0;
-    margin-left: 0.7rem;
+    margin-left: 1.1rem;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -309,10 +307,10 @@ const Title = styled.p`
   left: 0;
   right: 0;
   margin: 0;
-  padding: 0.5rem 4rem;
+  padding: 0.8rem 6.4rem;
   transition: opacity ease-in-out 150ms 150ms;
   opacity: 1;
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -322,8 +320,8 @@ const Title = styled.p`
     px =>
       css`
         text-align: right;
-        padding-left: 18rem;
-        padding-right: 3.5rem;
+        padding-left: 28.8rem;
+        padding-right: 5.6rem;
       `,
     [RESPONSIVE_BREAK]
   )};
@@ -381,11 +379,11 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
       const scrollListner = throttle(() => {
         const classList = navRef.current?.classList;
         const newScrollY = Math.max(window.scrollY, 0);
-        if (newScrollY < NAV_HEIGHT_PX) {
+        if (newScrollY < NAV_HEIGHT) {
           classList?.remove("hidden");
           return;
         }
-        if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT_PX / 2) {
+        if (Math.abs(newScrollY - prevScrollY) < NAV_HEIGHT / 2) {
           return;
         }
         if (newScrollY > prevScrollY) {
@@ -397,7 +395,9 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
       }, 100);
       document.addEventListener("scroll", scrollListner, false);
 
-      const mql = window.matchMedia(`only screen and (min-width: ${breaks[RESPONSIVE_BREAK]}px)`);
+      const mql = window.matchMedia(
+        `only screen and (min-width: ${breaks[RESPONSIVE_BREAK] / 10}rem)`
+      );
       setIsWideScreen(mql.matches);
       const mqlListener = (e: MediaQueryListEvent) => {
         setIsWideScreen(e.matches);
