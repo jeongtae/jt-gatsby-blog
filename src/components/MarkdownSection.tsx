@@ -8,6 +8,7 @@ import prism from "!!raw-loader!./prism.css";
 
 const Section = styled.section`
   ${prism};
+  line-height: 1.5rem;
   code[class|="language"] {
     display: inline;
     padding: 0.1rem 0.25rem;
@@ -23,7 +24,7 @@ const Section = styled.section`
   pre[class|="language"].line-numbers {
     display: block;
     position: relative;
-    margin: 0;
+    margin: 1rem 0;
     padding: 0;
     font-size: 0.8rem;
     border: 2px solid ${oc.gray[3]};
@@ -219,21 +220,55 @@ const Section = styled.section`
     )}
   }
   h2 {
-    font-size: 1.6rem;
+    margin-top: 2.4rem;
+    font-size: 2rem;
   }
   h3 {
-    font-size: 1.4rem;
+    margin-top: 2rem;
+    font-size: 1.5rem;
   }
   h4 {
+    margin-top: 1.3rem;
+    margin-bottom: 0.5rem;
     font-size: 1.2rem;
   }
   h5 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 1rem;
     font-weight: 700;
   }
   h6 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 0.9rem;
     font-weight: 700;
+  }
+  p {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  blockquote {
+    font-size: 1rem;
+    margin-left: 0.5rem;
+  }
+  ol,
+  ul {
+    margin: 0.5rem 0;
+    margin-left: 1.25rem;
+    ol,
+    ul {
+      margin-top: 0;
+    }
+    li {
+      margin-bottom: 0.25rem;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  strong code {
+    font-weight: 500 !important;
   }
 `;
 
