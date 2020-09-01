@@ -300,6 +300,10 @@ const Toc = styled.div`
   .nothing-highlighted & li {
     color: ${oc.gray[9]};
   }
+  code {
+    display: inline;
+    font-size: inherit;
+  }
   p {
     margin: 0;
     padding: 0;
