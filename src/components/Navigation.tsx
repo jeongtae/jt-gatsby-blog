@@ -217,6 +217,7 @@ const Menu = styled.ul`
       text-transform: uppercase;
       text-decoration: none;
       transition: color ease-in-out 150ms;
+      &:link,
       &:visited {
         color: inherit;
       }
