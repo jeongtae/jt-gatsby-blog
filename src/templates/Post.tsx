@@ -305,11 +305,9 @@ const Toc = styled.div`
     padding: 0;
   }
   a {
-    display: inline-flex;
     border-radius: 0.5rem;
     padding: 0.2rem 0.5rem;
     text-decoration: none;
-    align-items: center;
     font-size: 0.9rem;
     color: inherit;
     transition: 100ms ease-in-out;
@@ -317,10 +315,9 @@ const Toc = styled.div`
     &::before {
       width: 1.2rem;
       margin-left: -0.2rem;
-      margin-right: 0.1rem;
+      margin-right: 0.4rem;
       text-align: center;
-      font-weight: 700;
-      font-size: 0.8rem;
+      font-weight: 500;
     }
     &:link,
     &:visited {
