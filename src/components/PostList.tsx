@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useStaticQuery, graphql } from "gatsby";
+import Img from "gatsby-image";
 import oc from "open-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
@@ -48,15 +49,18 @@ const ListItem = styled.li`
     }
   }
 `;
-const Thumbnail = styled.img`
+const Thumbnail = styled.div`
   flex-shrink: 0;
   float: right;
   margin: 5px 5px 5px 0;
   width: ${ITEM_HEIGHT - 10}px;
   height: ${ITEM_HEIGHT - 10}px;
-  background: ${oc.orange[4]};
+  background: ${oc.gray[3]};
   border-radius: 8px;
-  object-fit: cover;
+  overflow: hidden;
+  .gatsby-image-wrapper {
+    height: 100%;
+  }
 `;
 const Contents = styled.div`
   display: flex;
@@ -150,7 +154,11 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
         <ListItem key={post.id}>
           <article>
             <Link to={`/${post.fields.slug}`}>
-              <Thumbnail alt="" src="#" />
+              {post.frontmatter.thumbnail && (
+                <Thumbnail>
+                  <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+                </Thumbnail>
+              )}
               <Contents>
                 <h1 className="title">{post.frontmatter.title}</h1>
                 <p className="description">{post.frontmatter.description || post.excerpt}</p>

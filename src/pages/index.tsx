@@ -89,6 +89,13 @@ export const query = graphql`
           description
           date(formatString: "YYYY-MM-DD")
           tags
+          thumbnail {
+            childImageSharp {
+              fluid(maxWidth: 78, srcSetBreakpoints: [78, 156]) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
         }
       }
     }
