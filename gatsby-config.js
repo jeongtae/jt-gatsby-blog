@@ -125,7 +125,7 @@ module.exports = {
               width: 800,
               ratio: 16 / 9,
               related: false, //Optional: Will remove related videos from the end of an embedded YouTube video.
-              noIframeBorder: false, //Optional: Disable insertion of <style> border: 0
+              noIframeBorder: true, //Optional: Disable insertion of <style> border: 0
               urlOverrides: [
                 {
                   id: "youtube",
@@ -145,7 +145,7 @@ module.exports = {
           {
             resolve: `gatsby-remark-responsive-iframe`,
             options: {
-              wrapperStyle: `margin-bottom: 1.7rem`,
+              // wrapperStyle: `margin-bottom: 1.7rem`,
             },
           },
           {

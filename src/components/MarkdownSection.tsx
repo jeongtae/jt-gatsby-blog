@@ -88,15 +88,18 @@ const Section = styled.section`
     ${ApplyBreaks(
       px =>
         css`
-          margin: 8px auto !important;
+          margin: 0.08rem auto !important;
           border-radius: 8px;
           overflow: hidden;
         `,
       ["sm"]
     )};
   }
-  iframe.embedVideo-iframe {
+  div.gatsby-resp-iframe-wrapper {
+    margin: 0.08rem auto !important;
     border-radius: 8px;
+  }
+  iframe.embedVideo-iframe {
   }
   a {
     position: relative;

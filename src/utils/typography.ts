@@ -105,6 +105,9 @@ export default new Typography({
       img: {
         margin: 0,
       },
+      iframe: {
+        margin: 0,
+      },
       ".sans": { fontFamily: sansFontsSerialized },
       ".serif": { fontFamily: serifFontsSerialized },
     } as Style;
