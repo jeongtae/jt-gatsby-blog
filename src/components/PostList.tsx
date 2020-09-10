@@ -14,11 +14,11 @@ const List = styled.ul`
   display: grid;
   padding: 0;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  gap: 1.2rem;
+  gap: 12px;
   ${ApplyBreaks(
     px => css`
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.8rem;
+      gap: 8px;
     `,
     ["md"]
   )}
@@ -26,8 +26,9 @@ const List = styled.ul`
 `;
 const ListItem = styled.li`
   margin: 0;
-  height: ${ITEM_HEIGHT / 10}rem;
-  border-radius: 1.1rem;
+  height: ${ITEM_HEIGHT}px;
+  min-height: 0.88rem;
+  border-radius: 11px;
   overflow: hidden;
   article,
   a {
@@ -50,23 +51,23 @@ const ListItem = styled.li`
 const Thumbnail = styled.img`
   flex-shrink: 0;
   float: right;
-  margin: 0.5rem 0.5rem 0.5rem 0;
-  width: ${ITEM_HEIGHT / 10 - 1}rem;
-  height: ${ITEM_HEIGHT / 10 - 1}rem;
+  margin: 5px 5px 5px 0;
+  width: ${ITEM_HEIGHT - 10}px;
+  height: ${ITEM_HEIGHT - 10}px;
   background: ${oc.orange[4]};
-  border-radius: 0.8rem;
+  border-radius: 8px;
   object-fit: cover;
 `;
 const Contents = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
-  padding: 0.3rem 0.8rem 0.8rem;
+  padding: 3px 8px;
   .title {
     flex-grow: 0;
     margin: 0;
-    font-size: 1.9rem;
-    height: 2.2rem;
+    font-size: 0.19rem;
+    /* height: 0.22rem; */
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
@@ -76,9 +77,9 @@ const Contents = styled.div`
     margin: 0;
     flex-grow: 0;
     color: ${oc.gray[7]};
-    font-size: 1.4rem;
-    height: 1.9rem;
-    margin-bottom: -0.3rem;
+    font-size: 0.14rem;
+    /* height: 19rem; */
+    margin-bottom: -3px;
     font-weight: 300;
     white-space: nowrap;
     overflow: hidden;
@@ -88,7 +89,7 @@ const Contents = styled.div`
     flex-grow: 1;
     flex-basis: 0;
     margin: 0;
-    margin-top: -0.2rem;
+    margin-top: -2px;
     height: 100%;
     white-space: nowrap;
     display: block;
@@ -99,11 +100,11 @@ const Contents = styled.div`
       display: inline;
       margin: 0;
       color: ${oc.gray[7]};
-      font-size: 1.3rem;
+      font-size: 0.13rem;
       font-weight: 300;
       &::before {
         content: "#";
-        padding-left: 0.3rem;
+        padding-left: 3px;
       }
     }
   }
@@ -112,10 +113,11 @@ const Contents = styled.div`
     display: flex;
     justify-content: space-between;
     color: ${oc.gray[7]};
-    font-size: 1.3rem;
+    font-size: 0.13rem;
     font-weight: 400;
     time,
     p {
+      margin: 0;
       display: flex;
       align-items: center;
     }
@@ -159,11 +161,11 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 </ul>
                 <div className="additional">
                   <time>
-                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "0.2rem" }} />
+                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "2px" }} />
                     <span>{post.frontmatter.date}</span>
                   </time>
                   <p>
-                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "0.2rem" }} />
+                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "2px" }} />
                     <span>약 {post.timeToRead}분 소요</span>
                   </p>
                 </div>

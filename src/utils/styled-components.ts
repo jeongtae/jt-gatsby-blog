@@ -38,7 +38,7 @@ export function ApplyBreaks(
       .map(
         breakName =>
           css`
-            @media only screen and (min-width: ${breaks[breakName] / 16}em) {
+            @media only screen and (min-width: ${breaks[breakName]}px) {
               ${callbackfn(breaks[breakName])}
             }
           `

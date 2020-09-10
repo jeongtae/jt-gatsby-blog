@@ -9,25 +9,31 @@ import oc from "open-color";
 import { Site, File } from "../generated/graphql-types";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 
-const RESPONSIVE_BREAK = "sm";
-
 const NAV_HEIGHT = 60;
+const NAV_RESPONSIVE_BREAK = "sm";
+const NAV_MAX_WIDTH = breaks["xl"] * 1.2;
 
 const Nav = styled.nav`
   position: sticky;
   top: 0;
-  height: ${NAV_HEIGHT / 10}rem;
-  height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT / 10}rem);
+  height: ${NAV_HEIGHT}px;
+  height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT}px);
   margin: 0;
   padding: 0;
-  border-bottom: 0.2rem solid ${oc.gray[3]};
+  border-bottom: 2px solid ${oc.gray[3]};
   background-color: ${oc.white};
-  backdrop-filter: blur(0.2rem);
+  backdrop-filter: blur(2px);
   opacity: 0.9;
-  box-shadow: 0 0 1.1rem rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0 11px rgba(0, 0, 0, 0.12);
   transition: transform ease-in-out 200ms, box-shadow ease-in-out 200ms;
   z-index: 1;
-  @media only screen and (max-width: ${breaks["lg"] - 0.03}px) and (orientation: portrait) {
+  @media only screen and (max-aspect-ratio: 1) and (max-width: ${breaks["lg"]}px) {
+    &.hidden {
+      transform: translateY(-100%);
+      box-shadow: unset;
+    }
+  }
+  @media only screen and (aspect-ratio: landscape) and (min-width: ${breaks["lg"]}px) {
     &.hidden {
       transform: translateY(-100%);
       box-shadow: unset;
@@ -42,7 +48,7 @@ const WidthLimiter = styled.div`
   left: 0;
   right: 0;
   margin: 0 auto;
-  max-width: ${(breaks["xl"] / 10) * 1.2}rem;
+  max-width: ${NAV_MAX_WIDTH}px;
 `;
 
 const Left = styled.div`
@@ -79,18 +85,18 @@ const Right = styled.div`
 `;
 
 const baseButton = css`
-  width: 4rem;
-  height: 4rem;
-  margin: 0 0.8rem;
+  width: 40px;
+  height: 40px;
+  margin: 0 8px;
   background: none;
   appearance: none;
   border: none;
   display: block;
-  font-size: 2.2rem;
+  font-size: 22px;
   color: ${oc.gray[9]};
   cursor: pointer;
   position: relative;
-  border-radius: 1rem;
+  border-radius: 10px;
   transition: background-color ease-in-out 200ms;
   text-decoration: none;
   > svg {
@@ -136,7 +142,7 @@ const MenuButton = styled.button`
       css`
         display: none;
       `,
-    [RESPONSIVE_BREAK]
+    [NAV_RESPONSIVE_BREAK]
   )};
 `;
 const SearchButton = styled(Link)`
@@ -165,7 +171,7 @@ const LogoButton = styled(Link)`
         display: block;
         transform: scale(1);
       `,
-    [RESPONSIVE_BREAK]
+    [NAV_RESPONSIVE_BREAK]
   )};
 `;
 
@@ -174,14 +180,14 @@ const Menu = styled.ul`
   left: 0;
   height: 0;
   margin: 0;
-  margin-left: 3.6rem;
-  padding: 0 0.8rem;
+  margin-left: 36px;
+  padding: 0 8px;
   overflow: hidden;
   align-items: center;
   list-style: none;
   display: flex;
   transition: transform ease-in-out 150ms, opacity ease-in-out 150ms;
-  transform: translateX(-1.6rem);
+  transform: translateX(-16px);
   opacity: 0;
   z-index: 3;
   @media (hover) {
@@ -200,7 +206,7 @@ const Menu = styled.ul`
     padding: 0;
     &::after {
       content: "";
-      border-right: 0.1rem solid ${oc.gray[4]};
+      border-right: 1px solid ${oc.gray[4]};
       opacity: 0;
       color: transparent;
       transition: opacity ease-in-out 200ms;
@@ -209,8 +215,8 @@ const Menu = styled.ul`
       border-right: none;
     }
     a {
-      padding: 1.2rem;
-      font-size: 1.6rem;
+      padding: 12px;
+      font-size: 0.16rem;
       font-weight: 700;
       text-transform: uppercase;
       text-decoration: none;
@@ -235,7 +241,7 @@ const Menu = styled.ul`
         opacity: 1;
         height: 100%;
       `,
-    [RESPONSIVE_BREAK]
+    [NAV_RESPONSIVE_BREAK]
   )};
 `;
 
@@ -243,8 +249,8 @@ const SearchInputBox = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  height: 4rem;
-  margin: 0 5.6rem;
+  height: 40px;
+  margin: 0 56px;
   padding: 0;
   transition: opacity ease-in-out 150ms 150ms;
   &.collapsed {
@@ -255,26 +261,26 @@ const SearchInputBox = styled.div`
       css`
         justify-self: flex-end;
         margin-left: auto;
-        width: 28.8rem;
+        width: 288px;
       `,
-    [RESPONSIVE_BREAK]
+    [NAV_RESPONSIVE_BREAK]
   )};
   > input {
     position: absolute;
     width: 100%;
     height: 100%;
-    padding: 0 1.1rem 0 3.5rem;
-    border: 0.2rem solid transparent;
-    border-radius: 0.8rem;
+    padding: 0 11px 0 35px;
+    border: 2px solid transparent;
+    border-radius: 8px;
     background-color: ${oc.gray[2]};
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: 500;
     color: ${oc.gray[7]};
     appearance: none;
     transition: background-color ease-in-out 100ms, border-color ease-in-out 100ms;
     &::placeholder {
-      padding: 0.3rem 0;
-      font-size: 1.6rem;
+      padding: 3px 0;
+      font-size: 16px;
       color: ${oc.gray[6]};
       font-weight: 500;
     }
@@ -293,7 +299,7 @@ const SearchInputBox = styled.div`
   > svg {
     height: fit-content;
     margin: auto 0;
-    margin-left: 1.1rem;
+    margin-left: 11px;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -307,10 +313,10 @@ const Title = styled.p`
   left: 0;
   right: 0;
   margin: 0;
-  padding: 0.8rem 6.4rem;
+  padding: 8px 64px;
   transition: opacity ease-in-out 150ms 150ms;
   opacity: 1;
-  font-size: 1.8rem;
+  font-size: 0.18rem;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -320,10 +326,10 @@ const Title = styled.p`
     px =>
       css`
         text-align: right;
-        padding-left: 28.8rem;
-        padding-right: 5.6rem;
+        padding-left: 288px;
+        padding-right: 56px;
       `,
-    [RESPONSIVE_BREAK]
+    [NAV_RESPONSIVE_BREAK]
   )};
   &.collapsed {
     opacity: 0;
@@ -332,7 +338,7 @@ const Title = styled.p`
         css`
           opacity: 1;
         `,
-      [RESPONSIVE_BREAK]
+      [NAV_RESPONSIVE_BREAK]
     )};
   }
 `;
@@ -396,7 +402,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
       document.addEventListener("scroll", scrollListner, false);
 
       const mql = window.matchMedia(
-        `only screen and (min-width: ${breaks[RESPONSIVE_BREAK] / 10}rem)`
+        `only screen and (min-width: ${breaks[NAV_RESPONSIVE_BREAK]}px)`
       );
       setIsWideScreen(mql.matches);
       const mqlListener = (e: MediaQueryListEvent) => {

@@ -9,10 +9,10 @@ import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 
 const SearchResultText = styled.p`
-  margin: 3.2rem 0 1.6rem;
+  margin: 32px 0 16px;
   padding: 0;
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 0.16rem;
   font-weight: 500;
   color: ${oc.gray[7]};
 `;

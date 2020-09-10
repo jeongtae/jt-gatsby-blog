@@ -15,26 +15,26 @@ const Container = styled.div`
   ${ApplyBreaks(
     px =>
       css`
-        max-width: ${px / 10}rem;
-        padding: 0 0.8rem;
+        max-width: ${px}px;
+        padding: 0 8px;
       `
   )};
 `;
 const Main = styled.main`
   width: 100%;
-  padding-left: calc(env(safe-area-inset-left, 0) + 1.2rem);
-  padding-right: calc(env(safe-area-inset-right, 0) + 1.2rem);
+  padding-left: calc(env(safe-area-inset-left, 0) + 12px);
+  padding-right: calc(env(safe-area-inset-right, 0) + 12px);
   ${ApplyBreaks(
     px =>
       css`
-        max-width: ${breaks["lg"] / 10}rem;
+        max-width: ${breaks["lg"] - 16}px;
       `,
     [ASIDE_BREAK]
   )};
 `;
 const AsidePadder = styled.div`
   display: none;
-  width: ${(breaks["xxl"] - breaks["lg"]) / 20}rem;
+  width: ${breaks["xl"] - breaks["lg"]}px;
   ${ApplyBreaks(
     px =>
       css`
@@ -52,14 +52,14 @@ const Aside = styled.aside`
       css`
         display: block;
         height: fit-content;
-        width: ${(breaks[ASIDE_BREAK] - breaks["lg"]) / 10}rem;
+        width: ${breaks[ASIDE_BREAK] - breaks["lg"]}px;
       `,
     [ASIDE_BREAK]
   )};
   ${ApplyBreaks(
     px =>
       css`
-        width: ${(breaks["xxl"] - breaks["lg"]) / 20}rem;
+        width: ${(breaks["xxl"] - breaks["lg"]) / 2}px;
       `,
     ["xxl"]
   )};
@@ -67,11 +67,11 @@ const Aside = styled.aside`
 
 const Footer = styled.footer`
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 0.13rem;
   font-weight: 300;
   color: ${oc.gray[6]};
   ul {
-    margin: 4rem 0 3.2rem;
+    margin: 40px 0 32px;
     padding-bottom: env(safe-area-inset-bottom, 0);
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
@@ -83,7 +83,7 @@ const Footer = styled.footer`
       display: block;
       &::after {
         content: "•";
-        margin: 0.8rem;
+        margin: 8px;
       }
       &:last-child::after {
         content: "";

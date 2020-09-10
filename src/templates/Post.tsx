@@ -21,40 +21,40 @@ import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Title = styled.h1`
-  margin: 3.2rem 0.8rem 0;
-  font-size: 3.5rem;
+  margin: 32px 8px 0;
+  font-size: 0.35rem;
   font-weight: 500;
   ${ApplyBreaks(
     px => css`
-      margin-top: 4.8rem;
+      margin-top: 48px;
       text-align: center;
-      font-size: 4.4rem;
+      font-size: 0.44rem;
     `,
     ["sm"]
   )};
 `;
 
 const Description = styled.p`
-  margin: 1.6rem 1.1rem 0;
+  margin: 16px 11px 0;
   color: ${oc.gray[7]};
-  font-size: 1.4rem;
+  font-size: 0.14rem;
   font-weight: 300;
   ${ApplyBreaks(
     px => css`
-      margin: 2.4rem 10% 0;
+      margin: 24px 10% 0;
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 0.16rem;
     `,
     ["sm"]
   )};
 `;
 
 const TagListBox = styled.div`
-  margin: 1.6rem 1.1rem 1.6rem;
+  margin: 16px 11px;
   display: flex;
   ${ApplyBreaks(
     px => css`
-      margin-top: 2.1rem;
+      margin-top: 21px;
       justify-content: center;
     `,
     ["sm"]
@@ -62,10 +62,10 @@ const TagListBox = styled.div`
 `;
 
 const AdditionalBox = styled.div`
-  margin: 3.2rem 0.5rem 4rem;
+  margin: 32px 5px 40px;
   padding: 0;
-  padding-bottom: 0.8rem;
-  border-bottom: 0.1rem solid ${oc.gray[4]};
+  padding-bottom: 8px;
+  border-bottom: 1px solid ${oc.gray[4]};
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -99,8 +99,8 @@ const NameAndDate = styled.div`
   address {
     a {
       width: fit-content;
-      border-radius: 2.4rem;
-      padding: 0.4rem;
+      border-radius: 24px;
+      padding: 4px;
       display: flex;
       align-items: center;
       text-decoration: none;
@@ -114,25 +114,25 @@ const NameAndDate = styled.div`
         }
       }
       .image {
-        width: 4rem;
-        height: 4rem;
+        width: 40px;
+        height: 40px;
         margin: 0;
         padding: 0;
         /* object-fit: cover; */
         border-radius: 50%;
-        border: 0.2rem solid white;
+        border: 2px solid white;
         background-color: ${oc.gray[1]};
       }
       .name {
         margin: 0;
-        margin-left: 0.5rem;
-        margin-right: 1rem;
+        margin-left: 5px;
+        margin-right: 10px;
       }
     }
   }
   time {
     margin: 0;
-    margin-left: 0.8rem;
+    margin-left: 8px;
     color: ${oc.gray[6]};
     ul {
       display: flex;
@@ -145,7 +145,7 @@ const NameAndDate = styled.div`
       padding: 0;
       &::before {
         content: "\\30FB";
-        margin: 0 0.2rem;
+        margin: 0 2px;
       }
       &:first-child::before {
         content: unset;
@@ -158,8 +158,8 @@ const NameAndDate = styled.div`
 const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
-  /* margin-top: 0.8rem; */
-  margin-bottom: 0.8rem;
+  /* margin-top: 8px; */
+  margin-bottom: 8px;
   ${ApplyBreaks(
     px => css`
       margin-bottom: 0;
@@ -168,17 +168,17 @@ const Buttons = styled.div`
   )};
   button {
     border: none;
-    border-radius: 0.8rem;
-    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    padding: 8px 2px;
     appearance: none;
     background: none;
     cursor: pointer;
     font-weight: 300;
     display: flex;
     align-items: center;
-    font-size: 1.4rem;
+    font-size: 0.14rem;
     color: ${oc.gray[7]};
-    margin-right: 0.6rem;
+    margin-right: 6px;
     @media (hover) {
       &:hover {
         background-color: ${oc.gray[1]};
@@ -189,13 +189,13 @@ const Buttons = styled.div`
       margin-right: 0;
     }
     svg {
-      margin-right: 0.5rem;
+      margin-right: 5px;
     }
   }
 `;
 
 const AsideBoxItemInMain = styled.section`
-  margin: 3.2rem 0.8rem 1.6rem;
+  margin: 32px 8px 16px;
   ${ApplyBreaks(
     px => css`
       display: none;
@@ -204,7 +204,7 @@ const AsideBoxItemInMain = styled.section`
   )};
 `;
 const AsideBoxItemInAside = styled.section`
-  margin: 3.2rem 0.8rem 1.6rem;
+  margin: 32px 8px 16px;
   > p {
     justify-content: center;
     text-align: end;
@@ -213,25 +213,25 @@ const AsideBoxItemInAside = styled.section`
 const AsideBoxItemHeader = styled.p`
   margin: 0;
   padding: 0;
-  font-size: 2rem;
+  font-size: 0.2rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   > span {
-    margin: 0 0.5rem;
+    margin: 0 5px;
   }
 `;
 
 const PartList = styled.ol`
   display: block;
-  max-width: ${breaks["sm"] / 10}rem;
+  max-width: ${breaks["sm"]}px;
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: part-list;
 `;
 const Part = styled.li`
-  margin: 0.3rem 0;
+  margin: 3px 0;
   padding: 0;
   counter-increment: part-list;
   color: ${oc.gray[6]};
@@ -244,22 +244,22 @@ const Part = styled.li`
   }
   a {
     display: inline-flex;
-    border-radius: 0.8rem;
-    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    padding: 3px 8px;
     text-decoration: none;
     align-items: center;
-    font-size: 1.4rem;
+    font-size: 0.14rem;
     color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
     &::before {
       content: counter(part-list);
-      width: 1.9rem;
-      margin-left: -0.3rem;
-      margin-right: 0.1rem;
+      width: 19px;
+      margin-left: -3px;
+      margin-right: 1px;
       text-align: center;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 0.13rem;
     }
     &:visited {
       color: inherit;
@@ -278,7 +278,7 @@ const Part = styled.li`
 
 const Toc = styled.div`
   ul {
-    max-width: ${breaks["sm"] / 10}rem;
+    max-width: ${breaks["sm"]}px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -309,17 +309,17 @@ const Toc = styled.div`
     padding: 0;
   }
   a {
-    border-radius: 0.8rem;
-    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    padding: 3px 8px;
     text-decoration: none;
-    font-size: 1.4rem;
+    font-size: 0.14rem;
     color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
     &::before {
-      width: 1.9rem;
-      margin-left: -0.3rem;
-      margin-right: 0.6rem;
+      width: 19px;
+      margin-left: -3px;
+      margin-right: 6px;
       text-align: center;
       font-weight: 500;
     }
@@ -350,7 +350,7 @@ const Toc = styled.div`
       }
       /* List H2 */
       > ul {
-        margin-left: 1.6rem;
+        margin-left: 16px;
         counter-reset: toc-h2;
         > li {
           > a,

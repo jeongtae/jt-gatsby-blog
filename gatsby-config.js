@@ -100,15 +100,20 @@ module.exports = {
         },
         plugins: [
           `gatsby-remark-smartypants`,
-          `gatsby-remark-autolink-headers`,
+          {
+            resolve: `gatsby-remark-autolink-headers`,
+            options: {
+              isIconAfterHeader: true,
+            },
+          },
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 1000,
+              maxWidth: 960,
               backgroundColor: "transparent",
-              quality: 80,
+              quality: 85,
               withWebp: true,
-              srcSetBreakpoints: [375, 414, 624, 752, 1000],
+              srcSetBreakpoints: [600, 740, 960, 1200, 1440, 1920],
               // wrapperStyle(fluid) {
               //   return `margin: 0 -1.2rem`;
               // },

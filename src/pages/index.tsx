@@ -8,7 +8,7 @@ import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";
 
 const ListHeading = styled.h1`
-  margin: 3.2rem 0.3rem 1.6rem;
+  margin: 32px 3px 16px;
 `;
 
 const TagGroupList = styled.ul`
@@ -18,9 +18,9 @@ const TagGroupList = styled.ul`
 `;
 const TagGroupListItem = styled.li`
   h2 {
-    margin: 0.8rem 0.8rem;
+    margin: 8px;
     font-weight: 500;
-    font-size: 1.9rem;
+    font-size: 0.19rem;
   }
 `;
 

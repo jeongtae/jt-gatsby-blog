@@ -10,9 +10,9 @@ const Section = styled.section`
   ${prism};
   code[class|="language"] {
     display: inline;
-    padding: 0.2rem 0.4rem;
-    border: 0.1rem solid ${oc.gray[3]};
-    border-radius: 0.4rem;
+    padding: 2px 4px;
+    border: 1px solid ${oc.gray[3]};
+    border-radius: 4px;
     background-color: ${oc.gray[0]};
     font-size: 0.9em;
     font-weight: 400;
@@ -23,11 +23,11 @@ const Section = styled.section`
   pre[class|="language"].line-numbers {
     display: block;
     position: relative;
-    margin: 1.6rem 0;
+    margin: 16px 0;
     padding: 0;
-    font-size: 1.3rem;
-    border: 0.2rem solid ${oc.gray[3]};
-    border-radius: 0.8rem;
+    font-size: 0.13rem;
+    border: 2px solid ${oc.gray[3]};
+    border-radius: 8px;
     background-color: ${oc.gray[0]};
     display: flex;
     flex-direction: row-reverse;
@@ -37,9 +37,9 @@ const Section = styled.section`
       top: 0;
       bottom: 0;
       right: 0;
-      width: 1.9rem;
+      width: 19px;
       background: linear-gradient(to left, ${oc.gray[0]}, ${transparentize(1, oc.gray[0])});
-      border-radius: 0 0.8rem 0.8rem 0;
+      border-radius: 0 8px 8px 0;
     }
     code[class|="language"] {
       position: initial;
@@ -48,8 +48,8 @@ const Section = styled.section`
       border-radius: 0;
       background: none;
       margin: 0;
-      padding: 0.3rem 0.5rem;
-      padding-right: 1.6rem;
+      padding: 3px 5px;
+      padding-right: 16px;
       font-size: inherit;
       text-shadow: none;
       overflow: scroll;
@@ -64,58 +64,57 @@ const Section = styled.section`
       position: initial;
       display: block;
       margin: 0;
-      padding: 0.3rem 0;
-      border-right: 0.2rem solid ${oc.gray[3]};
+      padding: 3px 0;
+      border-right: 2px solid ${oc.gray[3]};
       background-color: ${oc.gray[3]};
       color: ${oc.gray[7]};
       font-size: inherit;
       flex: none;
       > span::before {
-        width: 2.9rem;
+        width: 29px;
         padding: 0;
-        padding-right: 0.6rem;
+        padding-right: 6px;
         text-shadow: none;
       }
     }
     span.gatsby-highlight-code-line {
       display: block;
-      text-shadow: 0 0 0.3rem ${oc.yellow[4]};
-      &::selection,
-      span::selection {
-        background-color: ${oc.red[3]};
-      }
+      text-shadow: 1px 0 4px ${oc.yellow[4]}, 0 1px 4px ${oc.yellow[4]}, -1px 0 4px ${oc.yellow[4]},
+        0 -1px 4px ${oc.yellow[4]};
     }
   }
   span.gatsby-resp-image-wrapper {
-    margin: 0.8rem -1.2rem;
+    margin: 8px -12px !important;
     ${ApplyBreaks(
       px =>
         css`
-          margin: 0.8rem auto;
-          border-radius: 0.8rem;
+          margin: 8px auto !important;
+          border-radius: 8px;
           overflow: hidden;
         `,
       ["sm"]
     )};
   }
   iframe.embedVideo-iframe {
-    border-radius: 0.8rem;
+    border-radius: 8px;
   }
   a {
-    text-decoration: none;
     position: relative;
     background-image: linear-gradient(90deg, ${oc.blue[3]} 0%, ${oc.blue[4]} 100%);
     background-repeat: no-repeat;
     background-size: 100% 0.2em;
-    background-position: 0 90%;
-    transition: background-size ease-in-out 100ms, color ease-in-out 100ms;
-    text-shadow: 0 0.1rem 0 white;
+    background-position: 0 calc(100% - 0.03rem);
+    transition-property: background-size, color, background-position;
+    transition-timing-function: ease-in-out;
+    transition-duration: 100ms;
+    text-shadow: 0 1px 0 white;
     color: inherit;
     @media (hover) {
       &:hover {
-        border-radius: 0.3rem;
+        border-radius: 0.03rem;
         background-image: linear-gradient(90deg, ${oc.blue[4]} 0%, ${oc.blue[5]} 100%);
         background-size: 100% 100%;
+        background-position: 0 100%;
         text-shadow: none;
         color: ${oc.white};
       }
@@ -124,27 +123,57 @@ const Section = styled.section`
       background-image: linear-gradient(90deg, ${oc.blue[6]} 0%, ${oc.blue[8]} 100%);
     }
     &.anchor.before,
+    &.anchor.after,
     &.gatsby-resp-image-link {
       text-shadow: none;
       background: none;
     }
+    &.anchor.before,
+    &.anchor.after {
+      transform: translateY(-8%);
+      padding-left: 0.05rem;
+      > svg {
+        transition: transform ease-in-out 200ms, opacity ease-in-out 200ms;
+        visibility: visible;
+        transform: translateX(-8px);
+        opacity: 0;
+      }
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &:hover {
+      a.anchor.before,
+      a.anchor.after {
+        > svg {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+    }
   }
   table {
-    display: table;
-    width: auto;
-    margin: 1.6rem 0 2.4rem;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    overflow-x: scroll;
+    margin: 0.16rem 0 0.24rem;
     border-collapse: separate;
     border-spacing: 0;
-    border-radius: 0.8rem;
-    border: 0.2rem solid ${oc.gray[3]};
+    border-radius: 8px;
+    border: 2px solid ${oc.gray[3]};
     overflow: hidden;
   }
   th {
     border: none;
     background-color: ${oc.gray[3]};
     color: ${oc.gray[7]};
-    padding: 0.8rem 1.2rem;
-    font-size: 1.4rem;
+    padding: 8px 12px;
+    font-size: 0.14rem;
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1.5;
@@ -170,10 +199,10 @@ const Section = styled.section`
   }
   td {
     border: none;
-    border-bottom: 0.2rem solid ${oc.gray[3]};
-    padding: 0.6rem 1.2rem;
+    border-bottom: 2px solid ${oc.gray[3]};
+    padding: 6px 12px;
     vertical-align: top;
-    font-size: 1.6rem;
+    font-size: 0.16rem;
     line-height: 1.5;
     &[align="center"] {
       text-align: center;
@@ -191,7 +220,7 @@ const Section = styled.section`
   div.hidden-heading-anchor {
     position: relative;
     height: 0;
-    top: -16rem;
+    top: -160px;
     visibility: hidden;
     &:target {
       + h2,
@@ -208,8 +237,7 @@ const Section = styled.section`
   h4,
   h5,
   h6 {
-    margin-left: 1.2rem;
-    font-weight: 500;
+    margin-left: 0.12rem;
     ${ApplyBreaks(
       px =>
         css`
@@ -218,49 +246,15 @@ const Section = styled.section`
       ["sm"]
     )}
   }
-  h2 {
-    margin-top: 3.8rem;
-    font-size: 3.2rem;
-  }
-  h3 {
-    margin-top: 3.2rem;
-    font-size: 2.4rem;
-  }
-  h4 {
-    margin-top: 2.1rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.9rem;
-  }
-  h5 {
-    margin-top: 1.6rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.6rem;
-    font-weight: 700;
-  }
-  h6 {
-    margin-top: 1.6rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.4rem;
-    font-weight: 700;
-  }
-  p {
-    margin-top: 0.8rem;
-    margin-bottom: 1.6rem;
-  }
   blockquote {
-    font-size: 1.6rem;
-    margin-left: 0.8rem;
+    margin-left: 0.08rem;
   }
   ol,
   ul {
-    margin: 0.8rem 0;
-    margin-left: 2rem;
+    margin-left: 0.2rem;
     ol,
     ul {
-      margin-top: 0;
-    }
-    li {
-      margin-bottom: 0.4rem;
+      margin-left: 0.03rem;
     }
     p {
       margin: 0;

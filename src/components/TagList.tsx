@@ -5,32 +5,32 @@ import styled, { css } from "../utils/styled-components";
 import { Tag, MarkdownRemark } from "../generated/graphql-types";
 
 export const List = styled.ul`
-  margin: 0.8rem 0 0.3rem;
+  margin: 8px 0 3px;
   margin: 0;
   list-style: none;
   display: flex;
   flex-wrap: wrap;
 `;
 export const ListItem = styled.li`
-  margin: 0 0.2rem 0.6rem;
+  margin: 0 0.02rem 0.06rem;
   display: inline-block;
   a {
     width: 100%;
-    height: 2.4rem;
-    border: 0.1rem solid ${oc.gray[7]};
-    border-radius: 0.8rem;
-    padding: 0 0.5rem;
+    height: 0.24rem;
+    border: 1px solid ${oc.gray[7]};
+    border-radius: 0.08rem;
+    padding: 0 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.3rem;
+    font-size: 0.13rem;
     font-weight: 300;
     color: ${oc.gray[7]};
     text-decoration: none;
     transition: background-color ease-in-out 100ms, color ease-in-out 100ms;
     &::before {
       content: "#";
-      margin-right: 0.3rem;
+      margin-right: 0.03rem;
       transition: color ease-in-out 100ms;
       color: ${oc.gray[7]};
     }
