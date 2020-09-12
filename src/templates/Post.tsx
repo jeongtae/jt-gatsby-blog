@@ -227,6 +227,25 @@ const AsideItemHeader = styled.p`
   font-weight: 500;
   display: flex;
   align-items: center;
+  a {
+    border-radius: 8px;
+    margin: 0 -0.1rem;
+    padding: 0 0.1rem;
+    transition: 100ms ease-in-out;
+    transition-property: background-color, color;
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
+        &::before {
+          color: inherit;
+        }
+      }
+    }
+  }
   svg {
     margin-right: 0.06rem;
   }
@@ -595,8 +614,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const RecentListFragment = (
     <>
       <AsideItemHeader>
-        <FontAwesomeIcon icon={faPlus} />
-        최근 글
+        <Link to="/">
+          <FontAwesomeIcon icon={faPlus} />
+          최근 글
+        </Link>
       </AsideItemHeader>
       <PostList>
         {recentPosts.map(post => (
@@ -618,8 +639,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const CategoryListFragment = (
     <>
       <AsideItemHeader>
-        <FontAwesomeIcon icon={faTags} />
-        {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
+        <Link to={`/?tag=${currentCategoryTags[0]?.slug}`}>
+          <FontAwesomeIcon icon={faTags} />
+          {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
+        </Link>
       </AsideItemHeader>
       <CategoryList>
         {categoryPrevPost && (
