@@ -233,6 +233,7 @@ const AsideItemHeader = styled.p`
     padding: 0 0.1rem;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
+    color: inherit;
     &:visited {
       color: inherit;
     }
@@ -325,9 +326,11 @@ const PostListItem = styled.li`
     padding: 3px 8px;
     text-decoration: none;
     align-items: center;
-    color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
+    &:link {
+      color: inherit;
+    }
     &:visited .title {
       color: ${oc.gray[6]};
     }
