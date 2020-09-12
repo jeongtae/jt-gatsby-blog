@@ -319,7 +319,7 @@ const PostListItem = styled.li`
       border-radius: 6px;
       background-color: ${oc.gray[2]};
       margin-left: -5px;
-      margin-right: 3px;
+      margin-right: 5px;
     }
     .title {
       display: block;
@@ -505,6 +505,38 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       </PartList>
     </>
   );
+  const TocFragment = (
+    <>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faBookmark} />
+        목차
+      </AsideItemHeader>
+      <Toc dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
+    </>
+  );
+  const RelatedListFragment = (
+    <>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faLink} />
+        관련 글
+      </AsideItemHeader>
+      <PostList>
+        {relatedPosts.map(post => (
+          <PostListItem key={post.fields.slug}>
+            <Link to={`/${post.fields.slug}`}>
+              {post.frontmatter.thumbnail && (
+                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+              )}
+              <h1 className="title">{post.frontmatter.title}</h1>
+              <time className="description" dateTime={post.frontmatter.dateFormal}>
+                {post.frontmatter.date}
+              </time>
+            </Link>
+          </PostListItem>
+        ))}
+      </PostList>
+    </>
+  );
   const RecentListFragment = (
     <>
       <AsideItemHeader>
@@ -526,38 +558,6 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </PostListItem>
         ))}
       </PostList>
-    </>
-  );
-  const RelatedListFragment = (
-    <>
-      <AsideItemHeader>
-        <FontAwesomeIcon icon={faLink} />
-        관련 글
-      </AsideItemHeader>
-      <PostList>
-        {relatedPosts.map(post => (
-          <PostListItem key={post.fields.slug}>
-            <Link to={`/${post.fields.slug}`}>
-              {post.frontmatter.thumbnail && (
-                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
-              )}
-              <h1 className="title">{post.frontmatter.title}</h1>
-              <time className="description" dateTime={post.frontmatter.dateFormal}>
-                {post.frontmatter.dateFromNow}
-              </time>
-            </Link>
-          </PostListItem>
-        ))}
-      </PostList>
-    </>
-  );
-  const TocFragment = (
-    <>
-      <AsideItemHeader>
-        <FontAwesomeIcon icon={faBookmark} />
-        목차
-      </AsideItemHeader>
-      <Toc dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
     </>
   );
 
@@ -743,7 +743,7 @@ export const query = graphql`
     }
     profileFile: file(relativePath: { eq: "profile.jpg" }) {
       childImageSharp {
-        fluid(maxWidth: 36, srcSetBreakpoints: [36, 54, 72, 108]) {
+        fluid(fit: OUTSIDE, maxWidth: 36, srcSetBreakpoints: [36, 54, 72, 108]) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
@@ -757,7 +757,7 @@ export const query = graphql`
   fragment ThumbnailFragment on MarkdownRemarkFrontmatter {
     thumbnail {
       childImageSharp {
-        fluid(fit: OUTSIDE, maxWidth: 30, srcSetBreakpoints: [30, 45, 60, 90]) {
+        fluid(fit: OUTSIDE, maxWidth: 36, srcSetBreakpoints: [36, 54, 72, 108]) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
