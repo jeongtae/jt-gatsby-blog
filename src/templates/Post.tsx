@@ -83,8 +83,6 @@ const AdditionalBox = styled.div`
     `,
     ["sm"]
   )};
-  > * {
-  }
 `;
 
 const NameAndDate = styled.div`
@@ -126,7 +124,6 @@ const NameAndDate = styled.div`
         height: 40px;
         margin: 0;
         padding: 0;
-        /* object-fit: cover; */
         border-radius: 50%;
         border: 2px solid white;
         background-color: ${oc.gray[1]};
@@ -224,7 +221,7 @@ const AsideItemInAside = styled.section`
   }
 `;
 const AsideItemHeader = styled.p`
-  margin: 0;
+  margin: 0 0 0.1rem;
   padding: 0 0.1rem;
   font-size: 0.2rem;
   font-weight: 500;

@@ -53,7 +53,7 @@ export default new Typography({
   overrideThemeStyles({ rhythm: r }) {
     return {
       body: {
-        fontSize: r(0.16),
+        fontSize: r(0.15),
         lineHeight: 1.6,
       },
       // Header Styles
@@ -63,10 +63,10 @@ export default new Typography({
       "h5,h6": {
         fontWeight: 700,
       },
-      h1: { marginTop: r(0.4), fontSize: r(0.36) },
-      h2: { marginTop: r(0.38), fontSize: r(0.32) },
-      h3: { marginTop: r(0.32), fontSize: r(0.24) },
-      h4: { marginTop: r(0.21), fontSize: r(0.19) },
+      h1: { marginTop: r(0.4), fontSize: r(0.34) },
+      h2: { marginTop: r(0.38), fontSize: r(0.26) },
+      h3: { marginTop: r(0.32), fontSize: r(0.22) },
+      h4: { marginTop: r(0.21), fontSize: r(0.18) },
       h5: { marginTop: r(0.16), fontSize: r(0.16) },
       h6: { marginTop: r(0.16), fontSize: r(0.14) },
       // Paragraph Style
