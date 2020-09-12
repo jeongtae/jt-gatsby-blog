@@ -70,7 +70,7 @@ const Contents = styled.div`
   .title {
     flex-grow: 0;
     margin: 0;
-    font-size: 0.19rem;
+    font-size: 0.17rem;
     /* height: 0.22rem; */
     font-weight: 500;
     white-space: nowrap;
@@ -81,7 +81,7 @@ const Contents = styled.div`
     margin: 0;
     flex-grow: 0;
     color: ${oc.gray[7]};
-    font-size: 0.14rem;
+    font-size: 0.13rem;
     /* height: 19rem; */
     margin-bottom: -3px;
     font-weight: 300;
@@ -126,6 +126,34 @@ const Contents = styled.div`
       align-items: center;
     }
   }
+  ${ApplyBreaks(
+    px => css`
+      .title {
+        font-size: 0.15rem;
+      }
+      .description {
+        font-size: 0.13rem;
+      }
+      .tags li {
+        font-size: 0.12rem;
+      }
+    `,
+    ["md"]
+  )};
+  ${ApplyBreaks(
+    px => css`
+      .title {
+        font-size: 0.18rem;
+      }
+      .description {
+        font-size: 0.14rem;
+      }
+      .tags li {
+        font-size: 0.13rem;
+      }
+    `,
+    ["lg"]
+  )};
 `;
 
 const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
