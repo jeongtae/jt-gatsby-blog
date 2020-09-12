@@ -17,7 +17,16 @@ import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 import SEO from "../components/SEO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLink, faPlus, faShare, faBookmark, faStream } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLink,
+  faPlus,
+  faShare,
+  faBookmark,
+  faStream,
+  faTags,
+  faAngleUp,
+  faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Title = styled.h1`
   margin: 32px 8px 0;
@@ -340,6 +349,48 @@ const PostListItem = styled.li`
   }
 `;
 
+const CategoryList = styled.ul`
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+const CategoryListItem = styled.li`
+  margin: 3px 0;
+  padding: 0;
+  color: ${oc.gray[8]};
+  a {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    color: inherit;
+    transition: 100ms ease-in-out;
+    transition-property: background-color, color;
+    border-radius: 8px;
+    padding: 3px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
+      }
+    }
+  }
+  svg {
+    display: inline-block;
+    margin-right: 0.03rem;
+  }
+  .text {
+    margin-right: 0.06rem;
+    font-weight: 500;
+  }
+`;
+
 const Toc = styled.div`
   ul {
     max-width: ${breaks["sm"]}px;
@@ -490,6 +541,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const tocRef = useRef<HTMLDivElement>();
   const markdownRef = useRef<HTMLElement>();
 
+  const currentIndexOfCategoryPosts = categoryPosts.findIndex(post => post.fields.slug === slug);
+  const categoryPrevPost = categoryPosts[currentIndexOfCategoryPosts + 1];
+  const categoryNextPost = categoryPosts[currentIndexOfCategoryPosts - 1];
+
   const PartListFragment = (
     <>
       <AsideItemHeader>
@@ -558,6 +613,34 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </PostListItem>
         ))}
       </PostList>
+    </>
+  );
+  const CategoryListFragment = (
+    <>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faTags} />
+        카테고리 다른 글
+      </AsideItemHeader>
+      <CategoryList>
+        {categoryPrevPost && (
+          <CategoryListItem className="prev">
+            <Link to={`/${categoryPrevPost.fields.slug}`}>
+              <FontAwesomeIcon icon={faAngleUp} />
+              <span className="text">이전글</span>
+              {categoryPrevPost.frontmatter.title}
+            </Link>
+          </CategoryListItem>
+        )}
+        {categoryNextPost && (
+          <CategoryListItem className="next">
+            <Link to={`/${categoryNextPost.fields.slug}`}>
+              <FontAwesomeIcon icon={faAngleDown} />
+              <span className="text">다음글</span>
+              {categoryNextPost.frontmatter.title}
+            </Link>
+          </CategoryListItem>
+        )}
+      </CategoryList>
     </>
   );
 
@@ -648,6 +731,9 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       )}
       {recentPosts.length > 0 && (
         <AsideItemInMain className="responsive">{RecentListFragment}</AsideItemInMain>
+      )}
+      {(categoryPrevPost || categoryNextPost) && (
+        <AsideItemInMain>{CategoryListFragment}</AsideItemInMain>
       )}
     </Layout>
   );
