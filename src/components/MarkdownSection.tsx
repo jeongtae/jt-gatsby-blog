@@ -99,8 +99,6 @@ const Section = styled.section`
     margin: 0.08rem auto !important;
     border-radius: 8px;
   }
-  iframe.embedVideo-iframe {
-  }
   a {
     position: relative;
     background-image: linear-gradient(90deg, ${oc.blue[3]} 0%, ${oc.blue[4]} 100%);
@@ -240,7 +238,7 @@ const Section = styled.section`
   h4,
   h5,
   h6 {
-    margin-left: 0.12rem;
+    margin-left: 0.04rem;
     ${ApplyBreaks(
       px =>
         css`
