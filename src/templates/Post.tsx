@@ -16,9 +16,8 @@ import Layout, { ASIDE_BREAK } from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 import SEO from "../components/SEO";
-import { faLink, faList } from "@fortawesome/free-solid-svg-icons";
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink, faPlus, faShare, faBookmark, faStream } from "@fortawesome/free-solid-svg-icons";
 
 const Title = styled.h1`
   margin: 32px 8px 0;
@@ -194,31 +193,36 @@ const Buttons = styled.div`
   }
 `;
 
-const AsideBoxItemInMain = styled.section`
-  margin: 32px 8px 16px;
-  ${ApplyBreaks(
-    px => css`
-      display: none;
-    `,
-    [ASIDE_BREAK]
-  )};
+const AsideItemInMain = styled.section`
+  margin: 32px 8px;
+  &.responsive {
+    ${ApplyBreaks(
+      px => css`
+        display: none;
+      `,
+      [ASIDE_BREAK]
+    )};
+  }
 `;
-const AsideBoxItemInAside = styled.section`
-  margin: 32px 8px 16px;
+const AsideItemInAside = styled.section`
+  margin: 28px 8px;
   > p {
     justify-content: center;
     text-align: end;
   }
+  &:last-child {
+    margin-bottom: 33vh;
+  }
 `;
-const AsideBoxItemHeader = styled.p`
+const AsideItemHeader = styled.p`
   margin: 0;
-  padding: 0;
+  padding: 0 0.1rem;
   font-size: 0.2rem;
   font-weight: 500;
   display: flex;
   align-items: center;
-  > span {
-    margin: 0 5px;
+  svg {
+    margin-right: 0.06rem;
   }
 `;
 
@@ -272,6 +276,66 @@ const Part = styled.li`
           color: inherit;
         }
       }
+    }
+  }
+`;
+
+const PostList = styled.ul`
+  display: block;
+  max-width: ${breaks["sm"]}px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+const PostListItem = styled.li`
+  margin: 3px 0;
+  padding: 0;
+  color: ${oc.gray[8]};
+  a {
+    display: block;
+    width: fit-content;
+    height: calc(0.36rem + 6px);
+    max-width: 360px;
+    border-radius: 8px;
+    padding: 3px 8px;
+    text-decoration: none;
+    align-items: center;
+    color: inherit;
+    transition: 100ms ease-in-out;
+    transition-property: background-color, color;
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
+      }
+    }
+    .gatsby-image-wrapper {
+      float: left;
+      width: 0.36rem;
+      height: 0.36rem;
+      border-radius: 6px;
+      background-color: ${oc.gray[2]};
+      margin-left: -5px;
+      margin-right: 3px;
+    }
+    .title {
+      display: block;
+      margin: 0;
+      font-size: 0.14rem;
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .description {
+      display: block;
+      margin: 0;
+      font-size: 0.12rem;
+      font-weight: 300;
+      color: ${oc.gray[6]};
     }
   }
 `;
@@ -428,10 +492,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
 
   const PartListFragment = (
     <>
-      <AsideBoxItemHeader>
-        <FontAwesomeIcon icon={faCopy} />
-        <span>이어지는 글</span>
-      </AsideBoxItemHeader>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faStream} />
+        이어지는 글
+      </AsideItemHeader>
       <PartList>
         {partPosts.map(post => (
           <Part key={post.fields.slug} className={post.fields.slug === slug ? "highlighted" : ""}>
@@ -441,29 +505,63 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       </PartList>
     </>
   );
+  const RecentListFragment = (
+    <>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faPlus} />
+        최근 글
+      </AsideItemHeader>
+      <PostList>
+        {recentPosts.map(post => (
+          <PostListItem key={post.fields.slug}>
+            <Link to={`/${post.fields.slug}`}>
+              {post.frontmatter.thumbnail && (
+                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+              )}
+              <h1 className="title">{post.frontmatter.title}</h1>
+              <time className="description" dateTime={post.frontmatter.dateFormal}>
+                {post.frontmatter.dateFromNow}
+              </time>
+            </Link>
+          </PostListItem>
+        ))}
+      </PostList>
+    </>
+  );
+  const RelatedListFragment = (
+    <>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faLink} />
+        관련 글
+      </AsideItemHeader>
+      <PostList>
+        {relatedPosts.map(post => (
+          <PostListItem key={post.fields.slug}>
+            <Link to={`/${post.fields.slug}`}>
+              {post.frontmatter.thumbnail && (
+                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+              )}
+              <h1 className="title">{post.frontmatter.title}</h1>
+              <time className="description" dateTime={post.frontmatter.dateFormal}>
+                {post.frontmatter.dateFromNow}
+              </time>
+            </Link>
+          </PostListItem>
+        ))}
+      </PostList>
+    </>
+  );
   const TocFragment = (
     <>
-      <AsideBoxItemHeader>
-        <FontAwesomeIcon icon={faList} />
-        <span>목차</span>
-      </AsideBoxItemHeader>
+      <AsideItemHeader>
+        <FontAwesomeIcon icon={faBookmark} />
+        목차
+      </AsideItemHeader>
       <Toc dangerouslySetInnerHTML={{ __html: post.tableOfContents }} />
     </>
   );
 
   useEffect(() => {
-    console.log(
-      "CATEGORY",
-      categoryPosts.map(p => p.frontmatter.title)
-    );
-    console.log(
-      "RECENT",
-      recentPosts.map(p => p.frontmatter.title)
-    );
-    console.log(
-      "RELATED",
-      relatedPosts.map(p => p.frontmatter.title)
-    );
     const bodyHnElements = markdownRef.current.querySelectorAll("h2, h3");
     const tocLiElements = tocRef.current?.querySelectorAll("li") ?? [];
     const updateTocHighlighting = () => {
@@ -496,10 +594,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       navigationProps={{ title: post.frontmatter.title }}
       asideChildren={
         <>
-          {partPosts?.length > 0 && <AsideBoxItemInAside>{PartListFragment}</AsideBoxItemInAside>}
-          {post.tableOfContents && (
-            <AsideBoxItemInAside ref={tocRef}>{TocFragment}</AsideBoxItemInAside>
-          )}
+          {partPosts.length > 0 && <AsideItemInAside>{PartListFragment}</AsideItemInAside>}
+          {post.tableOfContents && <AsideItemInAside ref={tocRef}>{TocFragment}</AsideItemInAside>}
+          {relatedPosts.length > 0 && <AsideItemInAside>{RelatedListFragment}</AsideItemInAside>}
+          {recentPosts.length > 0 && <AsideItemInAside>{RecentListFragment}</AsideItemInAside>}
         </>
       }
     >
@@ -532,16 +630,25 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
             onMouseDown={e => e.preventDefault()}
             onClick={() => copy(site.siteMetadata.siteUrl + slug)}
           >
-            <FontAwesomeIcon icon={faLink} />
+            <FontAwesomeIcon icon={faShare} />
             <span>URL 복사</span>
           </button>
         </Buttons>
       </AdditionalBox>
-      {partPosts?.length > 0 && <AsideBoxItemInMain>{PartListFragment}</AsideBoxItemInMain>}
+      {partPosts.length > 0 && (
+        <AsideItemInMain className="responsive">{PartListFragment}</AsideItemInMain>
+      )}
       {post.tableOfContents && (
-        <AsideBoxItemInMain className="nothing-highlighted">{TocFragment}</AsideBoxItemInMain>
+        <AsideItemInMain className="responsive nothing-highlighted">{TocFragment}</AsideItemInMain>
       )}
       <MarkdownSection ref={markdownRef} html={post.html} />
+      {partPosts.length > 0 && <AsideItemInMain>{PartListFragment}</AsideItemInMain>}
+      {relatedPosts.length > 0 && (
+        <AsideItemInMain className="responsive">{RelatedListFragment}</AsideItemInMain>
+      )}
+      {recentPosts.length > 0 && (
+        <AsideItemInMain className="responsive">{RecentListFragment}</AsideItemInMain>
+      )}
     </Layout>
   );
 };
@@ -615,6 +722,7 @@ export const query = graphql`
         frontmatter {
           title
           ...DateFragment
+          ...ThumbnailFragment
         }
       }
     }
@@ -629,13 +737,14 @@ export const query = graphql`
         frontmatter {
           title
           ...DateFragment
+          ...ThumbnailFragment
         }
       }
     }
     profileFile: file(relativePath: { eq: "profile.jpg" }) {
       childImageSharp {
-        fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
-          ...GatsbyImageSharpFluid_withWebp_tracedSVG
+        fluid(maxWidth: 36, srcSetBreakpoints: [36, 54, 72, 108]) {
+          ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
@@ -644,5 +753,14 @@ export const query = graphql`
     date(formatString: "YYYY년 M월 D일")
     dateFormal: date(formatString: "YYYY-MM-DD")
     dateFromNow: date(locale: "ko", fromNow: true)
+  }
+  fragment ThumbnailFragment on MarkdownRemarkFrontmatter {
+    thumbnail {
+      childImageSharp {
+        fluid(fit: OUTSIDE, maxWidth: 30, srcSetBreakpoints: [30, 45, 60, 90]) {
+          ...GatsbyImageSharpFluid_withWebp
+        }
+      }
+    }
   }
 `;
