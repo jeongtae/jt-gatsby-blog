@@ -165,6 +165,7 @@ export async function createPages({ actions: { createPage }, graphql }: CreatePa
         partSlugs,
         categorySlugs,
         relatedSlugs,
+        categoryTagSlugs,
       },
       component: resolve("./src/templates/Post.tsx"),
     });

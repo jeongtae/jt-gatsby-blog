@@ -536,7 +536,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     recentPosts: { nodes: recentPosts },
     relatedPosts: { nodes: relatedPosts },
   } = data;
-  const { slug } = pageContext as SitePageContext;
+  const { slug, categoryTagSlugs } = pageContext as SitePageContext;
   const tags = allTag.nodes.filter(tag => post.frontmatter.tags?.includes(tag.slug));
   const tocRef = useRef<HTMLDivElement>();
   const markdownRef = useRef<HTMLElement>();
@@ -544,6 +544,8 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const currentIndexOfCategoryPosts = categoryPosts.findIndex(post => post.fields.slug === slug);
   const categoryPrevPost = categoryPosts[currentIndexOfCategoryPosts + 1];
   const categoryNextPost = categoryPosts[currentIndexOfCategoryPosts - 1];
+  const currentCategoryTags = tags.filter(tag => categoryTagSlugs.includes(tag.slug));
+  console.log(currentCategoryTags);
 
   const PartListFragment = (
     <>
@@ -619,7 +621,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     <>
       <AsideItemHeader>
         <FontAwesomeIcon icon={faTags} />
-        카테고리 다른 글
+        {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리
       </AsideItemHeader>
       <CategoryList>
         {categoryPrevPost && (
