@@ -263,14 +263,6 @@ const Part = styled.li`
   margin: 3px 0;
   padding: 0;
   counter-increment: part-list;
-  color: ${oc.gray[6]};
-  &.highlighted {
-    color: ${oc.gray[9]};
-    font-weight: 500;
-    a::before {
-      content: "\\2022";
-    }
-  }
   a {
     display: inline-flex;
     border-radius: 8px;
@@ -291,7 +283,7 @@ const Part = styled.li`
       font-size: 0.13rem;
     }
     &:visited {
-      color: inherit;
+      color: ${oc.gray[6]};
     }
     @media (hover) {
       &:hover {
@@ -301,6 +293,15 @@ const Part = styled.li`
           color: inherit;
         }
       }
+    }
+  }
+  &.highlighted {
+    a:visited {
+      color: ${oc.gray[9]};
+    }
+    font-weight: 500;
+    a::before {
+      content: "\\2022";
     }
   }
 `;
@@ -315,7 +316,6 @@ const PostList = styled.ul`
 const PostListItem = styled.li`
   margin: 3px 0;
   padding: 0;
-  color: ${oc.gray[8]};
   a {
     display: block;
     width: fit-content;
@@ -328,8 +328,8 @@ const PostListItem = styled.li`
     color: inherit;
     transition: 100ms ease-in-out;
     transition-property: background-color, color;
-    &:visited {
-      color: inherit;
+    &:visited .title {
+      color: ${oc.gray[6]};
     }
     @media (hover) {
       &:hover {
@@ -363,6 +363,14 @@ const PostListItem = styled.li`
       color: ${oc.gray[6]};
     }
   }
+  &.highlighted {
+    .title {
+      font-weight: 500;
+    }
+    a:visited .title {
+      color: inherit;
+    }
+  }
 `;
 
 const CategoryList = styled.ul`
@@ -389,7 +397,11 @@ const CategoryListItem = styled.li`
     text-overflow: ellipsis;
     white-space: nowrap;
     &:visited {
-      color: inherit;
+      color: ${oc.gray[6]};
+      svg,
+      .text {
+        color: inherit;
+      }
     }
     @media (hover) {
       &:hover {
@@ -621,7 +633,10 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       </AsideItemHeader>
       <PostList>
         {recentPosts.map(post => (
-          <PostListItem key={post.fields.slug}>
+          <PostListItem
+            key={post.fields.slug}
+            className={post.fields.slug === slug ? "highlighted" : ""}
+          >
             <Link to={`/${post.fields.slug}`}>
               {post.frontmatter.thumbnail && (
                 <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
