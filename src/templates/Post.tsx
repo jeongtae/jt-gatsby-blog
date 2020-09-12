@@ -200,7 +200,7 @@ const Buttons = styled.div`
 `;
 
 const AsideItemInMain = styled.section`
-  margin: 32px 8px;
+  margin: 32px -8px;
   &.responsive {
     ${ApplyBreaks(
       px => css`
