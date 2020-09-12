@@ -359,6 +359,7 @@ const CategoryListItem = styled.li`
   margin: 3px 0;
   padding: 0;
   color: ${oc.gray[8]};
+  font-size: 0.14rem;
   a {
     display: block;
     width: fit-content;
@@ -386,7 +387,7 @@ const CategoryListItem = styled.li`
     margin-right: 0.03rem;
   }
   .text {
-    margin-right: 0.06rem;
+    margin-right: 0.04rem;
     font-weight: 500;
   }
 `;
@@ -621,14 +622,14 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
     <>
       <AsideItemHeader>
         <FontAwesomeIcon icon={faTags} />
-        {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리
+        {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
       </AsideItemHeader>
       <CategoryList>
         {categoryPrevPost && (
           <CategoryListItem className="prev">
             <Link to={`/${categoryPrevPost.fields.slug}`}>
               <FontAwesomeIcon icon={faAngleUp} />
-              <span className="text">이전글</span>
+              <span className="text">이전</span>
               {categoryPrevPost.frontmatter.title}
             </Link>
           </CategoryListItem>
@@ -637,7 +638,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           <CategoryListItem className="next">
             <Link to={`/${categoryNextPost.fields.slug}`}>
               <FontAwesomeIcon icon={faAngleDown} />
-              <span className="text">다음글</span>
+              <span className="text">다음</span>
               {categoryNextPost.frontmatter.title}
             </Link>
           </CategoryListItem>
@@ -765,7 +766,7 @@ export const query = graphql`
       }
     }
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
-      excerpt(pruneLength: 180)
+      excerpt(truncate: true, pruneLength: 180)
       html
       tableOfContents
       frontmatter {
