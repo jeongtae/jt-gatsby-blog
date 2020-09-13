@@ -806,7 +806,7 @@ export const query = graphql`
     post: markdownRemark(fields: { slug: { eq: $slug } }) {
       excerpt(truncate: true, pruneLength: 180)
       html
-      tableOfContents
+      tableOfContents(absolute: false)
       frontmatter {
         title
         description
