@@ -106,3 +106,6 @@ public
 
 # macOS
 .DS_Store
+
+# post
+contents/posts/**/
