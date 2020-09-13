@@ -92,7 +92,7 @@ export const query = graphql`
           thumbnail {
             childImageSharp {
               fluid(maxWidth: 78, srcSetBreakpoints: [78, 156]) {
-                ...GatsbyImageSharpFluid_withWebp
+                ...GatsbyImageSharpFluid_withWebp_noBase64
               }
             }
           }

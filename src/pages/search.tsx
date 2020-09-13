@@ -88,14 +88,23 @@ export const query = graphql`
     posts: allMarkdownRemark(sort: { order: DESC, fields: frontmatter___date }) {
       nodes {
         id
-        excerpt(truncate: true, pruneLength: 200)
+        excerpt(truncate: true, pruneLength: 180)
+        timeToRead
         fields {
           slug
         }
         frontmatter {
           title
+          description
           date(formatString: "YYYY-MM-DD")
           tags
+          thumbnail {
+            childImageSharp {
+              fluid(maxWidth: 78, srcSetBreakpoints: [78, 156]) {
+                ...GatsbyImageSharpFluid_withWebp_noBase64
+              }
+            }
+          }
         }
       }
     }
