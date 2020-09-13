@@ -317,11 +317,13 @@ const PostList = styled.ul`
 const PostListItem = styled.li`
   margin: 3px 0;
   padding: 0;
+  max-width: 340px;
   a {
     display: block;
-    width: fit-content;
+    width: 100%;
+    /* width: fit-content;
+    max-width: 100%; */
     height: calc(0.36rem + 6px);
-    max-width: 360px;
     border-radius: 8px;
     padding: 3px 8px;
     text-decoration: none;
@@ -577,7 +579,6 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const categoryPrevPost = categoryPosts[currentIndexOfCategoryPosts + 1];
   const categoryNextPost = categoryPosts[currentIndexOfCategoryPosts - 1];
   const currentCategoryTags = tags.filter(tag => categoryTagSlugs.includes(tag.slug));
-  console.log(currentCategoryTags);
 
   const PartListFragment = (
     <>
