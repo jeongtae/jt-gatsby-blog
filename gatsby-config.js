@@ -6,7 +6,7 @@ const {
   googleAnalyticsTrackingId,
 } = require("./contents/configs/config").default;
 
-module.exports = {
+const config = {
   siteMetadata: {
     title,
     author,
@@ -169,3 +169,16 @@ module.exports = {
     },
   ],
 };
+
+if (process.env.NODE_ENV === `development`) {
+  filesystemPluginIndex = config.plugins.findIndex(c => c.resolve === `gatsby-source-filesystem`);
+  config.plugins.splice(filesystemPluginIndex, 0, {
+    resolve: `gatsby-source-filesystem`,
+    options: {
+      name: `drafts`,
+      path: `${__dirname}/contents/drafts`,
+    },
+  });
+}
+
+module.exports = config;
