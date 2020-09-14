@@ -7,8 +7,9 @@ import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";
 
-const ListHeading = styled.h1`
-  margin: 32px 3px 16px;
+const ListHeader = styled.h2`
+  margin: 0.32rem 0.03rem 0.16rem;
+  font-size: 0.32rem;
 `;
 
 const TagGroupList = styled.ul`
@@ -17,7 +18,7 @@ const TagGroupList = styled.ul`
   list-style: none;
 `;
 const TagGroupListItem = styled.li`
-  h2 {
+  h3 {
     margin: 8px;
     font-weight: 500;
     font-size: 0.19rem;
@@ -36,7 +37,7 @@ type PageData = {
   };
 };
 
-const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
+const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
   const {
     posts: { nodes: posts },
     tags: { nodes: tags },
@@ -49,25 +50,44 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location }) => {
     ? posts.filter(post => post.frontmatter.tags.includes(selectedTag.slug))
     : posts;
 
+  const labelClickHandler: React.MouseEventHandler<HTMLLabelElement> = e => {
+    e.preventDefault();
+    e.currentTarget.control?.click();
+  };
+
   return (
     <Layout>
       <SEO />
-      <ListHeading>태그</ListHeading>
+      <ListHearder>태그</ListHearder>
       <TagGroupList>
-        <TagListItem className={!selectedTag ? "highlighted" : ""}>
-          <Link to=".">전체 ({posts.length})</Link>
+        <TagListItem>
+          <input
+            type="checkbox"
+            name="tag"
+            id="all"
+            checked={!selectedTag}
+            onChange={e => e.currentTarget.checked && navigate(`.`)}
+          />
+          <label className="control" htmlFor="all" onClick={labelClickHandler}>
+            전체 ({posts.length})
+          </label>
         </TagListItem>
         {tagGroups.map(tagGroup => (
           <TagGroupListItem key={tagGroup.id}>
-            <h2>{tagGroup.name}</h2>
+            <h3>{tagGroup.name}</h3>
             <TagList
               tags={tagGroup.tags}
-              highlightedTagSlug={selectedTag ? selectedTag.slug : null}
+              selectedTagSlugs={selectedTag ? [selectedTag.slug] : []}
+              onChangeSelectedTagSlug={(slug, selected) => {
+                if (selected) {
+                  navigate(`/?tag=${slug}`);
+                }
+              }}
             />
           </TagGroupListItem>
         ))}
       </TagGroupList>
-      <ListHeading>{selectedTag ? `${selectedTag.name} 포스트` : "모든 포스트"}</ListHeading>
+      <ListHeader>{selectedTag ? `${selectedTag.name} 포스트` : "모든 포스트"}</ListHeader>
       <PostList posts={filteredPosts} />
     </Layout>
   );

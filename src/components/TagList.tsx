@@ -14,7 +14,12 @@ export const List = styled.ul`
 export const ListItem = styled.li`
   margin: 0 0.02rem 0.06rem;
   display: inline-block;
-  a {
+  input {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  label {
     width: 100%;
     height: 0.24rem;
     border: 1px solid ${oc.gray[7]};
@@ -28,13 +33,14 @@ export const ListItem = styled.li`
     color: ${oc.gray[7]};
     text-decoration: none;
     transition: background-color ease-in-out 100ms, color ease-in-out 100ms;
+    cursor: pointer;
+    &:visited {
+      color: inherit;
+    }
     &::before {
       content: "#";
       margin-right: 0.03rem;
       transition: color ease-in-out 100ms;
-      color: ${oc.gray[7]};
-    }
-    &:visited {
       color: ${oc.gray[7]};
     }
     @media (hover) {
@@ -43,7 +49,7 @@ export const ListItem = styled.li`
       }
     }
   }
-  &.highlighted a {
+  input:checked + label {
     background-color: ${oc.gray[7]};
     color: white;
     &::before {
@@ -52,33 +58,36 @@ export const ListItem = styled.li`
   }
   ${Object.keys(oc).map(
     key => css`
-      &.${key} a {
-        border-color: ${oc[key][5]};
-        color: ${oc[key][5]};
-        &::before {
+      &.${key} {
+        label {
+          border-color: ${oc[key][5]};
           color: ${oc[key][5]};
-        }
-        @media (hover) {
-          &:hover {
-            background-color: ${oc[key][1]};
+          &::before {
+            color: ${oc[key][5]};
+          }
+          @media (hover) {
+            &:hover {
+              background-color: ${oc[key][1]};
+            }
           }
         }
-      }
-      &.${key}.highlighted a {
-        background-color: ${oc[key][5]};
-        color: white;
-        &::before {
+        input:checked + label {
+          background-color: ${oc[key][5]};
           color: white;
+          &::before {
+            color: white;
+          }
         }
       }
     `
   )}
 `;
 
-const TagList: React.FC<{ tags: Tag[]; highlightedTagSlug?: string }> = ({
-  tags,
-  highlightedTagSlug,
-}) => {
+const TagList: React.FC<{
+  tags: Tag[];
+  selectedTagSlugs?: string[];
+  onChangeSelectedTagSlug?: (slug: string, selected: boolean) => void;
+}> = ({ tags, selectedTagSlugs = [], onChangeSelectedTagSlug = () => {} }) => {
   const query = useStaticQuery(graphql`
     query {
       allMarkdownRemark {
@@ -92,23 +101,34 @@ const TagList: React.FC<{ tags: Tag[]; highlightedTagSlug?: string }> = ({
   `) as { allMarkdownRemark: { nodes: MarkdownRemark[] } };
   const posts = query.allMarkdownRemark.nodes;
 
+  const labelClickHandler: React.MouseEventHandler<HTMLLabelElement> = e => {
+    e.preventDefault();
+    e.currentTarget.control?.click();
+  };
+
   return (
     <List>
       {tags?.map(tag => (
-        <ListItem
-          key={tag.slug}
-          className={[
-            tag.group.color || "",
-            highlightedTagSlug && highlightedTagSlug === tag.slug ? "highlighted" : "",
-          ].join(" ")}
-        >
-          <Link to={`/?tag=${tag.slug}`} onMouseDown={e => e.preventDefault()}>
+        <ListItem key={tag.slug} className={tag.group.color || ""}>
+          <input
+            type="checkbox"
+            name="tag"
+            id={tag.slug}
+            checked={selectedTagSlugs.includes(tag.slug)}
+            onChange={e => {
+              const {
+                currentTarget: { id, checked },
+              } = e;
+              onChangeSelectedTagSlug(id, checked);
+            }}
+          />
+          <label htmlFor={tag.slug} onClick={labelClickHandler}>
             {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length})
-          </Link>
+          </label>
         </ListItem>
       ))}
     </List>
   );
 };
 
-export default TagList;
+export default React.memo(TagList);
