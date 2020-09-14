@@ -2,7 +2,7 @@ import React from "react";
 import { PageProps, graphql } from "gatsby";
 import oc from "open-color";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
-import { intersection } from "lodash";
+import { difference } from "lodash";
 import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
@@ -97,7 +97,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
   const filteredPosts = selectedTags.length
     ? posts.filter(post => {
         const postTagSlugs = post.frontmatter.tags;
-        return intersection(postTagSlugs, selectedTagSlugs).length === postTagSlugs.length;
+        return difference(selectedTagSlugs, postTagSlugs).length === 0;
       })
     : posts;
 
