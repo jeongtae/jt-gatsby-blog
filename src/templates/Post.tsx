@@ -175,28 +175,49 @@ const Buttons = styled.div`
   button {
     border: none;
     border-radius: 8px;
-    padding: 8px 2px;
+    padding: 7px 5px;
     appearance: none;
     background: none;
     cursor: pointer;
-    font-weight: 300;
     display: flex;
     align-items: center;
     font-size: 0.14rem;
-    color: ${oc.gray[7]};
-    margin-right: 6px;
+    font-weight: 500;
+    margin: 0 0.03rem;
     @media (hover) {
       &:hover {
         background-color: ${oc.gray[1]};
-        color: ${oc.gray[9]};
       }
     }
-    &:last-child {
-      margin-right: 0;
-    }
     svg {
-      margin-right: 5px;
+      margin-right: 0.04rem;
     }
+  }
+`;
+
+const RelativeBlock = styled.div`
+  position: relative;
+`;
+
+const DropdownOverlap = styled.div`
+  position: absolute;
+  background-color: ${oc.white};
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.14rem;
+  font-weight: 500;
+  cursor: default;
+  color: ${oc.green[8]};
+  &.show {
+    display: flex;
+  }
+  svg {
+    margin-right: 0.04rem;
   }
 `;
 
@@ -580,10 +601,14 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const tocRef = useRef<HTMLDivElement>();
   const markdownRef = useRef<HTMLElement>();
 
+  const url = `${site.siteMetadata.siteUrl}/${slug}`;
+
   const currentIndexOfCategoryPosts = categoryPosts.findIndex(post => post.fields.slug === slug);
   const categoryPrevPost = categoryPosts[currentIndexOfCategoryPosts + 1];
   const categoryNextPost = categoryPosts[currentIndexOfCategoryPosts - 1];
   const currentCategoryTags = tags.filter(tag => categoryTagSlugs.includes(tag.slug));
+
+  const copyDropdownRef = useRef<HTMLDivElement>();
 
   const PartListFragment = (
     <>
@@ -764,13 +789,23 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </time>
         </NameAndDate>
         <Buttons>
-          <button
-            onMouseDown={e => e.preventDefault()}
-            onClick={() => copy(site.siteMetadata.siteUrl + slug)}
-          >
-            <FontAwesomeIcon icon={faShare} />
-            <span>URL 복사</span>
-          </button>
+          <RelativeBlock>
+            <button
+              onMouseDown={e => e.preventDefault()}
+              onClick={() => {
+                copy(url);
+                copyDropdownRef.current.classList.add("show");
+                setTimeout(() => copyDropdownRef.current?.classList.remove("show"), 3000);
+              }}
+            >
+              <FontAwesomeIcon icon={faShare} />
+              <span>주소복사</span>
+            </button>
+            <DropdownOverlap ref={copyDropdownRef}>
+              <FontAwesomeIcon icon={faCheckCircle} />
+              <span>복사됨</span>
+            </DropdownOverlap>
+          </RelativeBlock>
         </Buttons>
       </AdditionalBox>
       {partPosts.length > 0 && (
