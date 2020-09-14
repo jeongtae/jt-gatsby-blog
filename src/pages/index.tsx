@@ -1,5 +1,6 @@
 import React from "react";
 import { PageProps, graphql } from "gatsby";
+import oc from "open-color";
 import styled, { ApplyBreaks, css } from "../utils/styled-components";
 import { intersection } from "lodash";
 import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
@@ -47,6 +48,15 @@ const TagGroupListItem = styled.li`
     font-weight: 500;
     font-size: 0.19rem;
   }
+`;
+
+const Message = styled.p`
+  margin: 32px 0 16px;
+  padding: 0;
+  text-align: center;
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: ${oc.gray[7]};
 `;
 
 type PageData = {
@@ -167,6 +177,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
           checkedIcon={faAngleDown}
         /> */}
       </ListHearderWithControl>
+      {filteredPosts.length === 0 && <Message>포스트가 없습니다.</Message>}
       <PostList posts={filteredPosts} />
     </Layout>
   );
