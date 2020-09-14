@@ -1,18 +1,13 @@
-const {
-  title,
-  author,
-  description,
-  siteUrl,
-  googleAnalyticsTrackingId,
-} = require("./contents/configs/config").default;
+const { default: userConfig } = require("./contents/configs/config");
+
+const siteMetadata = { ...userConfig };
+delete siteMetadata["tag"];
+delete siteMetadata["tagGroups"];
+
+const { siteUrl } = siteMetadata;
 
 const config = {
-  siteMetadata: {
-    title,
-    author,
-    description,
-    siteUrl,
-  },
+  siteMetadata,
   plugins: [
     `gatsby-plugin-lodash`,
     {
@@ -63,7 +58,7 @@ const config = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: googleAnalyticsTrackingId,
+        trackingId: userConfig.googleAnalyticsTrackingId,
         exclude: ["/search"],
       },
     },

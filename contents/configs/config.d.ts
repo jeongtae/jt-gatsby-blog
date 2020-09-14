@@ -18,6 +18,7 @@ declare type Config = {
   author: string;
   siteUrl: string;
   googleAnalyticsTrackingId: string;
+  facebookAppId: string;
   tagGroups: TagGroups;
   tags: Tags;
 };

@@ -27,7 +27,14 @@ import {
   faAngleUp,
   faAngleDown,
   faAngleRight,
+  faShareAlt,
+  faCheckCircle,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import FacebookShareLink from "../components/FacebookShareLink";
+import TwitterShareLink from "../components/TwitterShareLink";
+import MailShareLink from "../components/MailShareLink";
 
 const Title = styled.h1`
   margin: 32px 8px 0;
@@ -218,6 +225,59 @@ const DropdownOverlap = styled.div`
   }
   svg {
     margin-right: 0.04rem;
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+  background-color: ${oc.white};
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  width: 150px;
+  height: fit-content;
+  &.show {
+    display: flex;
+  }
+  a {
+    padding: 6px 0;
+    width: calc(150px - 8px);
+    border-bottom: 1px solid ${oc.gray[3]};
+    font-size: 0.14rem;
+    display: flex;
+    align-items: center;
+    &:link,
+    &:visited {
+      color: inherit;
+    }
+    &:last-of-type {
+      border-bottom: none;
+    }
+    svg {
+      padding-left: 3px;
+      font-size: 0.18rem;
+    }
+    span {
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+    }
+  }
+  button {
+    display: block;
+    width: calc(150px - 8px);
+    background-color: ${oc.gray[1]};
+    margin: 4px;
+    @media (hover) {
+      &:hover {
+        background-color: ${oc.gray[2]};
+      }
+    }
   }
 `;
 
@@ -609,6 +669,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const currentCategoryTags = tags.filter(tag => categoryTagSlugs.includes(tag.slug));
 
   const copyDropdownRef = useRef<HTMLDivElement>();
+  const shareDropdownRef = useRef<HTMLDivElement>();
 
   const PartListFragment = (
     <>
@@ -805,6 +866,35 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
               <FontAwesomeIcon icon={faCheckCircle} />
               <span>복사됨</span>
             </DropdownOverlap>
+          </RelativeBlock>
+          <RelativeBlock>
+            <button
+              onMouseDown={e => e.preventDefault()}
+              onClick={() => shareDropdownRef.current.classList.add("show")}
+            >
+              <FontAwesomeIcon icon={faShareAlt} />
+              <span>공유</span>
+            </button>
+            <DropdownMenu ref={shareDropdownRef}>
+              <FacebookShareLink url={url}>
+                <FontAwesomeIcon icon={faFacebook} />
+                <span>페이스북</span>
+              </FacebookShareLink>
+              <TwitterShareLink message={post.frontmatter.title} url={url}>
+                <FontAwesomeIcon icon={faTwitter} />
+                <span>트위터</span>
+              </TwitterShareLink>
+              <MailShareLink message={post.frontmatter.title} url={url}>
+                <FontAwesomeIcon icon={faEnvelope} />
+                <span>이메일</span>
+              </MailShareLink>
+              <button
+                onMouseDown={e => e.preventDefault()}
+                onClick={() => shareDropdownRef.current.classList.remove("show")}
+              >
+                닫기
+              </button>
+            </DropdownMenu>
           </RelativeBlock>
         </Buttons>
       </AdditionalBox>

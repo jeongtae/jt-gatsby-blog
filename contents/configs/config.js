@@ -7,6 +7,7 @@ const config = {
   description: "김정태의 블로그입니다.",
   siteUrl: !isDebug ? "https://blog.jeongtae.com" : "http://localhost:8000",
   googleAnalyticsTrackingId: "UA-171140784-1",
+  facebookAppId: "352465815881581",
   /* Tag Groups */
   tagGroups: {
     category: { name: "카테고리", color: "red" },

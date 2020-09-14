@@ -206,7 +206,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                   </time>
                   <p>
                     <FontAwesomeIcon icon={faEye} style={{ marginRight: "2px" }} />
-                    <span>약 {post.timeToRead}분 소요</span>
+                    <span>약 {post.timeToRead}분</span>
                   </p>
                 </div>
               </Contents>
