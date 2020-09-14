@@ -23,8 +23,8 @@ const Container = styled.div`
       position: relative;
       display: inline-block;
       margin-left: 0.03rem;
-      width: 0.2rem;
-      height: 0.13rem;
+      width: 0.21rem;
+      height: 0.14rem;
       border-radius: 1rem;
       background-color: ${oc.gray[5]};
       transition: background-color 100ms ease-in-out;
@@ -33,8 +33,8 @@ const Container = styled.div`
         position: absolute;
         top: 0.01rem;
         left: 0.01rem;
-        width: 0.11rem;
-        height: 0.11rem;
+        width: 0.12rem;
+        height: 0.12rem;
         border-radius: 1rem;
         background-color: ${oc.white};
         transition: transform 100ms ease-in-out;
