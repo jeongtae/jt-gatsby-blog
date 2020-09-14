@@ -27,13 +27,19 @@ const Nav = styled.nav`
   box-shadow: 0 0 11px rgba(0, 0, 0, 0.12);
   transition: transform ease-in-out 200ms, box-shadow ease-in-out 200ms;
   z-index: 1;
-  @media only screen and (max-aspect-ratio: 1) and (max-width: ${breaks["lg"]}px) {
+  @media only screen and (max-width: ${breaks["sm"]}px) {
     &.hidden {
       transform: translateY(-100%);
       box-shadow: unset;
     }
   }
-  @media only screen and (aspect-ratio: landscape) and (min-width: ${breaks["lg"]}px) {
+  @media only screen and (max-width: ${breaks["lg"]}px) and (min-aspect-ratio: 4/3) {
+    &.hidden {
+      transform: translateY(-100%);
+      box-shadow: unset;
+    }
+  }
+  @media only screen and (max-width: ${breaks["xl"]}px) and (min-aspect-ratio: 18/9) {
     &.hidden {
       transform: translateY(-100%);
       box-shadow: unset;
