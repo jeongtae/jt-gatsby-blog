@@ -283,7 +283,7 @@ const SearchInputBox = styled.div`
     font-weight: 500;
     color: ${oc.gray[7]};
     appearance: none;
-    transition: background-color ease-in-out 100ms, border-color ease-in-out 100ms;
+    transition: background-color ease-in-out 150ms, border-color ease-in-out 150ms;
     &::placeholder {
       padding: 3px 0;
       font-size: 16px;

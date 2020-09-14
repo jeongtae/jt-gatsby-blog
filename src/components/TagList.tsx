@@ -32,7 +32,7 @@ export const ListItem = styled.li`
     font-weight: 300;
     color: ${oc.gray[7]};
     text-decoration: none;
-    transition: background-color ease-in-out 100ms, color ease-in-out 100ms;
+    transition: background-color ease-in-out 150ms, color ease-in-out 150ms;
     cursor: pointer;
     &:visited {
       color: inherit;
@@ -40,7 +40,7 @@ export const ListItem = styled.li`
     &::before {
       content: "#";
       margin-right: 0.03rem;
-      transition: color ease-in-out 100ms;
+      transition: color ease-in-out 150ms;
       color: ${oc.gray[7]};
     }
     @media (hover) {

@@ -11,7 +11,7 @@ const Container = styled.div`
     font-size: 0.12rem;
     font-weight: 500;
     user-select: none;
-    transition: background-color 100ms ease-in-out;
+    transition: background-color 150ms ease-in-out;
     border-radius: 0.08rem;
     cursor: pointer;
     @media (hover) {

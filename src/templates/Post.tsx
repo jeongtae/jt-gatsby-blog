@@ -334,7 +334,7 @@ const AsideItemHeader = styled.p`
     border-radius: 8px;
     margin: 0 -0.1rem;
     padding: 0 0.1rem;
-    transition: 100ms ease-in-out;
+    transition: 150ms ease-in-out;
     transition-property: background-color, color;
     color: inherit;
     &:visited {
@@ -379,7 +379,7 @@ const Part = styled.li`
     align-items: center;
     font-size: 0.14rem;
     color: inherit;
-    transition: 100ms ease-in-out;
+    transition: 150ms ease-in-out;
     transition-property: background-color, color;
     &::before {
       content: counter(part-list);
@@ -435,7 +435,7 @@ const PostListItem = styled.li`
     padding: 3px 8px;
     text-decoration: none;
     align-items: center;
-    transition: 100ms ease-in-out;
+    transition: 150ms ease-in-out;
     transition-property: background-color, color;
     &:link {
       color: inherit;
@@ -501,7 +501,7 @@ const CategoryListItem = styled.li`
     width: fit-content;
     max-width: 100%;
     color: inherit;
-    transition: 100ms ease-in-out;
+    transition: 150ms ease-in-out;
     transition-property: background-color, color;
     border-radius: 8px;
     padding: 3px 8px;
@@ -570,7 +570,7 @@ const Toc = styled.div`
     text-decoration: none;
     font-size: 0.14rem;
     color: inherit;
-    transition: 100ms ease-in-out;
+    transition: 150ms ease-in-out;
     transition-property: background-color, color;
     &::before {
       width: 19px;
