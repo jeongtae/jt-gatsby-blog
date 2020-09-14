@@ -49,6 +49,10 @@ export const ListItem = styled.li`
       }
     }
   }
+  input:focus + label {
+    outline: auto;
+    outline-color: inherit;
+  }
   input:checked + label {
     background-color: ${oc.gray[7]};
     color: white;

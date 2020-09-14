@@ -48,7 +48,8 @@ const Container = styled.div`
     }
   }
   input:focus + label {
-    background-color: ${oc.gray[2]};
+    outline: auto;
+    outline-color: inherit;
   }
   input:checked + label {
     .icon {

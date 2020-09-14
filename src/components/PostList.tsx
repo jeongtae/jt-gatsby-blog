@@ -33,6 +33,7 @@ const ListItem = styled.li`
   overflow: hidden;
   article,
   a {
+    border-radius: 11px;
     display: block;
     width: 100%;
     height: 100%;
@@ -41,6 +42,9 @@ const ListItem = styled.li`
     transition: background-color ease-in-out 200ms;
     a:visited .title {
       color: ${oc.gray[6]};
+    }
+    &:focus {
+      box-shadow: 0 0 0 2px ${oc.orange[5]} inset;
     }
   }
   @media (hover) {

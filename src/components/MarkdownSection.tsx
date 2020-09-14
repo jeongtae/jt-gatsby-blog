@@ -132,7 +132,8 @@ const Section = styled.section`
     &.anchor.before,
     &.anchor.after {
       transform: translateY(-8%);
-      padding-left: 0.05rem;
+      margin-left: 0.02rem;
+      padding: 0 0.03rem;
       > svg {
         transition: transform ease-in-out 200ms, opacity ease-in-out 200ms;
         visibility: visible;
@@ -147,16 +148,16 @@ const Section = styled.section`
   h4,
   h5,
   h6 {
-    &:hover {
-      a.anchor.before,
-      a.anchor.after {
-        > svg {
-          transform: translateX(0);
-          opacity: 1;
-        }
+    &:hover a.anchor.before,
+    &:hover a.anchor.after,
+    a.anchor:focus {
+      > svg {
+        transform: translateX(0);
+        opacity: 1;
       }
     }
   }
+
   table {
     display: block;
     width: fit-content;

@@ -52,6 +52,9 @@ export default new Typography({
   bodyColor: oc.gray[9],
   overrideThemeStyles({ rhythm: r }) {
     return {
+      "*": {
+        outlineColor: oc.orange[5],
+      },
       body: {
         fontSize: r(0.15),
         lineHeight: 1.6,
