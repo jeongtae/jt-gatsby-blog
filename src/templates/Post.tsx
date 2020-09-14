@@ -66,7 +66,7 @@ const Description = styled.p`
 `;
 
 const TagListBox = styled.div`
-  margin: 16px 11px;
+  margin: 16px 11px 0;
   display: flex;
   ${ApplyBreaks(
     px => css`
@@ -78,100 +78,114 @@ const TagListBox = styled.div`
 `;
 
 const AdditionalBox = styled.div`
-  margin: 32px 5px 40px;
+  margin: 8px 5px 40px;
   padding: 0;
   padding-bottom: 8px;
   border-bottom: 1px solid ${oc.gray[4]};
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
   ${ApplyBreaks(
     px => css`
-      align-items: center;
+      margin-top: 32px;
     `,
     ["sm"]
   )};
 `;
 
-const NameAndDate = styled.div`
-  display: flex;
-  flex-direction: column-reverse;
+const Profile = styled.address`
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-style: inherit;
+  order: 2;
   ${ApplyBreaks(
     px => css`
-      flex-direction: row;
-      align-items: center;
+      order: 0;
     `,
     ["sm"]
   )};
-  address,
-  time {
-    display: block;
-    margin: 0;
-    padding: 0;
-    font-style: inherit;
-  }
-  address {
-    a {
-      width: fit-content;
-      border-radius: 24px;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      font-weight: 300;
-      &:link {
-        color: inherit;
-      }
-      &:visited {
-        color: inherit;
-      }
-      @media (hover) {
-        &:hover {
-          background-color: ${oc.gray[1]};
-        }
-      }
-      .image {
-        width: 40px;
-        height: 40px;
-        margin: 0;
-        padding: 0;
-        border-radius: 50%;
-        border: 2px solid white;
+  a {
+    width: fit-content;
+    border-radius: 24px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 300;
+    &:link {
+      color: inherit;
+    }
+    &:visited {
+      color: inherit;
+    }
+    @media (hover) {
+      &:hover {
         background-color: ${oc.gray[1]};
       }
-      .name {
-        margin: 0;
-        margin-left: 5px;
-        margin-right: 10px;
-      }
+    }
+    .image {
+      width: 40px;
+      height: 40px;
+      margin: 0;
+      padding: 0;
+      border-radius: 50%;
+      border: 2px solid white;
+      background-color: ${oc.gray[1]};
+    }
+    .name {
+      margin: 0;
+      margin-left: 5px;
+      margin-right: 10px;
     }
   }
-  time {
+`;
+
+const Date = styled.time`
+  order: 1;
+  flex-basis: 100%;
+  flex-grow: 1;
+  display: block;
+  margin: 0;
+  margin-bottom: 8px;
+  margin-left: 8px;
+  padding: 0;
+  font-style: inherit;
+  color: ${oc.gray[6]};
+  ul {
+    display: flex;
     margin: 0;
-    margin-left: 8px;
-    color: ${oc.gray[6]};
-    ul {
-      display: flex;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+    padding: 0;
+    /* justify-content: flex-end; */
+    list-style: none;
+  }
+  li {
+    margin: 0;
+    padding: 0;
+    &::before {
+      content: "\\30FB";
+      margin: 0 2px;
     }
-    li {
+    &:first-child::before {
+      content: unset;
       margin: 0;
-      padding: 0;
-      &::before {
-        content: "\\30FB";
-        margin: 0 2px;
-      }
-      &:first-child::before {
-        content: unset;
-        margin: 0;
-      }
     }
   }
+  ${ApplyBreaks(
+    px => css`
+      margin-bottom: 0;
+      flex-basis: unset;
+      ul {
+        /* justify-content: flex-start; */
+      }
+    `,
+    ["sm"]
+  )};
 `;
 
 const Buttons = styled.div`
+  order: 3;
   display: flex;
   justify-content: flex-end;
   /* margin-top: 8px; */
@@ -838,20 +852,18 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <TagList tags={tags} />
       </TagListBox>
       <AdditionalBox>
-        <NameAndDate>
-          <address>
-            <Link to="/about">
-              <Img className="image" fluid={profileFile.childImageSharp.fluid} objectFit="cover" />
-              <p className="name">{site.siteMetadata.author}</p>
-            </Link>
-          </address>
-          <time dateTime={post.frontmatter.dateFormal}>
-            <ul>
-              <li>{post.frontmatter.dateFromNow}</li>
-              <li>{post.frontmatter.date}</li>
-            </ul>
-          </time>
-        </NameAndDate>
+        <Profile>
+          <Link to="/about">
+            <Img className="image" fluid={profileFile.childImageSharp.fluid} objectFit="cover" />
+            <p className="name">{site.siteMetadata.author}</p>
+          </Link>
+        </Profile>
+        <Date>
+          <ul>
+            <li>{post.frontmatter.dateFromNow}</li>
+            <li>{post.frontmatter.date}</li>
+          </ul>
+        </Date>
         <Buttons>
           <RelativeBlock>
             <button
