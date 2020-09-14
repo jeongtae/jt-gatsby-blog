@@ -8,6 +8,8 @@ import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";
 import ToggleSwitch from "../components/ToggleSwitch";
+import TextSwitch from "../components/TextSwitch";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 const ListHeader = styled.h2`
   margin: 0.32rem 0.03rem 0.16rem;
@@ -152,11 +154,19 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
           </TagGroupListItem>
         ))}
       </TagGroupList>
-      <ListHeader>
-        {selectedTags.length
-          ? `${selectedTags.map(tag => tag.name).join(" ")} 포스트`
-          : "모든 포스트"}
-      </ListHeader>
+      <ListHearderWithControl>
+        <h2 className="title">
+          {selectedTags.length
+            ? `${selectedTags.map(tag => tag.name).join(" ")} 포스트`
+            : "모든 포스트"}
+        </h2>
+        {/* <TextSwitch
+          defaultText="최신순"
+          defaultIcon={faAngleUp}
+          checkedText="오래된순"
+          checkedIcon={faAngleDown}
+        /> */}
+      </ListHearderWithControl>
       <PostList posts={filteredPosts} />
     </Layout>
   );
