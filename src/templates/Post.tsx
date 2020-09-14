@@ -658,7 +658,13 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   const CategoryListFragment = (
     <>
       <AsideItemHeader>
-        <Link to={`/?tag=${currentCategoryTags[0]?.slug}`}>
+        <Link
+          to={
+            currentCategoryTags.length > 1
+              ? `/?tags=${categoryTagSlugs.join("+")}`
+              : `/?tag=${currentCategoryTags[0]?.slug}`
+          }
+        >
           <FontAwesomeIcon icon={faTags} />
           {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
         </Link>
