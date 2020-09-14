@@ -483,6 +483,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
                 className={isMenuExpanded && "collapsed"}
                 tabIndex={isMenuExpanded ? -1 : 0}
                 href="javascript:history.back()"
+                onMouseDown={e => e.preventDefault()}
               >
                 <FontAwesomeIcon icon={faTimes} />
               </BackButton>
@@ -490,6 +491,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
               <SearchButton
                 className={isMenuExpanded && "collapsed"}
                 tabIndex={isMenuExpanded ? -1 : 0}
+                onMouseDown={e => e.preventDefault()}
                 to="/search"
               >
                 <FontAwesomeIcon icon={faSearch} />
