@@ -119,6 +119,9 @@ const NameAndDate = styled.div`
       align-items: center;
       text-decoration: none;
       font-weight: 300;
+      &:link {
+        color: inherit;
+      }
       &:visited {
         color: inherit;
       }
@@ -837,7 +840,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       <AdditionalBox>
         <NameAndDate>
           <address>
-            <Link to="/">
+            <Link to="/about">
               <Img className="image" fluid={profileFile.childImageSharp.fluid} objectFit="cover" />
               <p className="name">{site.siteMetadata.author}</p>
             </Link>
