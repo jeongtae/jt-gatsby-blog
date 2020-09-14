@@ -26,6 +26,7 @@ import {
   faTags,
   faAngleUp,
   faAngleDown,
+  faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Title = styled.h1`
@@ -247,7 +248,11 @@ const AsideItemHeader = styled.p`
       }
     }
   }
-  svg {
+  svg:last-child {
+    font-size: 0.8em;
+    margin-left: 0.04rem;
+  }
+  svg:first-child {
     margin-right: 0.06rem;
   }
 `;
@@ -633,6 +638,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         <Link to="/">
           <FontAwesomeIcon icon={faPlus} />
           최근 글
+          <FontAwesomeIcon icon={faAngleRight} />
         </Link>
       </AsideItemHeader>
       <PostList>
@@ -667,6 +673,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
         >
           <FontAwesomeIcon icon={faTags} />
           {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
+          <FontAwesomeIcon icon={faAngleRight} />
         </Link>
       </AsideItemHeader>
       <CategoryList>
