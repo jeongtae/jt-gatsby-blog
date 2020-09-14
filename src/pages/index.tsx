@@ -133,7 +133,9 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
             name="tag"
             id="all"
             checked={!selectedTags.length}
-            onChange={e => e.currentTarget.checked && navigate(`.`)}
+            onChange={e =>
+              e.currentTarget.checked && navigate(isTagMultiselectMode ? `.?tags=` : `.`)
+            }
           />
           <label className="control" htmlFor="all" onClick={labelClickHandler}>
             전체 ({posts.length})
