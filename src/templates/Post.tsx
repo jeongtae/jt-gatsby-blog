@@ -114,6 +114,7 @@ const Profile = styled.address`
     align-items: center;
     text-decoration: none;
     font-weight: 300;
+    transition: background-color 150ms ease-in-out;
     &:link {
       color: inherit;
     }
@@ -188,7 +189,6 @@ const Buttons = styled.div`
   order: 3;
   display: flex;
   justify-content: flex-end;
-  /* margin-top: 8px; */
   margin-bottom: 8px;
   ${ApplyBreaks(
     px => css`
@@ -208,9 +208,13 @@ const Buttons = styled.div`
     font-size: 0.14rem;
     font-weight: 500;
     margin: 0 0.03rem;
+    color: ${oc.gray[7]};
+    transition: 150ms ease-in-out;
+    transition-property: background-color, color;
     @media (hover) {
       &:hover {
         background-color: ${oc.gray[1]};
+        color: ${oc.gray[9]};
       }
     }
     svg {
