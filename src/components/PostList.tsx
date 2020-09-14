@@ -185,7 +185,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
       {posts.map(post => (
         <ListItem key={post.id}>
           <article>
-            <Link to={`/${post.fields.slug}`}>
+            <Link to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
               {post.frontmatter.thumbnail && (
                 <Thumbnail>
                   <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
