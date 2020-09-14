@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 
 const TwitterShareLink: React.FC<{ message: string; url: string }> = ({
   children,
@@ -8,7 +7,11 @@ const TwitterShareLink: React.FC<{ message: string; url: string }> = ({
 }) => {
   message = encodeURIComponent(message);
   url = encodeURIComponent(url);
-  return <Link to={`https://twitter.com/share?text=${message}&url=${url}`}>{children}</Link>;
+  return (
+    <a href={`https://twitter.com/share?text=${message}&url=${url}`} target="_blank">
+      {children}
+    </a>
+  );
 };
 
 export default TwitterShareLink;
