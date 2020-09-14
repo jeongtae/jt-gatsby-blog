@@ -293,4 +293,4 @@ const MarkdownSection: React.FC<Props> = React.forwardRef(({ html }, ref) => {
   return <Section ref={markdownRef} dangerouslySetInnerHTML={{ __html: html }} />;
 });
 
-export default MarkdownSection;
+export default React.memo(MarkdownSection);
