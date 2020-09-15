@@ -14,6 +14,9 @@ export const List = styled.ul`
 export const ListItem = styled.li`
   margin: 0 0.02rem 0.06rem;
   display: inline-block;
+  &:last-child {
+    margin: 0 0.02rem 0.06rem;
+  }
   input {
     opacity: 0;
     position: absolute;
