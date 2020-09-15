@@ -96,6 +96,9 @@ const Footer = styled.footer`
       a:visited {
         color: ${oc.gray[9]};
       }
+      a:hover {
+        text-decoration: underline;
+      }
     }
   }
   a {
