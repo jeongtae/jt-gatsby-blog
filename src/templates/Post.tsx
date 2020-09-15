@@ -302,6 +302,48 @@ const DropdownMenu = styled.div`
   }
 `;
 
+const OriginalLink = styled.a.attrs(props => ({ target: "_blank" }))`
+  &:link,
+  &:visited {
+    color: ${oc.gray[8]};
+  }
+  margin: 0 0 5px;
+  color: ${oc.gray[8]};
+  padding: 2px 4px;
+  display: inline-flex;
+  max-width: 95%;
+  align-items: center;
+  border-radius: 8px;
+  transition: 150ms ease-in-out;
+  transition-property: background-color, color;
+  @media (hover) {
+    &:hover {
+      background-color: ${oc.gray[1]};
+      color: ${oc.gray[9]};
+    }
+  }
+  h2 {
+    color: inherit;
+    margin: 0;
+    padding: 3px 4px;
+    font-size: 0.12rem;
+    font-weight: 500;
+    border-radius: 3px;
+    background-color: ${oc.gray[2]};
+    flex-shrink: 0;
+    /* flex: 1; */
+  }
+  span {
+    color: inherit;
+    margin: 0 4px;
+    font-size: 0.14rem;
+    /* flex: 0; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
 const AsideItemInMain = styled.section`
   margin: 38px -8px;
   &.responsive {
@@ -917,6 +959,12 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           </RelativeBlock>
         </Buttons>
       </AdditionalBox>
+      {post.frontmatter.original && (
+        <OriginalLink href={post.frontmatter.original}>
+          <h2>원문</h2>
+          <span>{post.frontmatter.original}</span>
+        </OriginalLink>
+      )}
       {partPosts.length > 0 && (
         <AsideItemInMain className="responsive">{PartListFragment}</AsideItemInMain>
       )}
@@ -969,6 +1017,7 @@ export const query = graphql`
         title
         description
         tags
+        original
         ...DateFragment
       }
     }
