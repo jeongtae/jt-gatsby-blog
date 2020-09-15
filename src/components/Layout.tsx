@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { Link } from "gatsby";
 import oc from "open-color";
 import styled, { GlobalStyle, ApplyBreaks, css, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps } from "./Navigation";
@@ -88,6 +89,13 @@ const Footer = styled.footer`
       &:last-child::after {
         content: "";
       }
+      a {
+        text-decoration: none;
+      }
+      a:link,
+      a:visited {
+        color: ${oc.gray[9]};
+      }
     }
   }
   a {
@@ -153,9 +161,20 @@ const Layout: React.FC<{
       </Container>
       <Footer>
         <ul>
-          <li>&copy; {new Date().getFullYear()} Jeongtae Kim, All Rights Reserved</li>
-          {/* <li>Built with Gatsby</li>
-          <li>Open Source Software Notice</li> */}
+          <li>
+            Copyright &copy; {new Date().getFullYear()} <Link to="/">JTK Blog</Link> All Rights
+            Reserved.
+          </li>
+          <li>
+            Designed by <Link to="/about">Jeongtae Kim</Link>
+          </li>
+          <li>
+            Built with{" "}
+            <a href="https://www.gatsbyjs.com/" target="_blank">
+              Gatsby.js
+            </a>
+          </li>
+          {/* <li>Open Source Software Notice</li> */}
         </ul>
       </Footer>
     </>
