@@ -237,7 +237,7 @@ const Section = styled.section`
   div.hidden-heading-anchor {
     position: relative;
     height: 0;
-    top: -160px;
+    top: -20vh;
     visibility: hidden;
     &:target {
       + h2,
