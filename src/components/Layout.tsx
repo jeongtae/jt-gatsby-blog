@@ -136,7 +136,7 @@ const Layout: React.FC<{
       }
       aside.style.transform = `translateY(${asideY}px)`;
     };
-    const listener = debounce(updateAsideY, 200);
+    const listener = debounce(updateAsideY, 500);
     document.addEventListener("scroll", listener, false);
     return () => document.removeEventListener("scroll", listener);
   }, []);
