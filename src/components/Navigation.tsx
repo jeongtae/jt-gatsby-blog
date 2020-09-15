@@ -192,18 +192,21 @@ const Menu = styled.ul`
   align-items: center;
   list-style: none;
   display: flex;
-  transition: transform ease-in-out 150ms, opacity ease-in-out 150ms;
+  transition: 150ms ease-in-out;
+  transition-property: transform, opacity;
   transform: translateX(-16px);
   opacity: 0;
   z-index: 3;
   @media (hover) {
     &:hover {
       color: ${oc.gray[5]};
+      text-shadow: 0 0 1px ${oc.gray[5]};
       li::after {
         opacity: 1;
       }
       li a:hover {
         color: ${oc.gray[9]};
+        text-shadow: none;
       }
     }
   }
@@ -215,7 +218,7 @@ const Menu = styled.ul`
       border-right: 1px solid ${oc.gray[4]};
       opacity: 0;
       color: transparent;
-      transition: opacity ease-in-out 200ms;
+      transition: opacity 200ms ease-in-out;
     }
     &:last-child::after {
       border-right: none;
@@ -226,7 +229,8 @@ const Menu = styled.ul`
       font-weight: 500;
       text-transform: uppercase;
       text-decoration: none;
-      transition: color ease-in-out 150ms;
+      transition: 150ms ease-in-out;
+      transition-property: color text-shadow;
       &:link,
       &:visited {
         color: inherit;
