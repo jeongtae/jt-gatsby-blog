@@ -62,14 +62,16 @@ export default new Typography({
       // Header Styles
       "h1,h2,h3,h4,h5,h6": {
         marginBottom: r(0.08),
+        color: oc.black,
+        fontWeight: 300,
       },
       "h5,h6": {
-        fontWeight: 700,
+        fontWeight: 500,
       },
-      h1: { marginTop: r(0.4), fontSize: r(0.34) },
-      h2: { marginTop: r(0.38), fontSize: r(0.26) },
-      h3: { marginTop: r(0.32), fontSize: r(0.22) },
-      h4: { marginTop: r(0.21), fontSize: r(0.18) },
+      h1: { marginTop: r(0.48), fontSize: r(0.34) },
+      h2: { marginTop: r(0.42), fontSize: r(0.26) },
+      h3: { marginTop: r(0.34), fontSize: r(0.22) },
+      h4: { marginTop: r(0.22), fontSize: r(0.18) },
       h5: { marginTop: r(0.16), fontSize: r(0.16) },
       h6: { marginTop: r(0.16), fontSize: r(0.14) },
       // Paragraph Style

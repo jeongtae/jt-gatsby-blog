@@ -76,7 +76,8 @@ const Contents = styled.div`
     margin: 0;
     font-size: 0.17rem;
     /* height: 0.22rem; */
-    font-weight: 500;
+    /* font-weight: 500; */
+    color: ${oc.black};
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -84,7 +85,7 @@ const Contents = styled.div`
   .description {
     margin: 0;
     flex-grow: 0;
-    color: ${oc.gray[7]};
+    color: ${oc.gray[6]};
     font-size: 0.13rem;
     /* height: 19rem; */
     margin-bottom: -3px;
@@ -107,7 +108,7 @@ const Contents = styled.div`
     li {
       display: inline;
       margin: 0;
-      color: ${oc.gray[7]};
+      color: ${oc.gray[6]};
       font-size: 0.13rem;
       font-weight: 300;
       &::before {

@@ -9,8 +9,6 @@ import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";
 import ToggleSwitch from "../components/ToggleSwitch";
-import TextSwitch from "../components/TextSwitch";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 
 const ListHeader = styled.h2`
   margin: 0.32rem 0.03rem 0.16rem;
@@ -45,7 +43,7 @@ const TagGroupList = styled.ul`
 const TagGroupListItem = styled.li`
   h3 {
     margin: 8px;
-    font-weight: 500;
+    /* font-weight: 500; */
     font-size: 0.19rem;
   }
 `;

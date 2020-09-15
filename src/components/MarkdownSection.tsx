@@ -157,6 +157,21 @@ const Section = styled.section`
       }
     }
   }
+  h2 {
+    background-image: linear-gradient(90deg, ${oc.gray[9]} 0%, ${oc.gray[8]} 100%);
+    background-repeat: no-repeat;
+    background-size: 60px 2px;
+    background-position: 0 0;
+    margin-top: 0.5rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.05rem;
+    font-size: 0.34rem;
+    font-weight: 300;
+    color: ${oc.black};
+    .anchor {
+      color: inherit;
+    }
+  }
 
   table {
     display: block;

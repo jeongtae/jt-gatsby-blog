@@ -39,12 +39,12 @@ import MailShareLink from "../components/MailShareLink";
 const Title = styled.h1`
   margin: 32px 8px 0;
   font-size: 0.35rem;
-  font-weight: 500;
+  font-weight: 300;
   ${ApplyBreaks(
     px => css`
       margin-top: 48px;
       text-align: center;
-      font-size: 0.44rem;
+      font-size: 0.48rem;
     `,
     ["sm"]
   )};
@@ -303,7 +303,7 @@ const DropdownMenu = styled.div`
 `;
 
 const AsideItemInMain = styled.section`
-  margin: 32px -8px;
+  margin: 38px -8px;
   &.responsive {
     ${ApplyBreaks(
       px => css`
