@@ -74,9 +74,9 @@ const Contents = styled.div`
   .title {
     flex-grow: 0;
     margin: 0;
-    font-size: 0.17rem;
-    /* height: 0.22rem; */
-    /* font-weight: 500; */
+    padding-bottom: 0.05rem;
+    margin-bottom: -0.03rem;
+    font-size: 0.18rem;
     color: ${oc.black};
     white-space: nowrap;
     overflow: hidden;
@@ -87,8 +87,7 @@ const Contents = styled.div`
     flex-grow: 0;
     color: ${oc.gray[6]};
     font-size: 0.13rem;
-    /* height: 19rem; */
-    margin-bottom: -3px;
+    margin-bottom: -0.03rem;
     font-weight: 300;
     white-space: nowrap;
     overflow: hidden;
@@ -98,7 +97,7 @@ const Contents = styled.div`
     flex-grow: 1;
     flex-basis: 0;
     margin: 0;
-    margin-top: -2px;
+    margin-top: -0.02rem;
     height: 100%;
     white-space: nowrap;
     display: block;
@@ -134,7 +133,7 @@ const Contents = styled.div`
   ${ApplyBreaks(
     px => css`
       .title {
-        font-size: 0.15rem;
+        font-size: 0.16rem;
       }
       .description {
         font-size: 0.13rem;
