@@ -62,6 +62,20 @@ const config = {
         exclude: ["/search"],
       },
     },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: siteMetadata.title,
+        short_name: siteMetadata.title,
+        description: siteMetadata.description,
+        lang: `ko`,
+        start_url: `/`,
+        background_color: `white`,
+        theme_color: `black`,
+        display: `standalone`,
+        icon: `contents/images/logo.png`,
+      },
+    },
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
