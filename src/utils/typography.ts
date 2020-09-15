@@ -35,14 +35,14 @@ export default new Typography({
       /* https://fonts.google.com/specimen/Noto+Sans+KR */
       /* 100 300 400 500 700 900 */
       name: "Noto Sans KR",
-      styles: ["300", "500", "700"],
+      styles: ["300", "500"],
     },
-    {
-      /* https://fonts.google.com/specimen/Noto+Serif+KR */
-      /* 200 300 400 500 600 700 900 */
-      name: "Noto Serif KR",
-      styles: ["300", "500", "700"],
-    },
+    // {
+    //   /* https://fonts.google.com/specimen/Noto+Serif+KR */
+    //   /* 200 300 400 500 600 700 900 */
+    //   name: "Noto Serif KR",
+    //   styles: ["300", "500", "700"],
+    // },
   ],
   headerFontFamily: sansFonts,
   bodyFontFamily: sansFonts,

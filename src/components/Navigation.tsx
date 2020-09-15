@@ -223,7 +223,7 @@ const Menu = styled.ul`
     a {
       padding: 12px;
       font-size: 0.16rem;
-      font-weight: 700;
+      font-weight: 500;
       text-transform: uppercase;
       text-decoration: none;
       transition: color ease-in-out 150ms;

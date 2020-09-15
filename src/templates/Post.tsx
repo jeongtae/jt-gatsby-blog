@@ -429,7 +429,7 @@ const Part = styled.li`
       margin-left: -3px;
       margin-right: 1px;
       text-align: center;
-      font-weight: 700;
+      font-weight: 500;
       font-size: 0.13rem;
     }
     &:visited {

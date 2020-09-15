@@ -191,7 +191,7 @@ const Section = styled.section`
     color: ${oc.gray[7]};
     padding: 8px 12px;
     font-size: 0.14rem;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     line-height: 1.5;
     &[align="center"] {
