@@ -84,11 +84,11 @@ const Section = styled.section`
     }
   }
   span.gatsby-resp-image-wrapper {
-    margin: 8px -12px !important;
+    margin: 12px -12px !important;
     ${ApplyBreaks(
       px =>
         css`
-          margin: 0.08rem auto !important;
+          margin: 12px auto !important;
           border-radius: 8px;
           overflow: hidden;
         `,
