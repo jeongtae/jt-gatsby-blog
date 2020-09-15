@@ -121,9 +121,9 @@ const Contents = styled.div`
     flex-grow: 0;
     display: flex;
     justify-content: space-between;
-    color: ${oc.gray[7]};
+    color: ${oc.black};
     font-size: 0.13rem;
-    font-weight: 400;
+    /* font-weight: 400; */
     time,
     p {
       margin: 0;
@@ -202,11 +202,11 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                 </ul>
                 <div className="additional">
                   <time>
-                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "2px" }} />
+                    {/* <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: "2px" }} /> */}
                     <span>{post.frontmatter.date}</span>
                   </time>
                   <p>
-                    <FontAwesomeIcon icon={faEye} style={{ marginRight: "2px" }} />
+                    {/* <FontAwesomeIcon icon={faEye} style={{ marginRight: "2px" }} /> */}
                     <span>약 {post.timeToRead}분</span>
                   </p>
                 </div>
