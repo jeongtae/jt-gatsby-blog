@@ -14,7 +14,7 @@ const ListHeader = styled.h2`
   margin: 0.32rem 0.03rem 0.16rem;
   font-size: 0.32rem;
 `;
-const ListHearderWithControl = styled.div`
+const ListHeaderWithControl = styled.div`
   margin: 0.32rem 0.03rem 0.16rem;
   display: flex;
   justify-content: space-between;
@@ -41,7 +41,7 @@ const TagGroupList = styled.ul`
   list-style: none;
 `;
 const TagGroupListItem = styled.li`
-  h3 {
+  h4 {
     margin: 8px;
     /* font-weight: 500; */
     font-size: 0.19rem;
@@ -107,8 +107,8 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
   return (
     <Layout>
       <SEO />
-      <ListHearderWithControl>
-        <h2 className="title">태그</h2>
+      <ListHeaderWithControl>
+        <h3 className="title">태그</h3>
         <ToggleSwitch
           text="다중선택"
           checked={isTagMultiselectMode}
@@ -123,7 +123,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
             }
           }}
         />
-      </ListHearderWithControl>
+      </ListHeaderWithControl>
       <TagGroupList>
         <TagListItem>
           <input
@@ -141,7 +141,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
         </TagListItem>
         {tagGroups.map(tagGroup => (
           <TagGroupListItem key={tagGroup.id}>
-            <h3>{tagGroup.name}</h3>
+            <h4>{tagGroup.name}</h4>
             <TagList
               tags={tagGroup.tags}
               selectedTagSlugs={selectedTagSlugs}
@@ -164,19 +164,17 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
           </TagGroupListItem>
         ))}
       </TagGroupList>
-      <ListHearderWithControl>
-        <h2 className="title">
-          {selectedTags.length
-            ? `${selectedTags.map(tag => tag.name).join(" ")} 포스트`
-            : "모든 포스트"}
-        </h2>
+      <ListHeader>
+        {selectedTags.length
+          ? `${selectedTags.map(tag => tag.name).join(" ")} 포스트`
+          : "모든 포스트"}
         {/* <TextSwitch
           defaultText="최신순"
           defaultIcon={faAngleUp}
           checkedText="오래된순"
           checkedIcon={faAngleDown}
         /> */}
-      </ListHearderWithControl>
+      </ListHeader>
       {filteredPosts.length === 0 && <Message>포스트가 없습니다.</Message>}
       <PostList posts={filteredPosts} />
     </Layout>
