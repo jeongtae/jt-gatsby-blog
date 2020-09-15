@@ -1,14 +1,8 @@
-declare type TagGroups = {
-  [id: string]: {
+declare type Tags = {
+  [tagGroupSlug: string]: {
     name: string;
     color: string;
-  };
-};
-
-declare type Tags = {
-  [id: string]: {
-    name: string;
-    group: keyof TagGroups;
+    tags: { [tagSlug: string]: string };
   };
 };
 
@@ -19,7 +13,6 @@ declare type Config = {
   siteUrl: string;
   googleAnalyticsTrackingId: string;
   facebookAppId: string;
-  tagGroups: TagGroups;
   tags: Tags;
 };
 

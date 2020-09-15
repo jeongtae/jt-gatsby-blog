@@ -5,11 +5,39 @@ import { intersection, difference, isEqual } from "lodash";
 import config from "./contents/configs/config";
 
 /* Make inversed the commented states of 2 lines below if you have a generated *.d.ts file */
-// import { Query } from "./src/generated/graphql-types";
-type Query = any;
+import { Query } from "./src/generated/graphql-types";
+// type Query = any;
+
+declare type TagGroups = {
+  [id: string]: {
+    name: string;
+    color: string;
+  };
+};
+
+declare type Tags = {
+  [id: string]: {
+    name: string;
+    group: keyof TagGroups;
+  };
+};
 
 export function sourceNodes({ actions, createNodeId, createContentDigest }: SourceNodesArgs) {
-  const { tags, tagGroups } = config;
+  const { tags: configTags } = config;
+  const tagGroups: TagGroups = {};
+  const tags: Tags = {};
+
+  Object.keys(configTags).forEach(tagGroupSlug => {
+    const configTagGroup = configTags[tagGroupSlug];
+    tagGroups[tagGroupSlug] = {
+      name: configTagGroup.name,
+      color: configTagGroup.color,
+    };
+    Object.keys(configTagGroup.tags).forEach(tagSlug => {
+      const configTagName = configTagGroup.tags[tagSlug];
+      tags[tagSlug] = { name: configTagName, group: tagGroupSlug };
+    });
+  });
 
   Object.keys(tags).forEach(tagId => {
     const tag = tags[tagId];
