@@ -119,6 +119,7 @@ const Contents = styled.div`
   .additional {
     flex-grow: 0;
     display: flex;
+    flex-wrap: wrap-reverse;
     justify-content: space-between;
     color: ${oc.black};
     font-size: 0.13rem;
@@ -206,7 +207,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                   </time>
                   <p>
                     {/* <FontAwesomeIcon icon={faEye} style={{ marginRight: "2px" }} /> */}
-                    <span>약 {post.timeToRead}분</span>
+                    <span>{post.timeToRead >= 5 && `읽는 시간 약 ${post.timeToRead}분`}</span>
                   </p>
                 </div>
               </Contents>
