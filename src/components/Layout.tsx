@@ -23,7 +23,9 @@ const Container = styled.div`
 `;
 const Main = styled.main`
   width: 100%;
+  padding-left: 12px;
   padding-left: calc(env(safe-area-inset-left, 0) + 12px);
+  padding-right: 12px;
   padding-right: calc(env(safe-area-inset-right, 0) + 12px);
   ${ApplyBreaks(
     px =>
@@ -46,6 +48,7 @@ const AsidePadder = styled.div`
 `;
 const Aside = styled.aside`
   display: none;
+  padding-right: 0;
   padding-right: env(safe-area-inset-right, 0);
   transition: transform 200ms ease-in-out;
   ${ApplyBreaks(
@@ -73,8 +76,11 @@ const Footer = styled.footer`
   color: ${oc.gray[6]};
   ul {
     margin: 40px 0 32px;
+    padding-bottom: 0;
     padding-bottom: env(safe-area-inset-bottom, 0);
+    padding-left: 0;
     padding-left: env(safe-area-inset-left, 0);
+    padding-right: 0;
     padding-right: env(safe-area-inset-right, 0);
     display: flex;
     flex-wrap: wrap;
