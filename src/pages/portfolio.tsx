@@ -6,7 +6,7 @@ import { difference } from "lodash";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import { ListItem as TagListItem } from "../components/TagList";
-import { MarkdownRemark } from "../generated/graphql-types";
+import { MarkdownRemark, Portfolio } from "../generated/graphql-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,27 +14,6 @@ const LINE_WIDTH = 2;
 const LINE_RADIUS = 18;
 const DOT1_RADIUS = 24;
 const DOT2_RADIUS = 10;
-
-const tabs = [
-  {
-    id: "dev",
-    name: "개발",
-    color: "pink",
-    tags: ["web"],
-  },
-  {
-    id: "diy",
-    name: "DIY",
-    color: "orange",
-    tags: ["web"],
-  },
-  {
-    id: "game",
-    name: "게임",
-    color: "blue",
-    tags: ["game"],
-  },
-];
 
 const Title = styled.h1`
   margin: 0.32rem 0.03rem 0.32rem;
@@ -239,13 +218,13 @@ const YearListItem = styled.li`
         top: calc(0.12rem - ${DOT2_RADIUS}px / 2);
         z-index: 2;
       }
-      ${tabs.map(
-        tab =>
+      ${Object.keys(oc).map(
+        key =>
           css`
-            &.${tab.color} {
-              color: ${oc[tab.color][7]};
+            &.${key} {
+              color: ${oc[key][7]};
               &::before {
-                background-color: ${oc[tab.color][7]};
+                background-color: ${oc[key][7]};
               }
             }
           `
@@ -262,17 +241,28 @@ const YearListItem = styled.li`
 `;
 
 const PortfolioPage: React.FC<PageProps<{
+  allPortfolio: {
+    nodes: Portfolio[];
+  };
   allMarkdownRemark: {
     nodes: MarkdownRemark[];
   };
 }>> = ({ data }) => {
-  const givenTabId = location.hash?.slice(1) || "";
-  const currentTabId = tabs.find(tab => tab.id === givenTabId) ? givenTabId : "";
-  const currentTab = tabs.find(tab => tab.id === currentTabId);
+  const portfolios = data.allPortfolio.nodes;
+
+  const givenPortfolioSlug = location.hash?.slice(1) || "";
+  const currentPortfolio = portfolios.find(({ slug }) => slug === givenPortfolioSlug);
+  const currentPortfolioSlug = currentPortfolio ? givenPortfolioSlug : "";
 
   let posts = data.allMarkdownRemark.nodes;
-  if (currentTab) {
-    posts = posts.filter(post => difference(currentTab.tags, post.frontmatter.tags).length === 0);
+  if (currentPortfolio) {
+    posts = posts.filter(
+      post =>
+        difference(
+          currentPortfolio.tags.map(tag => tag.slug),
+          post.frontmatter.tags
+        ).length === 0
+    );
   }
 
   const postsGroupByYears: { [id: string]: MarkdownRemark[] } = {};
@@ -288,18 +278,20 @@ const PortfolioPage: React.FC<PageProps<{
 
   return (
     <Layout>
-      <SEO title={currentTab ? `${currentTab.name} 포트폴리오` : "포트폴리오"} />
+      <SEO title={currentPortfolio ? `${currentPortfolio.name} 포트폴리오` : "포트폴리오"} />
       <Title>포트폴리오</Title>
       <TabButtonList>
-        <TagListItem style={{ color: oc.gray[7] }} className={!currentTab ? "selected" : ""}>
+        <TagListItem style={{ color: oc.gray[7] }} className={!currentPortfolio ? "selected" : ""}>
           <Link to={`.`}>전체</Link>
         </TagListItem>
-        {tabs.map(tab => (
+        {portfolios.map(portfolio => (
           <TagListItem
-            key={tab.id}
-            className={(tab.id === currentTabId ? "selected " : "") + tab.color}
+            key={portfolio.slug}
+            className={
+              (portfolio.slug === currentPortfolioSlug ? "selected " : "") + portfolio.color
+            }
           >
-            <a href={`#${tab.id}`}>{tab.name}</a>
+            <a href={`#${portfolio.slug}`}>{portfolio.name}</a>
           </TagListItem>
         ))}
       </TabButtonList>
@@ -312,8 +304,13 @@ const PortfolioPage: React.FC<PageProps<{
                 <li
                   key={post.fields.slug}
                   className={
-                    tabs.find(tab => difference(tab.tags, post.frontmatter.tags).length === 0)
-                      ?.color || ""
+                    portfolios.find(
+                      portfolio =>
+                        difference(
+                          portfolio.tags.map(tag => tag.slug),
+                          post.frontmatter.tags
+                        ).length === 0
+                    )?.color || ""
                   }
                 >
                   <Link to={`/${post.fields.slug}`}>
@@ -336,6 +333,16 @@ export default PortfolioPage;
 
 export const query = graphql`
   query {
+    allPortfolio {
+      nodes {
+        slug
+        name
+        color
+        tags {
+          slug
+        }
+      }
+    }
     allMarkdownRemark(
       filter: { frontmatter: { tags: { in: "portfolio" } } }
       sort: { order: DESC, fields: frontmatter___date }

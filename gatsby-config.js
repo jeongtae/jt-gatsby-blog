@@ -1,8 +1,8 @@
 const { default: userConfig } = require("./contents/configs/config");
 
 const siteMetadata = { ...userConfig };
-delete siteMetadata["tag"];
-delete siteMetadata["tagGroups"];
+delete siteMetadata["tags"];
+delete siteMetadata["portfolios"];
 
 const { siteUrl } = siteMetadata;
 

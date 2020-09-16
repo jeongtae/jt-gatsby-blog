@@ -23,7 +23,8 @@ declare type Tags = {
 };
 
 export function sourceNodes({ actions, createNodeId, createContentDigest }: SourceNodesArgs) {
-  const { tags: configTags } = config;
+  const { tags: configTags, portfolios: configPortfolios } = config;
+
   const tagGroups: TagGroups = {};
   const tags: Tags = {};
 
@@ -67,6 +68,22 @@ export function sourceNodes({ actions, createNodeId, createContentDigest }: Sour
       internal: {
         type: "TagGroup",
         contentDigest: createContentDigest(tagGroupId),
+      },
+    };
+    actions.createNode(node);
+  });
+
+  Object.keys(configPortfolios).forEach(portfolioSlug => {
+    const configPortfolio = configPortfolios[portfolioSlug];
+    const node: NodeInput = {
+      id: createNodeId(`portfolio-${portfolioSlug}`),
+      slug: portfolioSlug,
+      name: configPortfolio.name,
+      color: configPortfolio.color,
+      tags___NODE: configPortfolio.tags.map(tagId => createNodeId(`tag-${tagId}`)),
+      internal: {
+        type: "Portfolio",
+        contentDigest: createContentDigest(portfolioSlug),
       },
     };
     actions.createNode(node);

@@ -73,20 +73,28 @@ const config = {
       },
     },
   },
+  portfolios: {
+    development: {
+      name: "개발",
+      color: "pink",
+      tags: ["web"],
+    },
+    diy: {
+      name: "DIY",
+      color: "orange",
+      tags: ["web"],
+    },
+    game: {
+      name: "게임",
+      color: "blue",
+      tags: ["game"],
+    },
+    game: {
+      name: "디자인",
+      color: "green",
+      tags: ["graphic-design"],
+    },
+  },
 };
 
 module.exports.default = config;
-
-// gray
-// red
-// pink
-// grape
-// violet
-// indigo
-// blue
-// cyan
-// teal
-// green
-// lime
-// yellow
-// orange
