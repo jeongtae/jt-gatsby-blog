@@ -170,7 +170,7 @@ const YearListItem = styled.li`
     padding: 0;
     > li {
       position: relative;
-      margin: 0.22rem 0;
+      margin: 0.32rem 0;
       padding: 0 12px;
       a {
         display: inline-block;
@@ -200,10 +200,11 @@ const YearListItem = styled.li`
         }
       }
       p {
-        margin:0;
-        padding:0;
-        /* color: ${oc.gray[6]}; */
-        opacity: 0.7;
+        margin: 0;
+        margin-top: 0.05rem;
+        padding: 0;
+        color: ${oc.gray[6]};
+        /* opacity: 0.8; */
       }
       &::before {
         content: "";
@@ -222,7 +223,7 @@ const YearListItem = styled.li`
         key =>
           css`
             &.${key} {
-              color: ${oc[key][7]};
+              color: ${oc[key][8]};
               &::before {
                 background-color: ${oc[key][7]};
               }
