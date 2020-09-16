@@ -89,9 +89,9 @@ const config = {
       color: "blue",
       tags: ["game"],
     },
-    game: {
+    design: {
       name: "디자인",
-      color: "green",
+      color: "lime",
       tags: ["graphic-design"],
     },
   },
