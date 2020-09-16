@@ -100,8 +100,8 @@ export const query = graphql`
           tags
           thumbnail {
             childImageSharp {
-              fluid(maxWidth: 78, srcSetBreakpoints: [78, 156]) {
-                ...GatsbyImageSharpFluid_withWebp_noBase64
+              fixed(width: 78, height: 78, fit: COVER) {
+                ...GatsbyImageSharpFixed_withWebp_noBase64
               }
             }
           }

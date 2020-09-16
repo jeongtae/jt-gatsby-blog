@@ -372,7 +372,7 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
           }
           logoFile: file(relativePath: { eq: "logo.png" }) {
             childImageSharp {
-              fluid(maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
+              fluid(fit: COVER, maxWidth: 40, maxHeight: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
                 ...GatsbyImageSharpFluid_withWebp_tracedSVG
               }
             }

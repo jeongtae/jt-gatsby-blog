@@ -769,7 +769,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           <PostListItem key={post.fields.slug}>
             <Link to={`/${post.fields.slug}`}>
               {post.frontmatter.thumbnail && (
-                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+                <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
               )}
               <h1 className="title">{post.frontmatter.title}</h1>
               <time className="description" dateTime={post.frontmatter.dateFormal}>
@@ -798,7 +798,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
           >
             <Link to={`/${post.fields.slug}`}>
               {post.frontmatter.thumbnail && (
-                <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+                <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
               )}
               <h1 className="title">{post.frontmatter.title}</h1>
               <time className="description" dateTime={post.frontmatter.dateFormal}>
@@ -1077,7 +1077,7 @@ export const query = graphql`
     }
     profileFile: file(relativePath: { eq: "profile.jpg" }) {
       childImageSharp {
-        fluid(fit: OUTSIDE, maxWidth: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
+        fluid(fit: COVER, maxWidth: 40, maxHeight: 40, srcSetBreakpoints: [40, 60, 80, 120]) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
@@ -1091,8 +1091,8 @@ export const query = graphql`
   fragment ThumbnailFragment on MarkdownRemarkFrontmatter {
     thumbnail {
       childImageSharp {
-        fluid(fit: OUTSIDE, maxWidth: 36, srcSetBreakpoints: [36, 54, 72, 108]) {
-          ...GatsbyImageSharpFluid_withWebp
+        fixed(fit: COVER, width: 36, height: 36) {
+          ...GatsbyImageSharpFixed_withWebp_noBase64
         }
       }
     }

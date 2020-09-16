@@ -189,7 +189,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
             <Link to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
               {post.frontmatter.thumbnail && (
                 <Thumbnail>
-                  <Img fluid={post.frontmatter.thumbnail.childImageSharp.fluid} />
+                  <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
                 </Thumbnail>
               )}
               <Contents>

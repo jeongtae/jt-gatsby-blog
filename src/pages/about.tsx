@@ -93,7 +93,7 @@ export const query = graphql`
   query {
     profileFile: file(relativePath: { eq: "profile.jpg" }) {
       childImageSharp {
-        fluid(fit: OUTSIDE, maxWidth: 200, srcSetBreakpoints: [200, 300, 400, 600]) {
+        fluid(maxWidth: 200, srcSetBreakpoints: [200, 300, 400, 600]) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
