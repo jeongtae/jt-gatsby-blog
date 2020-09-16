@@ -22,7 +22,8 @@ export const ListItem = styled.li`
     position: absolute;
     pointer-events: none;
   }
-  label {
+  label,
+  a {
     width: 100%;
     height: 0.24rem;
     border: 1px solid ${oc.gray[7]};
@@ -52,11 +53,13 @@ export const ListItem = styled.li`
       }
     }
   }
-  input:focus + label {
+  input:focus + label,
+  a:focus {
     outline: auto;
     outline-color: inherit;
   }
-  input:checked + label {
+  input:checked + label,
+  &.selected a {
     background-color: ${oc.gray[7]};
     color: white;
     &::before {
@@ -66,7 +69,8 @@ export const ListItem = styled.li`
   ${Object.keys(oc).map(
     key => css`
       &.${key} {
-        label {
+        label,
+        a {
           border-color: ${oc[key][5]};
           color: ${oc[key][5]};
           &::before {
@@ -84,6 +88,13 @@ export const ListItem = styled.li`
           &::before {
             color: white;
           }
+        }
+      }
+      &.${key}.selected a {
+        background-color: ${oc[key][5]};
+        color: white;
+        &::before {
+          color: white;
         }
       }
     `
