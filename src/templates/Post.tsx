@@ -1091,7 +1091,7 @@ export const query = graphql`
   fragment ThumbnailFragment on MarkdownRemarkFrontmatter {
     thumbnail {
       childImageSharp {
-        fixed(fit: COVER, width: 36, height: 36) {
+        fixed(fit: COVER, width: 36, height: 36, cropFocus: CENTER) {
           ...GatsbyImageSharpFixed_withWebp_noBase64
         }
       }

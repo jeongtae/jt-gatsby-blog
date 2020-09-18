@@ -199,7 +199,7 @@ export const query = graphql`
           tags
           thumbnail {
             childImageSharp {
-              fixed(width: 78, height: 78, fit: COVER) {
+              fixed(width: 78, height: 78, fit: COVER, cropFocus: CENTER) {
                 ...GatsbyImageSharpFixed_withWebp_noBase64
               }
             }
