@@ -493,8 +493,8 @@ const PostListItem = styled.li`
     }
     .gatsby-image-wrapper {
       float: left;
-      width: 0.36rem;
-      height: 0.36rem;
+      /* width: 0.39rem;
+      height: 0.39rem; */
       border-radius: 6px;
       background-color: ${oc.gray[2]};
       margin-left: -5px;
@@ -1091,7 +1091,7 @@ export const query = graphql`
   fragment ThumbnailFragment on MarkdownRemarkFrontmatter {
     thumbnail {
       childImageSharp {
-        fixed(fit: COVER, width: 36, height: 36, cropFocus: CENTER) {
+        fixed(fit: COVER, width: 39, height: 39, cropFocus: CENTER) {
           ...GatsbyImageSharpFixed_withWebp_noBase64
         }
       }
