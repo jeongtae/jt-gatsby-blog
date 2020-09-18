@@ -172,6 +172,8 @@ const YearListItem = styled.li`
       position: relative;
       margin: 0.32rem 0;
       padding: 0 12px;
+      color: ${oc.gray[8]};
+      transition: color 400ms ease-in-out;
       a {
         display: inline-block;
         padding: 3px 8px;
@@ -218,6 +220,9 @@ const YearListItem = styled.li`
         right: ${-DOT2_RADIUS / 2 - 10}px;
         top: calc(0.12rem - ${DOT2_RADIUS}px / 2);
         z-index: 2;
+        /* transition: background-color 400ms ease-in-out; */
+        transition: inherit;
+        transition-property: background-color;
       }
       ${Object.keys(oc).map(
         key =>
@@ -256,15 +261,15 @@ const PortfolioPage: React.FC<PageProps<{
   const currentPortfolioSlug = currentPortfolio ? givenPortfolioSlug : "";
 
   let posts = data.allMarkdownRemark.nodes;
-  if (currentPortfolio) {
-    posts = posts.filter(
-      post =>
-        difference(
-          currentPortfolio.tags.map(tag => tag.slug),
-          post.frontmatter.tags
-        ).length === 0
-    );
-  }
+  // if (currentPortfolio) {
+  //   posts = posts.filter(
+  //     post =>
+  //       difference(
+  //         currentPortfolio.tags.map(tag => tag.slug),
+  //         post.frontmatter.tags
+  //       ).length === 0
+  //   );
+  // }
 
   const postsGroupByYears: { [id: string]: MarkdownRemark[] } = {};
   posts.forEach(post => {
@@ -301,28 +306,38 @@ const PortfolioPage: React.FC<PageProps<{
           <YearListItem key={`year-${year}`}>
             <h2>{year}</h2>
             <ul>
-              {postsGroupByYears[year].map(post => (
-                <li
-                  key={post.fields.slug}
-                  className={
+              {postsGroupByYears[year].map(post => {
+                let className = "";
+                if (currentPortfolio) {
+                  className =
+                    difference(
+                      currentPortfolio.tags.map(tag => tag.slug),
+                      post.frontmatter.tags
+                    ).length === 0
+                      ? currentPortfolio.color
+                      : "";
+                } else {
+                  className =
                     portfolios.find(
                       portfolio =>
                         difference(
                           portfolio.tags.map(tag => tag.slug),
                           post.frontmatter.tags
                         ).length === 0
-                    )?.color || ""
-                  }
-                >
-                  <Link to={`/${post.fields.slug}`}>
-                    <h3>
-                      {post.frontmatter.title}
-                      <FontAwesomeIcon icon={faAngleRight} />
-                    </h3>
-                    <p>{post.frontmatter.description || post.excerpt}</p>
-                  </Link>
-                </li>
-              ))}
+                    )?.color || "";
+                }
+                return (
+                  <li key={post.fields.slug} className={className}>
+                    <Link to={`/${post.fields.slug}`}>
+                      <h3>
+                        {post.frontmatter.title}
+                        <FontAwesomeIcon icon={faAngleRight} />
+                      </h3>
+                      <p>{post.frontmatter.description || post.excerpt}</p>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </YearListItem>
         ))}
