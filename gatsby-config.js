@@ -180,17 +180,4 @@ const config = {
   ],
 };
 
-if (process.env.NODE_ENV === `development`) {
-  const filesystemPluginIndex = config.plugins.findIndex(
-    c => c.resolve === `gatsby-source-filesystem`
-  );
-  config.plugins.splice(filesystemPluginIndex, 0, {
-    resolve: `gatsby-source-filesystem`,
-    options: {
-      name: `drafts`,
-      path: `${__dirname}/contents/drafts`,
-    },
-  });
-}
-
 module.exports = config;
