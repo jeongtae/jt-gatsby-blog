@@ -895,7 +895,7 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
       <Title>{post.frontmatter.title}</Title>
       <Description>{post.frontmatter.description || post.excerpt}</Description>
       <TagListBox>
-        <TagList tags={tags} />
+        <TagList tags={tags} type="anchor" anchorHrefBuilder={slug => `/?tag=${slug}`} />
       </TagListBox>
       <AdditionalBox>
         <Profile>

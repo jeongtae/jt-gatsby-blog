@@ -105,7 +105,15 @@ const TagList: React.FC<{
   tags: Tag[];
   selectedTagSlugs?: string[];
   onChangeSelectedTagSlug?: (slug: string, selected: boolean) => void;
-}> = ({ tags, selectedTagSlugs = [], onChangeSelectedTagSlug = () => {} }) => {
+  type?: "checkbox" | "anchor";
+  anchorHrefBuilder?: (slug: string) => string;
+}> = ({
+  tags,
+  selectedTagSlugs = [],
+  onChangeSelectedTagSlug = () => {},
+  type = "checkbox",
+  anchorHrefBuilder = () => "",
+}) => {
   const query = useStaticQuery(graphql`
     query {
       allMarkdownRemark {
@@ -126,25 +134,38 @@ const TagList: React.FC<{
 
   return (
     <List>
-      {tags?.map(tag => (
-        <ListItem key={tag.slug} className={tag.group.color || ""}>
-          <input
-            type="checkbox"
-            name="tag"
-            id={tag.slug}
-            checked={selectedTagSlugs.includes(tag.slug)}
-            onChange={e => {
-              const {
-                currentTarget: { id, checked },
-              } = e;
-              onChangeSelectedTagSlug(id, checked);
-            }}
-          />
-          <label htmlFor={tag.slug} onClick={labelClickHandler}>
-            {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length})
-          </label>
-        </ListItem>
-      ))}
+      {type === "checkbox"
+        ? tags?.map(tag => (
+            <ListItem key={tag.slug} className={tag.group.color || ""}>
+              <input
+                type="checkbox"
+                name="tag"
+                id={tag.slug}
+                checked={selectedTagSlugs.includes(tag.slug)}
+                onChange={e => {
+                  const {
+                    currentTarget: { id, checked },
+                  } = e;
+                  onChangeSelectedTagSlug(id, checked);
+                }}
+              />
+              <label htmlFor={tag.slug} onClick={labelClickHandler}>
+                {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
+                )
+              </label>
+            </ListItem>
+          ))
+        : tags?.map(tag => (
+            <ListItem key={tag.slug} className={tag.group.color || ""}>
+              <Link
+                to={anchorHrefBuilder(tag.slug)}
+                key={tag.slug}
+                className={tag.group.color || ""}
+              >
+                {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
+              </Link>
+            </ListItem>
+          ))}
     </List>
   );
 };
