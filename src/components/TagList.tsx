@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, graphql, useStaticQuery } from "gatsby";
 import oc from "open-color";
-import styled, { css } from "../utils/styled-components";
+import styled, { css } from "styled-components";
 import { Tag, MarkdownRemark } from "../generated/graphql-types";
 
 export const List = styled.ul`

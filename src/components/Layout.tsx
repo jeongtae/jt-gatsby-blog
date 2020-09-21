@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "gatsby";
 import oc from "open-color";
-import styled, { GlobalStyle, ApplyBreaks, css, breaks } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { GlobalStyle, ApplyBreaks, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps } from "./Navigation";
 import NoScript from "./NoScript";
 import { debounce } from "lodash";

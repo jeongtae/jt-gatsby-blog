@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { PageProps, graphql } from "gatsby";
 import { debounce } from "lodash";
 import oc from "open-color";
-import styled from "../utils/styled-components";
+import styled from "styled-components";
 import { MarkdownRemark } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";

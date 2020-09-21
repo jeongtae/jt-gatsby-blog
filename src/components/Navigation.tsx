@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes, faSearch } from "@fortawesome/free-solid-svg-icons";
 import oc from "open-color";
 import { Site, File } from "../generated/graphql-types";
-import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { ApplyBreaks, breaks } from "../utils/styled-components";
 
 const NAV_HEIGHT = 60;
 const NAV_RESPONSIVE_BREAK = "sm";

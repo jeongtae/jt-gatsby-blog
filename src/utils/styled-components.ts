@@ -1,10 +1,7 @@
-import styled, { createGlobalStyle, css, FlattenSimpleInterpolation } from "styled-components";
+import { createGlobalStyle, css, FlattenSimpleInterpolation } from "styled-components";
 
 // @ts-ignore
 import animista from "!!raw-loader!./animista.css";
-
-export * from "styled-components";
-export default styled;
 
 export const GlobalStyle = createGlobalStyle`
   ${animista};

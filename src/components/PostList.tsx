@@ -5,7 +5,8 @@ import oc from "open-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-import styled, { css, ApplyBreaks } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { ApplyBreaks } from "../utils/styled-components";
 import { MarkdownRemark, Tag } from "../generated/graphql-types";
 
 const ITEM_HEIGHT = 88;

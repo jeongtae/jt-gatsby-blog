@@ -1,6 +1,6 @@
 import React from "react";
 import oc from "open-color";
-import styled from "../utils/styled-components";
+import styled from "styled-components";
 
 const StyledNoScript = styled.noscript`
   display: block;

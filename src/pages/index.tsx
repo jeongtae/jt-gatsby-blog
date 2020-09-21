@@ -1,7 +1,8 @@
 import React from "react";
 import { PageProps, graphql } from "gatsby";
 import oc from "open-color";
-import styled, { ApplyBreaks, css } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { ApplyBreaks } from "../utils/styled-components";
 import { difference } from "lodash";
 import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
 import Layout from "../components/Layout";

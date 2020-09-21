@@ -3,7 +3,8 @@ import { Link, PageProps, graphql } from "gatsby";
 import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
 import copy from "copy-to-clipboard";
-import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { ApplyBreaks, breaks } from "../utils/styled-components";
 import { throttle } from "lodash";
 import {
   SiteSiteMetadata,

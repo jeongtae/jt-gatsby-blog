@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, PageProps, graphql } from "gatsby";
-import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { breaks, ApplyBreaks } from "../utils/styled-components";
 import oc from "open-color";
 import { difference } from "lodash";
 import Layout from "../components/Layout";
