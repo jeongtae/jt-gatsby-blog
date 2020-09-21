@@ -472,7 +472,7 @@ const PostListItem = styled.li`
     width: 100%;
     /* width: fit-content;
     max-width: 100%; */
-    height: calc(0.36rem + 6px);
+    height: calc(0.39rem + 6px);
     border-radius: 8px;
     padding: 3px 8px;
     text-decoration: none;
@@ -502,8 +502,8 @@ const PostListItem = styled.li`
     }
     .title {
       display: block;
-      margin: 0;
-      font-size: 0.14rem;
+      margin: 0.02rem 0 0;
+      font-size: 0.15rem;
       font-weight: 300;
       white-space: nowrap;
       overflow: hidden;
