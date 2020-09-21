@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, PageProps, graphql } from "gatsby";
 import styled, { css } from "styled-components";
 import { breaks, ApplyBreaks } from "../utils/styled-components";
@@ -257,21 +257,14 @@ const PortfolioPage: React.FC<PageProps<{
   };
 }>> = ({ data, location }) => {
   const portfolios = data.allPortfolio.nodes;
-
   const givenPortfolioSlug = location.hash?.slice(1) || "";
-  const currentPortfolio = portfolios.find(({ slug }) => slug === givenPortfolioSlug);
+  const [currentPortfolio, setCurrentPortfolio] = useState<Portfolio>(null);
+  useEffect(() => {
+    setCurrentPortfolio(portfolios.find(({ slug }) => slug === givenPortfolioSlug) || null);
+  }, [givenPortfolioSlug]);
   const currentPortfolioSlug = currentPortfolio ? givenPortfolioSlug : "";
 
   let posts = data.allMarkdownRemark.nodes;
-  if (currentPortfolio) {
-    posts = posts.filter(
-      post =>
-        difference(
-          currentPortfolio.tags.map(tag => tag.slug),
-          post.frontmatter.tags
-        ).length === 0
-    );
-  }
 
   const postsGroupByYears: { [id: string]: MarkdownRemark[] } = {};
   posts.forEach(post => {
@@ -321,15 +314,6 @@ const PortfolioPage: React.FC<PageProps<{
                     ).length === 0
                       ? currentPortfolio.color
                       : "";
-                } else {
-                  className =
-                    portfolios.find(
-                      portfolio =>
-                        difference(
-                          portfolio.tags.map(tag => tag.slug),
-                          post.frontmatter.tags
-                        ).length === 0
-                    )?.color || "";
                 }
                 return (
                   <li key={post.fields.slug} className={className}>
