@@ -77,13 +77,13 @@ const config = {
       },
     },
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-plugin-typography`,
       options: {
         pathToConfigModule: `src/utils/typography`,
       },
     },
+    `gatsby-plugin-styled-components`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -121,11 +121,12 @@ const config = {
               maxWidth: 960,
               backgroundColor: "transparent",
               quality: 85,
-              withWebp: true,
-              srcSetBreakpoints: [600, 740, 960, 1200, 1440, 1920],
-              // wrapperStyle(fluid) {
-              //   return `margin: 0 -1.2rem`;
-              // },
+              withWebp: false,
+              disableBgImage: true,
+              showCaptions: ["alt", "title"],
+              // markdownCaptions: true,
+              srcSetBreakpoints: [600, 728, 960, 1920],
+              // srcSetBreakpoints: [600, 740, 960, 1200, 1440, 1920],
             },
           },
           {
@@ -180,7 +181,9 @@ const config = {
 };
 
 if (process.env.NODE_ENV === `development`) {
-  filesystemPluginIndex = config.plugins.findIndex(c => c.resolve === `gatsby-source-filesystem`);
+  const filesystemPluginIndex = config.plugins.findIndex(
+    c => c.resolve === `gatsby-source-filesystem`
+  );
   config.plugins.splice(filesystemPluginIndex, 0, {
     resolve: `gatsby-source-filesystem`,
     options: {
@@ -188,6 +191,12 @@ if (process.env.NODE_ENV === `development`) {
       path: `${__dirname}/contents/drafts`,
     },
   });
+} else {
+  const remarkPlugin = config.plugins.find(c => c.resolve === `gatsby-transformer-remark`);
+  const remarkImagesPlugin = remarkPlugin.options.plugins.find(
+    c => c.resolve === `gatsby-remark-images`
+  );
+  remarkImagesPlugin.options.withWebp = true;
 }
 
 module.exports = config;
