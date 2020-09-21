@@ -149,4 +149,4 @@ const TagList: React.FC<{
   );
 };
 
-export default React.memo(TagList);
+export default TagList;
