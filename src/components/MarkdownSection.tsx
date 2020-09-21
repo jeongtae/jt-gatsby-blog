@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect } from "react";
-import styled, { ApplyBreaks, css } from "../utils/styled-components";
+import styled, { css } from "styled-components";
+import { ApplyBreaks } from "../utils/styled-components";
 import { transparentize } from "polished";
 import oc from "open-color";
 
@@ -84,19 +85,32 @@ const Section = styled.section`
     }
   }
   span.gatsby-resp-image-wrapper {
-    margin: 12px -12px !important;
+    margin: 16px -12px 20px !important;
     ${ApplyBreaks(
       px =>
         css`
-          margin: 12px auto !important;
+          margin: 16px auto 20px !important;
           border-radius: 8px;
           overflow: hidden;
         `,
       ["sm"]
     )};
+    & + figcaption.gatsby-resp-image-figcaption {
+      margin: -14px 0 18px;
+
+      color: ${oc.gray[6]};
+      ${ApplyBreaks(
+        px =>
+          css`
+            text-align: center;
+          `,
+        ["sm"]
+      )};
+    }
   }
+
   div.gatsby-resp-iframe-wrapper {
-    margin: 0.08rem auto !important;
+    margin: 16px auto !important;
     border-radius: 8px;
   }
   a {
@@ -162,7 +176,7 @@ const Section = styled.section`
     background-repeat: no-repeat;
     background-size: 60px 2px;
     background-position: 0 0;
-    margin-top: 0.5rem;
+    margin-top: 0.56rem;
     padding-top: 0.1rem;
     padding-bottom: 0.05rem;
     font-size: 0.34rem;
