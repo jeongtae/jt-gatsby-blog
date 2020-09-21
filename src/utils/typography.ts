@@ -113,6 +113,9 @@ export default new Typography({
       iframe: {
         margin: 0,
       },
+      svg: {
+        height: "1em", // TODO: 이거 먹히는지 테스트후 진행
+      },
       ".sans": { fontFamily: sansFontsSerialized },
       ".serif": { fontFamily: serifFontsSerialized },
     } as Style;
