@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, PageProps, graphql } from "gatsby";
 import styled, { ApplyBreaks, css, breaks } from "../utils/styled-components";
 import oc from "open-color";
@@ -27,6 +27,7 @@ const Title = styled.h1`
   )};
 `;
 
+const TabButtonListItem = TagListItem;
 const TabButtonList = styled.ul`
   margin: 0;
   padding: 0;
@@ -41,7 +42,7 @@ const TabButtonList = styled.ul`
       `,
     ["sm"]
   )};
-  ${TagListItem} a {
+  ${TabButtonListItem} a {
     padding: 0 8px;
     &::before {
       content: unset;
@@ -253,7 +254,7 @@ const PortfolioPage: React.FC<PageProps<{
   allMarkdownRemark: {
     nodes: MarkdownRemark[];
   };
-}>> = ({ data }) => {
+}>> = ({ data, location }) => {
   const portfolios = data.allPortfolio.nodes;
 
   const givenPortfolioSlug = location.hash?.slice(1) || "";
@@ -261,15 +262,15 @@ const PortfolioPage: React.FC<PageProps<{
   const currentPortfolioSlug = currentPortfolio ? givenPortfolioSlug : "";
 
   let posts = data.allMarkdownRemark.nodes;
-  // if (currentPortfolio) {
-  //   posts = posts.filter(
-  //     post =>
-  //       difference(
-  //         currentPortfolio.tags.map(tag => tag.slug),
-  //         post.frontmatter.tags
-  //       ).length === 0
-  //   );
-  // }
+  if (currentPortfolio) {
+    posts = posts.filter(
+      post =>
+        difference(
+          currentPortfolio.tags.map(tag => tag.slug),
+          post.frontmatter.tags
+        ).length === 0
+    );
+  }
 
   const postsGroupByYears: { [id: string]: MarkdownRemark[] } = {};
   posts.forEach(post => {
@@ -287,18 +288,21 @@ const PortfolioPage: React.FC<PageProps<{
       <SEO title={currentPortfolio ? `${currentPortfolio.name} 포트폴리오` : "포트폴리오"} />
       <Title>포트폴리오</Title>
       <TabButtonList>
-        <TagListItem style={{ color: oc.gray[7] }} className={!currentPortfolio ? "selected" : ""}>
+        <TabButtonListItem
+          style={{ color: oc.gray[7] }}
+          className={!currentPortfolio ? "selected" : ""}
+        >
           <Link to={`.`}>전체</Link>
-        </TagListItem>
+        </TabButtonListItem>
         {portfolios.map(portfolio => (
-          <TagListItem
+          <TabButtonListItem
             key={portfolio.slug}
             className={
               (portfolio.slug === currentPortfolioSlug ? "selected " : "") + portfolio.color
             }
           >
-            <a href={`#${portfolio.slug}`}>{portfolio.name}</a>
-          </TagListItem>
+            <Link to={`#${portfolio.slug}`}>{portfolio.name}</Link>
+          </TabButtonListItem>
         ))}
       </TabButtonList>
       <YearList>
