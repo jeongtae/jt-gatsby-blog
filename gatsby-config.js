@@ -121,7 +121,7 @@ const config = {
               maxWidth: 960,
               backgroundColor: "transparent",
               quality: 85,
-              withWebp: false,
+              withWebp: true,
               disableBgImage: true,
               showCaptions: ["alt", "title"],
               // markdownCaptions: true,
@@ -191,12 +191,6 @@ if (process.env.NODE_ENV === `development`) {
       path: `${__dirname}/contents/drafts`,
     },
   });
-} else {
-  const remarkPlugin = config.plugins.find(c => c.resolve === `gatsby-transformer-remark`);
-  const remarkImagesPlugin = remarkPlugin.options.plugins.find(
-    c => c.resolve === `gatsby-remark-images`
-  );
-  remarkImagesPlugin.options.withWebp = true;
 }
 
 module.exports = config;
