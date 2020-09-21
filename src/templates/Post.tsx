@@ -6,13 +6,7 @@ import copy from "copy-to-clipboard";
 import styled, { css } from "styled-components";
 import { ApplyBreaks, breaks } from "../utils/styled-components";
 import { throttle } from "lodash";
-import {
-  SiteSiteMetadata,
-  MarkdownRemarkFrontmatter,
-  Tag,
-  SitePageContext,
-  File,
-} from "../generated/graphql-types";
+import { SiteSiteMetadata, MarkdownRemarkFrontmatter, Tag, File } from "../generated/graphql-types";
 import Layout, { ASIDE_BREAK } from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
@@ -358,8 +352,11 @@ const AsideItemInMain = styled.section`
 `;
 const AsideItemInAside = styled.section`
   margin: 28px 8px;
-  > p {
+  > p,
+  > a {
+    display: flex;
     justify-content: center;
+    align-items: center;
     text-align: end;
   }
   &:last-child {
@@ -401,6 +398,7 @@ const AsideItemHeader = styled.p`
     margin-right: 0.06rem;
   }
 `;
+const AsideItemLinkHeader = AsideItemHeader.withComponent(Link);
 
 const PartList = styled.ol`
   display: block;
@@ -784,13 +782,11 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   );
   const RecentListFragment = (
     <>
-      <AsideItemHeader>
-        <Link to="/">
-          <FontAwesomeIcon icon={faPlus} />
-          최근 글
-          <FontAwesomeIcon icon={faAngleRight} />
-        </Link>
-      </AsideItemHeader>
+      <AsideItemLinkHeader to="/">
+        <FontAwesomeIcon icon={faPlus} />
+        최근 글
+        <FontAwesomeIcon icon={faAngleRight} />
+      </AsideItemLinkHeader>
       <PostList>
         {recentPosts.map(post => (
           <PostListItem
@@ -813,19 +809,17 @@ const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
   );
   const CategoryListFragment = (
     <>
-      <AsideItemHeader>
-        <Link
-          to={
-            currentCategoryTags.length > 1
-              ? `/?tags=${categoryTagSlugs.join("+")}`
-              : `/?tag=${currentCategoryTags[0]?.slug}`
-          }
-        >
-          <FontAwesomeIcon icon={faTags} />
-          {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
-          <FontAwesomeIcon icon={faAngleRight} />
-        </Link>
-      </AsideItemHeader>
+      <AsideItemLinkHeader
+        to={
+          currentCategoryTags.length > 1
+            ? `/?tags=${categoryTagSlugs.join("+")}`
+            : `/?tag=${currentCategoryTags[0]?.slug}`
+        }
+      >
+        <FontAwesomeIcon icon={faTags} />
+        {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
+        <FontAwesomeIcon icon={faAngleRight} />
+      </AsideItemLinkHeader>
       <CategoryList>
         {categoryPrevPost && (
           <CategoryListItem className="prev">

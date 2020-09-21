@@ -198,6 +198,8 @@ const YearListItem = styled.li`
         font-size: 0.22rem;
         font-weight: 500;
         color: inherit;
+        display: inline-flex;
+        align-items: center;
         svg {
           margin-left: 0.05rem;
           transform: scale(0.8);
