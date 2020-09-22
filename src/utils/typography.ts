@@ -69,11 +69,11 @@ export default new Typography({
         fontWeight: 500,
       },
       h1: { marginTop: r(0.48), fontSize: r(0.34) },
-      h2: { marginTop: r(0.42), fontSize: r(0.26) },
-      h3: { marginTop: r(0.34), fontSize: r(0.22) },
-      h4: { marginTop: r(0.22), fontSize: r(0.18) },
-      h5: { marginTop: r(0.16), fontSize: r(0.16) },
-      h6: { marginTop: r(0.16), fontSize: r(0.14) },
+      h2: { marginTop: r(0.42), fontSize: r(0.3) },
+      h3: { marginTop: r(0.34), fontSize: r(0.26) },
+      h4: { marginTop: r(0.22), fontSize: r(0.22) },
+      h5: { marginTop: r(0.16), fontSize: r(0.18) },
+      h6: { marginTop: r(0.16), fontSize: r(0.16) },
       // Paragraph Style
       p: {
         margin: `${r(0.08)} 0 ${r(0.16)}`,
@@ -114,7 +114,7 @@ export default new Typography({
         margin: 0,
       },
       svg: {
-        height: "1em", // TODO: 이거 먹히는지 테스트후 진행
+        height: "1em",
       },
       ".sans": { fontFamily: sansFontsSerialized },
       ".serif": { fontFamily: serifFontsSerialized },
