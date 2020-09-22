@@ -1,7 +1,7 @@
 const isDebug = process.env["NODE_ENV"] === "development";
 
 const config = {
-  title: "JTK Blog",
+  title: "JTK 블로그",
   author: "김정태",
   description: "김정태의 블로그입니다.",
   siteUrl: !isDebug ? "https://blog.jeongtae.com" : "http://localhost:8000",
@@ -13,10 +13,11 @@ const config = {
       color: "red",
       tags: {
         lecture: "강의",
+        development: "개발",
         diy: "DIY",
         web: "웹",
         game: "게임",
-        "graphic-design": "그래픽 디자인",
+        "graphic-design": "그래픽디자인",
         portfolio: "포트폴리오",
       },
     },
@@ -26,8 +27,12 @@ const config = {
       tags: {
         html: "HTML",
         css: "CSS",
+        javascript: "JavaScript",
+        typescript: "TypeScript",
+        graphql: "GraphQL",
         "objective-c": "Objective-C",
         csharp: "C#",
+        python: "Python",
       },
     },
     framework: {
@@ -36,40 +41,52 @@ const config = {
       tags: {
         react: "React",
         svelte: "Gatsby",
-        "source-engine": "소스 엔진",
+        bootstrap: "Bootstrap",
+        "source-engine": "소스엔진",
         spritekit: "SpriteKit",
+        oracle: "Oracle",
+        mysql: "MySQL",
+        asp: "ASP",
+        dotnet: ".NET",
+        wpf: "WPF",
+        pwa: "PWA",
+        winform: "Windows Forms",
       },
     },
     software: {
       name: "소프트웨어",
       color: "blue",
       tags: {
-        "fusion-360": "퓨전 360",
+        "fusion-360": "퓨전360",
         "3ds-max": "3ds Max",
         photoshop: "포토샵",
         metasequoia: "메타세콰이어",
-        "hammer-editor": "해머 에디터",
+        "hammer-editor": "해머에디터",
       },
     },
     hardware: {
       name: "하드웨어",
       color: "violet",
       tags: {
-        "raspberry-pi": "라즈베리 파이",
+        "raspberry-pi": "라즈베리파이",
         arduino: "아두이노",
-        overclocking: "오버클럭",
+        overclock: "오버클럭",
+        "3d-printer": "3D프린터",
+        vr: "VR",
       },
     },
     game: {
       name: "게임",
       color: "grape",
       tags: {
+        "kart-rider": "카트라이더",
         "sudden-attack": "서든어택",
         "sudden-attack-skin": "서든어택 스킨",
         "maple-story": "메이플스토리",
         "cs:s": "CS:S",
         "cs:s-skin": "CS:S 스킨",
         "cs:go": "CS:GO",
+        "cs:go-map": "CS:GO 맵",
       },
     },
   },
@@ -77,12 +94,12 @@ const config = {
     development: {
       name: "개발",
       color: "pink",
-      tags: ["web"],
+      tags: ["development"],
     },
     diy: {
       name: "DIY",
       color: "orange",
-      tags: ["web"],
+      tags: ["diy"],
     },
     game: {
       name: "게임",
