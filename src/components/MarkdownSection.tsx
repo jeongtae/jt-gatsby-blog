@@ -84,6 +84,9 @@ const Section = styled.section`
         0 -1px 4px ${oc.yellow[4]};
     }
   }
+  figure.gatsby-resp-image-figure {
+    margin: 0;
+  }
   span.gatsby-resp-image-wrapper {
     margin: 16px -12px 20px !important;
     ${ApplyBreaks(
@@ -96,7 +99,7 @@ const Section = styled.section`
       ["sm"]
     )};
     & + figcaption.gatsby-resp-image-figcaption {
-      margin: -14px 0 18px;
+      margin: -16px 0 24px;
 
       color: ${oc.gray[6]};
       ${ApplyBreaks(
