@@ -258,7 +258,7 @@ const PortfolioPage: BasePageFC<{
   allMarkdownRemark: {
     nodes: MarkdownRemark[];
   };
-}> = ({ data, location, transitionStatus }) => {
+}> = ({ data, location }) => {
   const portfolios = data.allPortfolio.nodes;
   const givenPortfolioSlug = location.hash?.slice(1) || "";
   const [currentPortfolio, setCurrentPortfolio] = useState<Portfolio>(null);

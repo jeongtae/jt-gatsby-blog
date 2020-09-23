@@ -716,7 +716,7 @@ type PageData = {
   profileFile: File;
 };
 
-const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatus }) => {
+const PostTemplate: BasePageFC<PageData> = ({ data, pageContext }) => {
   const {
     site,
     post,
@@ -887,7 +887,6 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
   return (
     <>
       {/* <Layout
-      className={transitionStatus}
       navigationProps={{ title: post.frontmatter.title }}
       asideChildren={
         <>

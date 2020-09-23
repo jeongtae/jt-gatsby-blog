@@ -69,7 +69,7 @@ const IndexPage: BasePageFC<{
   tagGroups: {
     nodes: TagGroup[];
   };
-}> = ({ data, location, navigate, transitionStatus }) => {
+}> = ({ data, location, navigate }) => {
   const {
     posts: { nodes: posts },
     tags: { nodes: tags },

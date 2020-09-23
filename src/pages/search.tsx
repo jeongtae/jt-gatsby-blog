@@ -22,7 +22,7 @@ const SearchPage: BasePageFC<{
   posts: {
     nodes: MarkdownRemark[];
   };
-}> = ({ data, location, navigate, transitionStatus }) => {
+}> = ({ data, location, navigate }) => {
   const posts = data.posts.nodes;
   const filterPosts = query =>
     posts.filter(post => {
@@ -46,7 +46,6 @@ const SearchPage: BasePageFC<{
 
   return (
     // <Layout
-    //   className={transitionStatus}
     //   navigationProps={{
     //     showSearchInput: true,
     //     searchInputValue: query,

@@ -35,7 +35,7 @@ const About = styled.section`
 
 const AboutPage: BasePageFC<{
   profileFile: File;
-}> = ({ data, transitionStatus }) => {
+}> = ({ data }) => {
   const profileImageFluid = data.profileFile.childImageSharp.fluid;
   return (
     <>
