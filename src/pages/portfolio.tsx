@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, PageProps, graphql } from "gatsby";
+import BasePageFC from "../components/BasePageFC";
 import styled, { css } from "styled-components";
 import { breaks, ApplyBreaks } from "../utils/styled-components";
 import oc from "open-color";
@@ -250,14 +251,14 @@ const YearListItem = styled.li`
   }
 `;
 
-const PortfolioPage: React.FC<PageProps<{
+const PortfolioPage: BasePageFC<{
   allPortfolio: {
     nodes: Portfolio[];
   };
   allMarkdownRemark: {
     nodes: MarkdownRemark[];
   };
-}>> = ({ data, location }) => {
+}> = ({ data, location, transitionStatus }) => {
   const portfolios = data.allPortfolio.nodes;
   const givenPortfolioSlug = location.hash?.slice(1) || "";
   const [currentPortfolio, setCurrentPortfolio] = useState<Portfolio>(null);

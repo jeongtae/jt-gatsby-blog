@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { PageProps, graphql } from "gatsby";
+import BasePageFC from "../components/BasePageFC";
 import { debounce } from "lodash";
 import oc from "open-color";
 import styled from "styled-components";
@@ -17,13 +18,11 @@ const SearchResultText = styled.p`
   color: ${oc.gray[7]};
 `;
 
-type PageData = {
+const SearchPage: BasePageFC<{
   posts: {
     nodes: MarkdownRemark[];
   };
-};
-
-const SearchPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
+}> = ({ data, location, navigate, transitionStatus }) => {
   const posts = data.posts.nodes;
   const filterPosts = query =>
     posts.filter(post => {

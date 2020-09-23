@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Link, PageProps, graphql } from "gatsby";
+import BasePageFC from "../components/BasePageFC";
 import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
 import copy from "copy-to-clipboard";
@@ -714,7 +715,7 @@ type PageData = {
   profileFile: File;
 };
 
-const PostTemplate: React.FC<PageProps<PageData>> = ({ data, pageContext }) => {
+const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatus }) => {
   const {
     site,
     post,

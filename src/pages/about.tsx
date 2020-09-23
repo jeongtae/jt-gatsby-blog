@@ -1,5 +1,6 @@
 import React from "react";
-import { PageProps, graphql } from "gatsby";
+import { graphql } from "gatsby";
+import BasePageFC from "../components/BasePageFC";
 import Img from "gatsby-image";
 import styled from "styled-components";
 import { File } from "../generated/graphql-types";
@@ -40,9 +41,9 @@ const About = styled.section`
   }
 `;
 
-const AboutPage: React.FC<PageProps<{
+const AboutPage: BasePageFC<{
   profileFile: File;
-}>> = ({ data }) => {
+}> = ({ data, transitionStatus }) => {
   const profileImageFluid = data.profileFile.childImageSharp.fluid;
   return (
     <Layout>
