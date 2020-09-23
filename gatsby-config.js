@@ -71,7 +71,7 @@ const config = {
         lang: `ko`,
         start_url: `/`,
         background_color: `white`,
-        theme_color: `black`,
+        theme_color: `white`,
         display: `standalone`,
         icon: `contents/images/logo.png`,
       },
