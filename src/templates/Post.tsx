@@ -319,6 +319,7 @@ const OriginalLink = styled.a.attrs(props => ({ target: "_blank" }))`
   border-radius: 8px;
   transition: 150ms ease-in-out;
   transition-property: background-color, color;
+  transform: translateY(-10px);
   @media (hover) {
     &:hover {
       background-color: ${oc.gray[1]};
