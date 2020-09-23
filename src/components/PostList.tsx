@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, useStaticQuery, graphql } from "gatsby";
+import { useStaticQuery, graphql } from "gatsby";
+import TransitionLink from "./TransitionLink";
 import Img from "gatsby-image";
 import oc from "open-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -187,7 +188,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
       {posts.map(post => (
         <ListItem key={post.id}>
           <article>
-            <Link to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
+            <TransitionLink to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
               {post.frontmatter.thumbnail && (
                 <Thumbnail>
                   <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
@@ -212,7 +213,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                   </p>
                 </div>
               </Contents>
-            </Link>
+            </TransitionLink>
           </article>
         </ListItem>
       ))}

@@ -1,5 +1,6 @@
 import React from "react";
 import { PageProps, graphql } from "gatsby";
+import BasePageFC from "../components/BasePageFC";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { ApplyBreaks } from "../utils/styled-components";
@@ -58,7 +59,7 @@ const Message = styled.p`
   color: ${oc.gray[7]};
 `;
 
-type PageData = {
+const IndexPage: BasePageFC<{
   posts: {
     nodes: MarkdownRemark[];
   };
@@ -68,9 +69,7 @@ type PageData = {
   tagGroups: {
     nodes: TagGroup[];
   };
-};
-
-const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) => {
+}> = ({ data, location, navigate, transitionStatus }) => {
   const {
     posts: { nodes: posts },
     tags: { nodes: tags },
@@ -106,7 +105,7 @@ const IndexPage: React.FC<PageProps<PageData>> = ({ data, location, navigate }) 
   };
 
   return (
-    <Layout>
+    <Layout className={transitionStatus}>
       <SEO />
       <ListHeaderWithControl>
         <h3 className="title">태그</h3>

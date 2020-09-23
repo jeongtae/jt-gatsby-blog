@@ -1,5 +1,6 @@
 import React from "react";
-import { Link, graphql, useStaticQuery } from "gatsby";
+import { graphql, useStaticQuery, Link } from "gatsby";
+import TransitionLink from "./TransitionLink";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { Tag, MarkdownRemark } from "../generated/graphql-types";
@@ -105,7 +106,7 @@ const TagList: React.FC<{
   tags: Tag[];
   selectedTagSlugs?: string[];
   onChangeSelectedTagSlug?: (slug: string, selected: boolean) => void;
-  type?: "checkbox" | "anchor";
+  type?: "checkbox" | "link" | "transitionlink";
   anchorHrefBuilder?: (slug: string) => string;
 }> = ({
   tags,
@@ -157,13 +158,25 @@ const TagList: React.FC<{
           ))
         : tags?.map(tag => (
             <ListItem key={tag.slug} className={tag.group.color || ""}>
-              <Link
-                to={anchorHrefBuilder(tag.slug)}
-                key={tag.slug}
-                className={tag.group.color || ""}
-              >
-                {tag.name} ({posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
-              </Link>
+              {type === "link" ? (
+                <Link
+                  to={anchorHrefBuilder(tag.slug)}
+                  key={tag.slug}
+                  className={tag.group.color || ""}
+                >
+                  {tag.name} (
+                  {posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
+                </Link>
+              ) : (
+                <TransitionLink
+                  to={anchorHrefBuilder(tag.slug)}
+                  key={tag.slug}
+                  className={tag.group.color || ""}
+                >
+                  {tag.name} (
+                  {posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
+                </TransitionLink>
+              )}
             </ListItem>
           ))}
     </List>

@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
+import TransitionLink from "./TransitionLink";
 import { useEffectOnce } from "react-use";
 import Img from "gatsby-image";
 import { throttle } from "lodash";
@@ -154,7 +155,7 @@ const MenuButton = styled.button`
     [NAV_RESPONSIVE_BREAK]
   )};
 `;
-const SearchButton = styled(Link)`
+const SearchButton = styled(TransitionLink)`
   ${baseButton};
   transition: transform ease-in-out 150ms 150ms;
   &.collapsed {
@@ -169,7 +170,7 @@ const BackButton = styled.a`
   }
 `;
 
-const LogoButton = styled(Link)`
+const LogoButton = styled(TransitionLink)`
   ${baseButton};
   transition: transform ease-in-out 150ms;
   display: none;
@@ -201,7 +202,7 @@ const Menu = styled.ul`
   opacity: 0;
   z-index: 30000;
   @media (hover) {
-    &:hover {
+    .entered &:hover {
       color: ${oc.gray[5]};
       text-shadow: 0 0 1px ${oc.gray[5]};
       li::after {
@@ -450,31 +451,22 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
           <Center>
             <Menu className={isMenuExpanded && "expanded"}>
               <li>
-                <Link
-                  to="/"
-                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                  onMouseDown={e => e.preventDefault()}
-                >
+                <TransitionLink to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
                   포스트
-                </Link>
+                </TransitionLink>
               </li>
               <li>
-                <Link
-                  to="/portfolio"
+                <TransitionLink
+                  to="/portfolio/#"
                   tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                  onMouseDown={e => e.preventDefault()}
                 >
                   포트폴리오
-                </Link>
+                </TransitionLink>
               </li>
               <li>
-                <Link
-                  to="/about"
-                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
-                  onMouseDown={e => e.preventDefault()}
-                >
+                <TransitionLink to="/about" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
                   소개
-                </Link>
+                </TransitionLink>
               </li>
             </Menu>
             <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>

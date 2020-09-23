@@ -281,7 +281,7 @@ const PortfolioPage: BasePageFC<{
   const years: string[] = Object.keys(postsGroupByYears).sort().reverse();
 
   return (
-    <Layout>
+    <Layout className={transitionStatus}>
       <SEO title={currentPortfolio ? `${currentPortfolio.name} 포트폴리오` : "포트폴리오"} />
       <Title>포트폴리오</Title>
       <TabButtonList>
@@ -289,7 +289,7 @@ const PortfolioPage: BasePageFC<{
           style={{ color: oc.gray[7] }}
           className={!currentPortfolio ? "selected" : ""}
         >
-          <Link to={`.`}>전체</Link>
+          <Link to={`#`}>전체</Link>
         </TabButtonListItem>
         {portfolios.map(portfolio => (
           <TabButtonListItem

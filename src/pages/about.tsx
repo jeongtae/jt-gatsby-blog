@@ -46,7 +46,7 @@ const AboutPage: BasePageFC<{
 }> = ({ data, transitionStatus }) => {
   const profileImageFluid = data.profileFile.childImageSharp.fluid;
   return (
-    <Layout>
+    <Layout className={transitionStatus}>
       <SEO title="소개" />
       {/* <Message>소개 준비중</Message> */}
       <About>

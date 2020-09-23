@@ -25,6 +25,12 @@ const MainContainer = styled.div`
         padding: 0 8px;
       `
   )};
+  &.exiting {
+    animation: fade-out 200ms ease-out both;
+  }
+  &.entering {
+    animation: fade-in 200ms ease-out both;
+  }
 `;
 const Main = styled.main`
   width: 100%;

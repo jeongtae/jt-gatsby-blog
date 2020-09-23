@@ -46,6 +46,7 @@ const SearchPage: BasePageFC<{
 
   return (
     <Layout
+      className={transitionStatus}
       navigationProps={{
         showSearchInput: true,
         searchInputValue: query,

@@ -14,6 +14,9 @@ export const GlobalStyle = createGlobalStyle`
   html {
     line-height: unset;
   }
+  .tl-wrapper {
+    background-color: white;
+  }
 `;
 
 type BreakNames = "sm" | "md" | "lg" | "xl" | "xxl";
