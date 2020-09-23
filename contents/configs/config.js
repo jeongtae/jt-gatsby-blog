@@ -40,7 +40,7 @@ const config = {
       color: "green",
       tags: {
         react: "React",
-        svelte: "Gatsby",
+        gatsby: "Gatsby",
         bootstrap: "Bootstrap",
         "source-engine": "소스엔진",
         spritekit: "SpriteKit",
