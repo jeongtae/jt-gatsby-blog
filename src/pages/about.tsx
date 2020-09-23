@@ -7,15 +7,8 @@ import { File } from "../generated/graphql-types";
 import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFacebookF, faFacebook } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-
-const Message = styled.p`
-  margin: 48px 0;
-  text-align: center;
-  font-size: 0.24rem;
-  font-weight: 500;
-`;
 
 const About = styled.section`
   .gatsby-image-wrapper {
@@ -53,9 +46,9 @@ const AboutPage: BasePageFC<{
         <h1>소개</h1>
         <Img fluid={profileImageFluid} />
         <h2>김정태</h2>
-        생일: <time dateTime="1994-10-29">1994. 10. 29.</time>
+        {/* 생일: <time dateTime="1994-10-29">1994. 10. 29.</time> */}
         <p>무언가 배우는 것과 만들기를 좋아합니다.</p>
-        <h2>일반 관심사</h2>
+        {/* <h2>일반 관심사</h2>
         <ul>
           <li>DIY</li>
           <li>개발</li>
@@ -67,13 +60,19 @@ const AboutPage: BasePageFC<{
           <li>데스크탑 앱</li>
           <li>게임</li>
         </ul>
-        <h2>연락처</h2>
+        <h2>연락처</h2> */}
         <address>
           <ul>
             <li>
               <a href="https://www.facebook.com/jeongtaekim1994" target="_blank">
                 <FontAwesomeIcon icon={faFacebook} />
-                김정태
+                jeongtaekim1994
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/jeongtae" target="_blank">
+                <FontAwesomeIcon icon={faGithub} />
+                jeongtae
               </a>
             </li>
             <li>
