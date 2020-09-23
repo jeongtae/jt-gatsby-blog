@@ -1,11 +1,7 @@
 import React from "react";
-import { useStaticQuery, graphql } from "gatsby";
-import TransitionLink from "./TransitionLink";
+import { Link, useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
 import oc from "open-color";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-regular-svg-icons";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import styled, { css } from "styled-components";
 import { ApplyBreaks } from "../utils/styled-components";
 import { MarkdownRemark, Tag } from "../generated/graphql-types";
@@ -188,7 +184,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
       {posts.map(post => (
         <ListItem key={post.id}>
           <article>
-            <TransitionLink to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
+            <Link to={`/${post.fields.slug}`} onMouseDown={e => e.preventDefault()}>
               {post.frontmatter.thumbnail && (
                 <Thumbnail>
                   <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
@@ -213,7 +209,7 @@ const PostList: React.FC<{ posts: MarkdownRemark[] }> = ({ posts }) => {
                   </p>
                 </div>
               </Contents>
-            </TransitionLink>
+            </Link>
           </article>
         </ListItem>
       ))}

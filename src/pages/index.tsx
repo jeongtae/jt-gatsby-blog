@@ -1,12 +1,12 @@
 import React from "react";
-import { PageProps, graphql } from "gatsby";
+import { graphql } from "gatsby";
 import BasePageFC from "../components/BasePageFC";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { ApplyBreaks } from "../utils/styled-components";
 import { difference } from "lodash";
 import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
-import Layout from "../components/Layout";
+// import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";
@@ -105,7 +105,7 @@ const IndexPage: BasePageFC<{
   };
 
   return (
-    <Layout className={transitionStatus}>
+    <>
       <SEO />
       <ListHeaderWithControl>
         <h3 className="title">태그</h3>
@@ -177,7 +177,7 @@ const IndexPage: BasePageFC<{
       </ListHeader>
       {filteredPosts.length === 0 && <Message>포스트가 없습니다.</Message>}
       <PostList posts={filteredPosts} />
-    </Layout>
+    </>
   );
 };
 export default IndexPage;

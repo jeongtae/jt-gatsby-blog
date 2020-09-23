@@ -1,6 +1,5 @@
 import React from "react";
 import { graphql, useStaticQuery, Link } from "gatsby";
-import TransitionLink from "./TransitionLink";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { Tag, MarkdownRemark } from "../generated/graphql-types";
@@ -168,14 +167,14 @@ const TagList: React.FC<{
                   {posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
                 </Link>
               ) : (
-                <TransitionLink
+                <Link
                   to={anchorHrefBuilder(tag.slug)}
                   key={tag.slug}
                   className={tag.group.color || ""}
                 >
                   {tag.name} (
                   {posts.filter(post => post.frontmatter.tags?.includes(tag.slug)).length}
-                </TransitionLink>
+                </Link>
               )}
             </ListItem>
           ))}

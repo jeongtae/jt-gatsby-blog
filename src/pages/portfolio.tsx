@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, PageProps, graphql } from "gatsby";
+import { Link, graphql } from "gatsby";
 import BasePageFC from "../components/BasePageFC";
 import styled, { css } from "styled-components";
 import { breaks, ApplyBreaks } from "../utils/styled-components";
 import oc from "open-color";
 import { difference } from "lodash";
-import Layout from "../components/Layout";
+// import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import { ListItem as TagListItem } from "../components/TagList";
 import { MarkdownRemark, Portfolio } from "../generated/graphql-types";
@@ -281,7 +281,7 @@ const PortfolioPage: BasePageFC<{
   const years: string[] = Object.keys(postsGroupByYears).sort().reverse();
 
   return (
-    <Layout className={transitionStatus}>
+    <>
       <SEO title={currentPortfolio ? `${currentPortfolio.name} 포트폴리오` : "포트폴리오"} />
       <Title>포트폴리오</Title>
       <TabButtonList>
@@ -334,7 +334,7 @@ const PortfolioPage: BasePageFC<{
           </YearListItem>
         ))}
       </YearList>
-    </Layout>
+    </>
   );
 };
 export default PortfolioPage;

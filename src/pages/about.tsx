@@ -4,7 +4,6 @@ import BasePageFC from "../components/BasePageFC";
 import Img from "gatsby-image";
 import styled from "styled-components";
 import { File } from "../generated/graphql-types";
-import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -39,7 +38,7 @@ const AboutPage: BasePageFC<{
 }> = ({ data, transitionStatus }) => {
   const profileImageFluid = data.profileFile.childImageSharp.fluid;
   return (
-    <Layout className={transitionStatus}>
+    <>
       <SEO title="소개" />
       {/* <Message>소개 준비중</Message> */}
       <About>
@@ -84,7 +83,7 @@ const AboutPage: BasePageFC<{
           </ul>
         </address>
       </About>
-    </Layout>
+    </>
   );
 };
 export default AboutPage;

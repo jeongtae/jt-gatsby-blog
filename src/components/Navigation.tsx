@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect, useRef } from "react";
 import { useStaticQuery, graphql, Link } from "gatsby";
-import TransitionLink from "./TransitionLink";
 import { useEffectOnce } from "react-use";
 import Img from "gatsby-image";
 import { throttle } from "lodash";
@@ -155,7 +154,7 @@ const MenuButton = styled.button`
     [NAV_RESPONSIVE_BREAK]
   )};
 `;
-const SearchButton = styled(TransitionLink)`
+const SearchButton = styled(Link)`
   ${baseButton};
   transition: transform ease-in-out 150ms 150ms;
   &.collapsed {
@@ -170,7 +169,7 @@ const BackButton = styled.a`
   }
 `;
 
-const LogoButton = styled(TransitionLink)`
+const LogoButton = styled(Link)`
   ${baseButton};
   transition: transform ease-in-out 150ms;
   display: none;
@@ -451,22 +450,31 @@ const Navigation: React.FC<NavigationProps> = React.forwardRef(
           <Center>
             <Menu className={isMenuExpanded && "expanded"}>
               <li>
-                <TransitionLink to="/" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+                <Link
+                  to="/"
+                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
+                >
                   포스트
-                </TransitionLink>
+                </Link>
               </li>
               <li>
-                <TransitionLink
+                <Link
                   to="/portfolio/#"
                   tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
                 >
                   포트폴리오
-                </TransitionLink>
+                </Link>
               </li>
               <li>
-                <TransitionLink to="/about" tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}>
+                <Link
+                  to="/about"
+                  tabIndex={!isMenuExpanded && !isWideScreen ? -1 : 0}
+                  onMouseDown={e => e.preventDefault()}
+                >
                   소개
-                </TransitionLink>
+                </Link>
               </li>
             </Menu>
             <Title className={isMenuExpanded && "collapsed"} hidden={showSearchInput}>

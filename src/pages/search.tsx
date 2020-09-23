@@ -45,24 +45,25 @@ const SearchPage: BasePageFC<{
   );
 
   return (
-    <Layout
-      className={transitionStatus}
-      navigationProps={{
-        showSearchInput: true,
-        searchInputValue: query,
-        onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-          setResultPosts(null);
-          setQuery(value);
-          value = value.trim();
-          if (value) {
-            navigate(`./?query=${value}`, { replace: true });
-            setResultPostsDebounced(value);
-          } else {
-            navigate(".", { replace: true });
-          }
-        },
-      }}
-    >
+    // <Layout
+    //   className={transitionStatus}
+    //   navigationProps={{
+    //     showSearchInput: true,
+    //     searchInputValue: query,
+    //     onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+    //       setResultPosts(null);
+    //       setQuery(value);
+    //       value = value.trim();
+    //       if (value) {
+    //         navigate(`./?query=${value}`, { replace: true });
+    //         setResultPostsDebounced(value);
+    //       } else {
+    //         navigate(".", { replace: true });
+    //       }
+    //     },
+    //   }}
+    // >
+    <>
       <SEO title={query ? `${query} 검색` : "검색"} />
       {query.trim() ? (
         <>
@@ -78,7 +79,7 @@ const SearchPage: BasePageFC<{
       ) : (
         <SearchResultText>검색어를 입력하세요.</SearchResultText>
       )}
-    </Layout>
+    </>
   );
 };
 export default SearchPage;

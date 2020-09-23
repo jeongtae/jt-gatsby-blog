@@ -6,6 +6,7 @@ import { GlobalStyle, ApplyBreaks, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps, NAV_HEIGHT } from "./Navigation";
 import NoScript from "./NoScript";
 import { debounce } from "lodash";
+import ContextConsumer, { ContextProviderComponent } from "./Context";
 
 export const ASIDE_BREAK = "xl";
 
@@ -25,12 +26,12 @@ const MainContainer = styled.div`
         padding: 0 8px;
       `
   )};
-  &.exiting {
+  /* &.exiting {
     animation: fade-out 200ms ease-out both;
   }
   &.entering {
     animation: fade-in 200ms ease-out both;
-  }
+  } */
 `;
 const Main = styled.main`
   width: 100%;
@@ -171,34 +172,42 @@ const Layout: React.FC<{
   }, []);
 
   return (
-    <WholeContainer className={className}>
-      <GlobalStyle />
-      <Navigation {...(navigationProps || {})} ref={navRef} />
-      <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
-      <MainContainer className={className || ""}>
-        {asideChildren && <AsidePadder />}
-        <Main>{children}</Main>
-        {asideChildren && <Aside ref={asideRef}>{asideChildren}</Aside>}
-      </MainContainer>
-      <Footer>
-        <ul>
-          <li>
-            Copyright &copy; {new Date().getFullYear()} <Link to="/">JTK Blog</Link> All Rights
-            Reserved.
-          </li>
-          <li>
-            Designed by <Link to="/about">Jeongtae Kim</Link>
-          </li>
-          <li>
-            Built with{" "}
-            <a href="https://www.gatsbyjs.com/" target="_blank">
-              Gatsby.js
-            </a>
-          </li>
-          {/* <li>Open Source Software Notice</li> */}
-        </ul>
-      </Footer>
-    </WholeContainer>
+    <ContextProviderComponent>
+      <ContextConsumer>
+        {({ data, set }) => (
+          <WholeContainer className={data.className}>
+            <GlobalStyle />
+            <Navigation {...(navigationProps || {})} ref={navRef} />
+            <NoScript>
+              블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.
+            </NoScript>
+            <MainContainer>
+              {asideChildren && <AsidePadder />}
+              <Main>{children}</Main>
+              {asideChildren && <Aside ref={asideRef}>{asideChildren}</Aside>}
+            </MainContainer>
+            <Footer>
+              <ul>
+                <li>
+                  Copyright &copy; {new Date().getFullYear()} <Link to="/">JTK Blog</Link> All
+                  Rights Reserved.
+                </li>
+                <li>
+                  Designed by <Link to="/about">Jeongtae Kim</Link>
+                </li>
+                <li>
+                  Built with{" "}
+                  <a href="https://www.gatsbyjs.com/" target="_blank">
+                    Gatsby.js
+                  </a>
+                </li>
+                {/* <li>Open Source Software Notice</li> */}
+              </ul>
+            </Footer>
+          </WholeContainer>
+        )}
+      </ContextConsumer>
+    </ContextProviderComponent>
   );
 };
 

@@ -177,7 +177,6 @@ const config = {
         dest: `./src/generated/graphql-types.d.ts`,
       },
     },
-    `gatsby-plugin-transition-link`,
   ],
 };
 

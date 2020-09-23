@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { graphql } from "gatsby";
-import TransitionLink from "../components/TransitionLink";
+import { graphql, Link } from "gatsby";
 import BasePageFC from "../components/BasePageFC";
 import Img from "gatsby-image/withIEPolyfill";
 import oc from "open-color";
@@ -752,7 +751,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
       <PartList>
         {partPosts.map(post => (
           <Part key={post.fields.slug} className={post.fields.slug === slug ? "highlighted" : ""}>
-            <TransitionLink to={`/${post.fields.slug}`}>{post.frontmatter.title}</TransitionLink>
+            <Link to={`/${post.fields.slug}`}>{post.frontmatter.title}</Link>
           </Part>
         ))}
       </PartList>
@@ -776,7 +775,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
       <PostList>
         {relatedPosts.map(post => (
           <PostListItem key={post.fields.slug}>
-            <TransitionLink to={`/${post.fields.slug}`}>
+            <Link to={`/${post.fields.slug}`}>
               {post.frontmatter.thumbnail && (
                 <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
               )}
@@ -784,7 +783,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
               <time className="description" dateTime={post.frontmatter.dateFormal}>
                 {post.frontmatter.date}
               </time>
-            </TransitionLink>
+            </Link>
           </PostListItem>
         ))}
       </PostList>
@@ -793,11 +792,11 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
   const RecentListFragment = (
     <>
       <AsideItemHeader>
-        <TransitionLink to="/">
+        <Link to="/">
           <FontAwesomeIcon icon={faPlus} />
           최근 글
           <FontAwesomeIcon icon={faAngleRight} />
-        </TransitionLink>
+        </Link>
       </AsideItemHeader>
       <PostList>
         {recentPosts.map(post => (
@@ -805,7 +804,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
             key={post.fields.slug}
             className={post.fields.slug === slug ? "highlighted" : ""}
           >
-            <TransitionLink to={`/${post.fields.slug}`}>
+            <Link to={`/${post.fields.slug}`}>
               {post.frontmatter.thumbnail && (
                 <Img fixed={post.frontmatter.thumbnail.childImageSharp.fixed} />
               )}
@@ -813,7 +812,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
               <time className="description" dateTime={post.frontmatter.dateFormal}>
                 {post.frontmatter.dateFromNow}
               </time>
-            </TransitionLink>
+            </Link>
           </PostListItem>
         ))}
       </PostList>
@@ -822,7 +821,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
   const CategoryListFragment = (
     <>
       <AsideItemHeader>
-        <TransitionLink
+        <Link
           to={
             currentCategoryTags.length > 1
               ? `/?tags=${categoryTagSlugs.join("+")}`
@@ -832,25 +831,25 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
           <FontAwesomeIcon icon={faTags} />
           {currentCategoryTags.map(tag => tag.name).join("&")} 카테고리 글
           <FontAwesomeIcon icon={faAngleRight} />
-        </TransitionLink>
+        </Link>
       </AsideItemHeader>
       <CategoryList>
         {categoryPrevPost && (
           <CategoryListItem className="prev">
-            <TransitionLink to={`/${categoryPrevPost.fields.slug}`}>
+            <Link to={`/${categoryPrevPost.fields.slug}`}>
               <FontAwesomeIcon icon={faAngleUp} />
               <span className="text">이전</span>
               {categoryPrevPost.frontmatter.title}
-            </TransitionLink>
+            </Link>
           </CategoryListItem>
         )}
         {categoryNextPost && (
           <CategoryListItem className="next">
-            <TransitionLink to={`/${categoryNextPost.fields.slug}`}>
+            <Link to={`/${categoryNextPost.fields.slug}`}>
               <FontAwesomeIcon icon={faAngleDown} />
               <span className="text">다음</span>
               {categoryNextPost.frontmatter.title}
-            </TransitionLink>
+            </Link>
           </CategoryListItem>
         )}
       </CategoryList>
@@ -886,7 +885,8 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
   }, []);
 
   return (
-    <Layout
+    <>
+      {/* <Layout
       className={transitionStatus}
       navigationProps={{ title: post.frontmatter.title }}
       asideChildren={
@@ -897,7 +897,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
           {recentPosts.length > 0 && <AsideItemInAside>{RecentListFragment}</AsideItemInAside>}
         </>
       }
-    >
+    > */}
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
@@ -909,10 +909,10 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
       </TagListBox>
       <AdditionalBox>
         <Profile>
-          <TransitionLink to="/about">
+          <Link to="/about">
             <Img className="image" fluid={profileFile.childImageSharp.fluid} objectFit="cover" />
             <p className="name">{site.siteMetadata.author}</p>
-          </TransitionLink>
+          </Link>
         </Profile>
         <Date>
           <ul>
@@ -992,7 +992,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext, transitionStatu
       {(categoryPrevPost || categoryNextPost) && (
         <AsideItemInMain>{CategoryListFragment}</AsideItemInMain>
       )}
-    </Layout>
+    </>
   );
 };
 export default PostTemplate;
