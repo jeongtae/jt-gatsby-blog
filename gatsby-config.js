@@ -9,6 +9,12 @@ const { siteUrl } = siteMetadata;
 const config = {
   siteMetadata,
   plugins: [
+    {
+      resolve: `gatsby-plugin-layout`,
+      options: {
+        component: require.resolve(`./src/components/Layout.tsx`),
+      },
+    },
     `gatsby-plugin-lodash`,
     {
       resolve: `gatsby-plugin-robots-txt`,
