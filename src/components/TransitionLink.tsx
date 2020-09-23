@@ -8,7 +8,7 @@ export default (({ children, to, tabIndex, className }) => (
     tabIndex={tabIndex}
     className={className}
     exit={{ delay: 0, length: TRANSITION_TIME }}
-    entry={{ delay: TRANSITION_TIME, length: TRANSITION_TIME }}
+    entry={{ delay: TRANSITION_TIME / 2, length: TRANSITION_TIME }}
     onMouseDown={e => e.preventDefault()}
     to={to}
   >
