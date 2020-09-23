@@ -10,13 +10,15 @@ import { Site, File } from "../generated/graphql-types";
 import styled, { css } from "styled-components";
 import { ApplyBreaks, breaks } from "../utils/styled-components";
 
-const NAV_HEIGHT = 60;
+export const NAV_HEIGHT = 60;
 const NAV_RESPONSIVE_BREAK = "sm";
 const NAV_MAX_WIDTH = breaks["xl"] * 1.2;
 
 const Nav = styled.nav`
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   height: ${NAV_HEIGHT}px;
   height: calc(env(safe-area-inset-top, 0) + ${NAV_HEIGHT}px);
   margin: 0;

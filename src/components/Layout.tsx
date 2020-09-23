@@ -3,13 +3,17 @@ import { Link } from "gatsby";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { GlobalStyle, ApplyBreaks, breaks } from "../utils/styled-components";
-import Navigation, { NavigationProps } from "./Navigation";
+import Navigation, { NavigationProps, NAV_HEIGHT } from "./Navigation";
 import NoScript from "./NoScript";
 import { debounce } from "lodash";
 
 export const ASIDE_BREAK = "xl";
 
-const Container = styled.div`
+const WholeContainer = styled.div`
+  padding-top: ${NAV_HEIGHT}px;
+`;
+
+const MainContainer = styled.div`
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -116,7 +120,8 @@ const Footer = styled.footer`
 const Layout: React.FC<{
   navigationProps?: NavigationProps;
   asideChildren?: React.ReactNode;
-}> = ({ children, navigationProps, asideChildren }) => {
+  className?: string;
+}> = ({ children, navigationProps, asideChildren, className = "" }) => {
   const asideRef = useRef<HTMLElement>();
   const navRef = useRef<HTMLElement>();
 
@@ -160,15 +165,15 @@ const Layout: React.FC<{
   }, []);
 
   return (
-    <>
+    <WholeContainer className={className}>
       <GlobalStyle />
       <Navigation {...(navigationProps || {})} ref={navRef} />
       <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
-      <Container>
+      <MainContainer className={className || ""}>
         {asideChildren && <AsidePadder />}
         <Main>{children}</Main>
         {asideChildren && <Aside ref={asideRef}>{asideChildren}</Aside>}
-      </Container>
+      </MainContainer>
       <Footer>
         <ul>
           <li>
@@ -187,7 +192,7 @@ const Layout: React.FC<{
           {/* <li>Open Source Software Notice</li> */}
         </ul>
       </Footer>
-    </>
+    </WholeContainer>
   );
 };
 
