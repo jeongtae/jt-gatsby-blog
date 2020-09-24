@@ -2,13 +2,19 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
-const SEO: React.FC<{ title?: string; description?: string; lang?: string }> = ({
+const SEO: React.FC<{ title?: string; description?: string; imageUrl?: string; lang?: string }> = ({
   title,
   description,
+  imageUrl,
   lang,
 }) => {
   const {
     site: { siteMetadata },
+    logoFile: {
+      childImageSharp: {
+        fixed: { src: logoImageUrl },
+      },
+    },
   } = useStaticQuery(
     graphql`
       query {
@@ -17,6 +23,13 @@ const SEO: React.FC<{ title?: string; description?: string; lang?: string }> = (
             title
             author
             description
+          }
+        }
+        logoFile: file(relativePath: { eq: "logo.png" }) {
+          childImageSharp {
+            fixed(cropFocus: CENTER, fit: COVER, width: 500, height: 500) {
+              src
+            }
           }
         }
       }
@@ -46,6 +59,10 @@ const SEO: React.FC<{ title?: string; description?: string; lang?: string }> = (
         {
           property: "og:description",
           content: description || siteMetadata.description,
+        },
+        {
+          property: "og:image",
+          content: imageUrl || logoImageUrl,
         },
         {
           property: "og:type",

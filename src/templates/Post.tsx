@@ -906,6 +906,7 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext }) => {
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
+        imageUrl={post.frontmatter.thumbnail?.childImageSharp.fixed.src}
       />
       <Title>{post.frontmatter.title}</Title>
       <Description>{post.frontmatter.description || post.excerpt}</Description>
@@ -1034,6 +1035,7 @@ export const query = graphql`
         tags
         original
         ...DateFragment
+        ...MetadataImageFragment
       }
     }
     partPosts: allMarkdownRemark(
@@ -1108,6 +1110,15 @@ export const query = graphql`
       childImageSharp {
         fixed(fit: COVER, width: 39, height: 39, cropFocus: CENTER) {
           ...GatsbyImageSharpFixed_withWebp_noBase64
+        }
+      }
+    }
+  }
+  fragment MetadataImageFragment on MarkdownRemarkFrontmatter {
+    thumbnail {
+      childImageSharp {
+        fixed(cropFocus: ATTENTION, fit: COVER, width: 600, height: 400) {
+          src
         }
       }
     }
