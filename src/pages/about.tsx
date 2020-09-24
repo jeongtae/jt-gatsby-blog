@@ -40,26 +40,11 @@ const AboutPage: BasePageFC<{
   return (
     <>
       <SEO title="소개" />
-      {/* <Message>소개 준비중</Message> */}
       <About>
         <h1>소개</h1>
         <Img fluid={profileImageFluid} />
         <h2>김정태</h2>
-        {/* 생일: <time dateTime="1994-10-29">1994. 10. 29.</time> */}
         <p>무언가 배우는 것과 만들기를 좋아합니다.</p>
-        {/* <h2>일반 관심사</h2>
-        <ul>
-          <li>DIY</li>
-          <li>개발</li>
-          <li>게임</li>
-        </ul>
-        <h2>개발 관심사</h2>
-        <ul>
-          <li>웹</li>
-          <li>데스크탑 앱</li>
-          <li>게임</li>
-        </ul>
-        <h2>연락처</h2> */}
         <address>
           <ul>
             <li>
