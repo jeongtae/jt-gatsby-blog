@@ -1,13 +1,14 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { PageProps, graphql } from "gatsby";
+import React, { useState, useCallback, useContext } from "react";
+import { graphql } from "gatsby";
 import BasePageFC from "../components/BasePageFC";
 import { debounce } from "lodash";
 import oc from "open-color";
 import styled from "styled-components";
 import { MarkdownRemark } from "../generated/graphql-types";
-import Layout from "../components/Layout";
+import { LayoutContext } from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
+import { useEffectOnce } from "react-use";
 
 const SearchResultText = styled.p`
   margin: 32px 0 16px;
@@ -44,24 +45,29 @@ const SearchPage: BasePageFC<{
     []
   );
 
+  const { setData: setLayoutData } = useContext(LayoutContext);
+  useEffectOnce(() => {
+    setLayoutData({
+      navigationProps: {
+        showSearchInput: true,
+        // searchInputValue: query,
+        onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
+          setResultPosts(null);
+          setQuery(value);
+          value = value.trim();
+          if (value) {
+            navigate(`./?query=${value}`, { replace: true });
+            setResultPostsDebounced(value);
+          } else {
+            navigate(".", { replace: true });
+          }
+        },
+      },
+    });
+    return () => setLayoutData({});
+  });
+
   return (
-    // <Layout
-    //   navigationProps={{
-    //     showSearchInput: true,
-    //     searchInputValue: query,
-    //     onChangeSearchInput: ({ currentTarget: { value } }: React.FormEvent<HTMLInputElement>) => {
-    //       setResultPosts(null);
-    //       setQuery(value);
-    //       value = value.trim();
-    //       if (value) {
-    //         navigate(`./?query=${value}`, { replace: true });
-    //         setResultPostsDebounced(value);
-    //       } else {
-    //         navigate(".", { replace: true });
-    //       }
-    //     },
-    //   }}
-    // >
     <>
       <SEO title={query ? `${query} 검색` : "검색"} />
       {query.trim() ? (

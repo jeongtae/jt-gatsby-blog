@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "gatsby";
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { Transition, TransitionGroup } from "react-transition-group";
+import { Link, PageProps } from "gatsby";
 import oc from "open-color";
 import styled, { css } from "styled-components";
 import { GlobalStyle, ApplyBreaks, breaks } from "../utils/styled-components";
 import Navigation, { NavigationProps, NAV_HEIGHT } from "./Navigation";
 import NoScript from "./NoScript";
 import { debounce } from "lodash";
-import ContextConsumer, { ContextProviderComponent } from "./Context";
 
 export const ASIDE_BREAK = "xl";
 
@@ -22,19 +22,15 @@ const MainContainer = styled.div`
   ${ApplyBreaks(
     px =>
       css`
+        margin: 0 auto;
         max-width: ${px}px;
         padding: 0 8px;
       `
   )};
-  /* &.exiting {
-    animation: fade-out 200ms ease-out both;
-  }
-  &.entering {
-    animation: fade-in 200ms ease-out both;
-  } */
 `;
 const Main = styled.main`
   width: 100%;
+  margin: 0 auto;
   padding-left: 12px;
   padding-left: calc(env(safe-area-inset-left, 0) + 12px);
   padding-right: 12px;
@@ -124,14 +120,23 @@ const Footer = styled.footer`
   }
 `;
 
-const Layout: React.FC<{
+type DataType = {
   navigationProps?: NavigationProps;
   asideChildren?: React.ReactNode;
-  className?: string;
-}> = ({ children, navigationProps, asideChildren, className = "" }) => {
+};
+
+type ContextType = {
+  data: DataType;
+  setData: (newData: DataType) => void;
+};
+
+const LayoutContext = React.createContext<ContextType>(null);
+
+const Layout: React.FC<PageProps> = ({ children }) => {
   const asideRef = useRef<HTMLElement>();
   const navRef = useRef<HTMLElement>();
 
+  const [data, setData] = useState<DataType>({});
   useEffect(() => {
     let asideY = 0;
     const updateAsideY = () => {
@@ -172,43 +177,37 @@ const Layout: React.FC<{
   }, []);
 
   return (
-    <ContextProviderComponent>
-      <ContextConsumer>
-        {({ data, set }) => (
-          <WholeContainer className={data.className}>
-            <GlobalStyle />
-            <Navigation {...(navigationProps || {})} ref={navRef} />
-            <NoScript>
-              블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.
-            </NoScript>
-            <MainContainer>
-              {asideChildren && <AsidePadder />}
-              <Main>{children}</Main>
-              {asideChildren && <Aside ref={asideRef}>{asideChildren}</Aside>}
-            </MainContainer>
-            <Footer>
-              <ul>
-                <li>
-                  Copyright &copy; {new Date().getFullYear()} <Link to="/">JTK Blog</Link> All
-                  Rights Reserved.
-                </li>
-                <li>
-                  Designed by <Link to="/about">Jeongtae Kim</Link>
-                </li>
-                <li>
-                  Built with{" "}
-                  <a href="https://www.gatsbyjs.com/" target="_blank">
-                    Gatsby.js
-                  </a>
-                </li>
-                {/* <li>Open Source Software Notice</li> */}
-              </ul>
-            </Footer>
-          </WholeContainer>
-        )}
-      </ContextConsumer>
-    </ContextProviderComponent>
+    <WholeContainer>
+      <GlobalStyle />
+      <Navigation {...(data.navigationProps || {})} ref={navRef} />
+      <NoScript>블로그 메뉴 이용, 포스트 목록 조회 및 검색, 댓글 등의 기능이 제한됩니다.</NoScript>
+      <MainContainer>
+        {data.asideChildren && <AsidePadder />}
+        <Main>
+          <LayoutContext.Provider value={{ data, setData }}>{children}</LayoutContext.Provider>
+        </Main>
+        {data.asideChildren && <Aside ref={asideRef}>{data.asideChildren}</Aside>}
+      </MainContainer>
+      <Footer>
+        <ul>
+          <li>
+            Copyright &copy; {new Date().getFullYear()} <Link to="/">JTK Blog</Link> All Rights
+            Reserved.
+          </li>
+          <li>
+            Designed by <Link to="/about">Jeongtae Kim</Link>
+          </li>
+          <li>
+            Built with{" "}
+            <a href="https://www.gatsbyjs.com/" target="_blank">
+              Gatsby.js
+            </a>
+          </li>
+          {/* <li>Open Source Software Notice</li> */}
+        </ul>
+      </Footer>
+    </WholeContainer>
   );
 };
 
-export default Layout;
+export { Layout as default, LayoutContext };

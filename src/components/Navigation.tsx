@@ -201,7 +201,7 @@ const Menu = styled.ul`
   opacity: 0;
   z-index: 30000;
   @media (hover) {
-    .entered &:hover {
+    &:hover {
       color: ${oc.gray[5]};
       text-shadow: 0 0 1px ${oc.gray[5]};
       li::after {

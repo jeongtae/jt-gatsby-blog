@@ -6,7 +6,6 @@ import styled, { css } from "styled-components";
 import { ApplyBreaks } from "../utils/styled-components";
 import { difference } from "lodash";
 import { MarkdownRemark, Tag, TagGroup } from "../generated/graphql-types";
-// import Layout from "../components/Layout";
 import SEO from "../components/SEO";
 import PostList from "../components/PostList";
 import TagList, { ListItem as TagListItem } from "../components/TagList";

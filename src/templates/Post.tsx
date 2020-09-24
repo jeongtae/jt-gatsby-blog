@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { graphql, Link } from "gatsby";
 import BasePageFC from "../components/BasePageFC";
 import Img from "gatsby-image/withIEPolyfill";
@@ -14,7 +14,7 @@ import {
   File,
   SitePageContext,
 } from "../generated/graphql-types";
-import Layout, { ASIDE_BREAK } from "../components/Layout";
+import { ASIDE_BREAK, LayoutContext } from "../components/Layout";
 import TagList from "../components/TagList";
 import MarkdownSection from "../components/MarkdownSection";
 import SEO from "../components/SEO";
@@ -37,6 +37,7 @@ import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import FacebookShareLink from "../components/FacebookShareLink";
 import TwitterShareLink from "../components/TwitterShareLink";
 import MailShareLink from "../components/MailShareLink";
+import { useEffectOnce } from "react-use";
 
 const Title = styled.h1`
   margin: 32px 8px 0;
@@ -884,19 +885,24 @@ const PostTemplate: BasePageFC<PageData> = ({ data, pageContext }) => {
     return () => document.removeEventListener("scroll", listener);
   }, []);
 
-  return (
-    <>
-      {/* <Layout
-      navigationProps={{ title: post.frontmatter.title }}
-      asideChildren={
+  const { setData: setLayoutData } = useContext(LayoutContext);
+  useEffectOnce(() => {
+    setLayoutData({
+      navigationProps: { title: post.frontmatter.title },
+      asideChildren: (
         <>
           {partPosts.length > 0 && <AsideItemInAside>{PartListFragment}</AsideItemInAside>}
           {post.tableOfContents && <AsideItemInAside ref={tocRef}>{TocFragment}</AsideItemInAside>}
           {relatedPosts.length > 0 && <AsideItemInAside>{RelatedListFragment}</AsideItemInAside>}
           {recentPosts.length > 0 && <AsideItemInAside>{RecentListFragment}</AsideItemInAside>}
         </>
-      }
-    > */}
+      ),
+    });
+    return () => setLayoutData({});
+  });
+
+  return (
+    <>
       <SEO
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
